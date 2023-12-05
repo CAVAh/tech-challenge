@@ -1,0 +1,262 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "tech-challenge",
+    "version": "1.0",
+    "description": "API do Tech Challenge",
+    "contact": {
+      "name": "Lucas Cavagnolli"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/customers/{customer_id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "customer_id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Customer Info by Customer ID",
+        "tags": [
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                },
+                "examples": {
+                  "Get Customer Alice Smith": {
+                    "value": {
+                      "id": 142,
+                      "name": "Alice Smith",
+                      "cpf": "12345679810",
+                      "email": "alice.smith@gmail.com",
+                      "created_at": "2019-08-24"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer Not Found"
+          }
+        },
+        "operationId": "get-customer",
+        "description": "Retrieve the information of the customer with the matching customer ID."
+      },
+      "patch": {
+        "summary": "Update Customer Information",
+        "operationId": "update-customer",
+        "responses": {
+          "200": {
+            "description": "Customer Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                },
+                "examples": {
+                  "Updated Customer Rebecca Baker": {
+                    "value": {
+                      "id": 13,
+                      "name": "Rebecca Baker",
+                      "cpf": "1234567910",
+                      "email": "rebecca@gmail.com",
+                      "created_at": "2019-08-24"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer Not Found"
+          },
+          "409": {
+            "description": "Email Already Taken"
+          }
+        },
+        "description": "Update the information of an existing customer.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "cpf": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Update Name": {
+                  "value": {
+                    "name": "Rebecca Baker"
+                  }
+                },
+                "Update Email": {
+                  "value": {
+                    "email": "rebecca@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Patch customer properties to update."
+        },
+        "tags": [
+          "Customer"
+        ]
+      }
+    },
+    "/customer": {
+      "post": {
+        "summary": "Create New Customer",
+        "operationId": "create-customer",
+        "responses": {
+          "200": {
+            "description": "Customer Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                },
+                "examples": {
+                  "New Customer Bob Fellow": {
+                    "value": {
+                      "id": 12,
+                      "name": "Bob Fellow",
+                      "cpf": "13245678910",
+                      "email": "bob.fellow@gmail.com",
+                      "create_at": "2020-11-18"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Required Information"
+          },
+          "409": {
+            "description": "Email or CPF already taken"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "cpf": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "cpf",
+                  "email"
+                ]
+              },
+              "examples": {
+                "Create Customer Bob Fellow": {
+                  "value": {
+                    "name": "Bob Fellow",
+                    "cpf": "12345678910",
+                    "email": "bob.fellow@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Post the necessary fields for the API to create a new customer."
+        },
+        "description": "Create a new customer.",
+        "tags": [
+          "Customer"
+        ]
+      },
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "Customer": {
+        "title": "Customer",
+        "type": "object",
+        "description": "",
+        "examples": [
+          {
+            "id": 142,
+            "name": "Alice Smith",
+            "cpf": "12345678910",
+            "email": "alice.smith@gmail.com",
+            "created_at": "2019-08-24"
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the given customer."
+          },
+          "name": {
+            "type": "string",
+            "description": "Customer's name"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "customer's CPF"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Customer's name"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date",
+            "description": "The date that the customer was created."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "cpf",
+          "email"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Customer"
+    }
+  ]
+}
