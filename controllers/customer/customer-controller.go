@@ -4,14 +4,28 @@ import (
 	"net/http"
 
 	"github.com/CAVAh/api-tech-challenge/database"
+	"github.com/CAVAh/api-tech-challenge/entity"
 	"github.com/CAVAh/api-tech-challenge/models"
 	"github.com/gin-gonic/gin"
 )
 
 func ListCustomers(c *gin.Context) {
-	var list []models.Customer
-	database.DB.Find(&list)
-	c.JSON(200, list)
+	var customers []models.Customer
+	var response []entity.Customer
+
+	database.DB.Find(&customers)
+
+	for _, customer := range customers {
+		response = append(response, entity.Customer{
+			ID:        customer.ID,
+			Name:      customer.Name,
+			CPF:       customer.CPF,
+			Email:     customer.Email,
+			CreatedAt: customer.CreatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	c.JSON(200, response)
 }
 
 func CreateCustomer(c *gin.Context) {
