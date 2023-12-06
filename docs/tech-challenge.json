@@ -14,21 +14,21 @@
     }
   ],
   "paths": {
-    "/customers/{customer_id}": {
+    "/customers/{customerId}": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "customer_id",
+          "name": "customerId",
           "in": "path",
           "required": true
         }
       ],
       "get": {
-        "summary": "Get Customer Info by Customer ID",
+        "summary": "Get Customer Info by ID",
         "tags": [
-          "Customer"
+          "Cliente"
         ],
         "responses": {
           "200": {
@@ -45,7 +45,7 @@
                       "name": "Alice Smith",
                       "cpf": "12345679810",
                       "email": "alice.smith@gmail.com",
-                      "created_at": "2019-08-24"
+                      "createdAt": "2019-08-24"
                     }
                   }
                 }
@@ -60,7 +60,7 @@
         "description": "Retrieve the information of the customer with the matching customer ID."
       },
       "patch": {
-        "summary": "Update Customer Information",
+        "summary": "Atualiza Informação do Cliente",
         "operationId": "update-customer",
         "responses": {
           "200": {
@@ -77,7 +77,7 @@
                       "name": "Rebecca Baker",
                       "cpf": "1234567910",
                       "email": "rebecca@gmail.com",
-                      "created_at": "2019-08-24"
+                      "createdAt": "2019-08-24"
                     }
                   }
                 }
@@ -101,21 +101,18 @@
                   "name": {
                     "type": "string"
                   },
-                  "cpf": {
-                    "type": "string"
-                  },
                   "email": {
                     "type": "string"
                   }
                 }
               },
               "examples": {
-                "Update Name": {
+                "Atualiza Nome": {
                   "value": {
                     "name": "Rebecca Baker"
                   }
                 },
-                "Update Email": {
+                "Atualiza Email": {
                   "value": {
                     "email": "rebecca@gmail.com"
                   }
@@ -123,33 +120,33 @@
               }
             }
           },
-          "description": "Patch customer properties to update."
+          "description": "Atualiza as propriedades do cliente."
         },
         "tags": [
-          "Customer"
+          "Cliente"
         ]
       }
     },
-    "/customer": {
+    "/customers": {
       "post": {
-        "summary": "Create New Customer",
+        "summary": "Cria Novo Cliente",
         "operationId": "create-customer",
         "responses": {
-          "200": {
-            "description": "Customer Created",
+          "201": {
+            "description": "Cliente Criado",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Customer"
                 },
                 "examples": {
-                  "New Customer Bob Fellow": {
+                  "Novo Cliente": {
                     "value": {
                       "id": 12,
                       "name": "Bob Fellow",
                       "cpf": "13245678910",
                       "email": "bob.fellow@gmail.com",
-                      "create_at": "2020-11-18"
+                      "createAt": "2020-11-18"
                     }
                   }
                 }
@@ -157,10 +154,10 @@
             }
           },
           "400": {
-            "description": "Missing Required Information"
+            "description": "Informação requirida faltando"
           },
           "409": {
-            "description": "Email or CPF already taken"
+            "description": "Email ou CPF já utilizado"
           }
         },
         "requestBody": {
@@ -186,7 +183,7 @@
                 ]
               },
               "examples": {
-                "Create Customer Bob Fellow": {
+                "Criar um cliente": {
                   "value": {
                     "name": "Bob Fellow",
                     "cpf": "12345678910",
@@ -198,12 +195,122 @@
           },
           "description": "Post the necessary fields for the API to create a new customer."
         },
-        "description": "Create a new customer.",
+        "description": "Cria um novo cliente.",
         "tags": [
-          "Customer"
+          "Cliente"
         ]
       },
-      "parameters": []
+      "parameters": [],
+      "get": {
+        "summary": "Lista Clientes",
+        "operationId": "list-customer",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Cliente"
+        ],
+        "description": "Lista clientes  ",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "cpf",
+            "description": "Filtro por CPF"
+          }
+        ]
+      }
+    },
+    "/products": {
+      "post": {
+        "summary": "Cria Produto",
+        "operationId": "create-product",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          }
+        },
+        "description": "Cria produto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "categoryId": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "examples": {
+                "Cria Produto": {
+                  "value": {
+                    "name": "Água",
+                    "price": 2.5,
+                    "categoryId": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Lista Produtos",
+        "operationId": "list-products",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Lista Produtos",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "categoryId",
+            "description": "ID da Categoria"
+          }
+        ]
+      }
+    },
+    "/products/{productId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "productId",
+          "in": "path",
+          "required": true,
+          "description": "ID do Produto"
+        }
+      ],
+      "delete": {
+        "summary": "Remove produto",
+        "operationId": "delete-product",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Remove produto"
+      }
     }
   },
   "components": {
@@ -211,38 +318,38 @@
       "Customer": {
         "title": "Customer",
         "type": "object",
-        "description": "",
+        "description": "Representa um cliente",
         "examples": [
           {
             "id": 142,
             "name": "Alice Smith",
             "cpf": "12345678910",
             "email": "alice.smith@gmail.com",
-            "created_at": "2019-08-24"
+            "createdAt": "2019-08-24"
           }
         ],
         "properties": {
           "id": {
             "type": "integer",
-            "description": "Unique identifier for the given customer."
+            "description": "Identificador único do cliente."
           },
           "name": {
             "type": "string",
-            "description": "Customer's name"
+            "description": "Nome do cliente"
           },
           "cpf": {
             "type": "string",
-            "description": "customer's CPF"
+            "description": "CPF do cliente"
           },
           "email": {
             "type": "string",
             "format": "email",
-            "description": "Customer's name"
+            "description": "E-mail do cliente"
           },
-          "created_at": {
+          "createdAt": {
             "type": "string",
             "format": "date",
-            "description": "The date that the customer was created."
+            "description": "A data que o cliente foi criado."
           }
         },
         "required": [
@@ -256,7 +363,7 @@
   },
   "tags": [
     {
-      "name": "Customer"
+      "name": "Cliente"
     }
   ]
 }
