@@ -26,7 +26,7 @@
         }
       ],
       "get": {
-        "summary": "Get Customer Info by ID",
+        "summary": "Obter informações do cliente por ID",
         "tags": [
           "Cliente"
         ],
@@ -39,25 +39,31 @@
                   "$ref": "#/components/schemas/Customer"
                 },
                 "examples": {
-                  "Get Customer Alice Smith": {
+                  "Obter Cliente": {
                     "value": {
                       "id": 142,
                       "name": "Alice Smith",
                       "cpf": "12345679810",
                       "email": "alice.smith@gmail.com",
-                      "createdAt": "2019-08-24"
+                      "createdAt": "2019-08-24 19:31:00"
                     }
                   }
                 }
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
           "404": {
-            "description": "Customer Not Found"
+            "$ref": "#/components/responses/404-CustomerNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
           }
         },
         "operationId": "get-customer",
-        "description": "Retrieve the information of the customer with the matching customer ID."
+        "description": "Recupera as informações do cliente com o ID do cliente correspondente."
       },
       "patch": {
         "summary": "Atualiza Informação do Cliente",
@@ -71,27 +77,30 @@
                   "$ref": "#/components/schemas/Customer"
                 },
                 "examples": {
-                  "Updated Customer Rebecca Baker": {
+                  "Cliente atualizado": {
                     "value": {
                       "id": 13,
                       "name": "Rebecca Baker",
                       "cpf": "1234567910",
                       "email": "rebecca@gmail.com",
-                      "createdAt": "2019-08-24"
+                      "createdAt": "2019-08-24 19:32:00"
                     }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Customer Not Found"
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
           },
-          "409": {
+          "404": {
+            "$ref": "#/components/responses/404-CustomerNotFound"
+          },
+          "500": {
             "description": "Email Already Taken"
           }
         },
-        "description": "Update the information of an existing customer.",
+        "description": "Atualize as informações de um cliente existente.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -146,7 +155,7 @@
                       "name": "Bob Fellow",
                       "cpf": "13245678910",
                       "email": "bob.fellow@gmail.com",
-                      "createAt": "2020-11-18"
+                      "createAt": "2020-11-18 19:15:00"
                     }
                   }
                 }
@@ -158,6 +167,9 @@
           },
           "409": {
             "description": "Email ou CPF já utilizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
           }
         },
         "requestBody": {
@@ -195,24 +207,63 @@
           },
           "description": "Post the necessary fields for the API to create a new customer."
         },
-        "description": "Cria um novo cliente.",
+        "description": "Endpoint responsável que cria um novo cliente.",
         "tags": [
           "Cliente"
         ]
       },
       "parameters": [],
       "get": {
-        "summary": "Lista Clientes",
-        "operationId": "list-customer",
+        "summary": "Listagem de Clientes",
+        "operationId": "list-customers",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Customer"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Listagem de clientes": {
+                    "value": {
+                      "list": [
+                        {
+                          "id": 1,
+                          "name": "Bob Fellow",
+                          "cpf": "12345678910",
+                          "email": "bob.fellow@gmail.com"
+                        }
+                      ],
+                      "total": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
           }
         },
         "tags": [
           "Cliente"
         ],
-        "description": "Lista clientes  ",
+        "description": "Endpoint resposável que realiza a listagem de clientes.",
         "parameters": [
           {
             "schema": {
@@ -230,14 +281,36 @@
         "summary": "Cria Produto",
         "operationId": "create-product",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "examples": {
+                  "Criação de Produto": {
+                    "value": {
+                      "id": 123,
+                      "name": "Água",
+                      "price": 2.5,
+                      "description": "Água Mineral 500ml",
+                      "categoryId": 1,
+                      "createdAt": "2023-12-12 19:17:00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Cria produto",
+        "description": "Endpoint responsável que cria um novo produto.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -250,6 +323,9 @@
                   "price": {
                     "type": "number"
                   },
+                  "description": {
+                    "type": "string"
+                  },
                   "categoryId": {
                     "type": "integer"
                   }
@@ -260,23 +336,67 @@
                   "value": {
                     "name": "Água",
                     "price": 2.5,
+                    "description": "Água Mineral 500ml",
                     "categoryId": 1
                   }
                 }
               }
             }
           }
-        }
+        },
+        "tags": [
+          "Produto"
+        ]
       },
       "get": {
-        "summary": "Lista Produtos",
+        "summary": "Listagem Produtos",
         "operationId": "list-products",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Listagem de produtos": {
+                    "value": {
+                      "list": [
+                        {
+                          "id": 142,
+                          "name": "Alice Smith",
+                          "cpf": "12345678910",
+                          "email": "alice.smith@gmail.com",
+                          "createdAt": "2019-08-24"
+                        }
+                      ],
+                      "total": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Lista Produtos",
+        "description": "Endpoint responsável por listar produtos",
         "parameters": [
           {
             "schema": {
@@ -286,6 +406,9 @@
             "name": "categoryId",
             "description": "ID da Categoria"
           }
+        ],
+        "tags": [
+          "Produto"
         ]
       }
     },
@@ -305,11 +428,329 @@
         "summary": "Remove produto",
         "operationId": "delete-product",
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Remove produto"
+        "description": "Endpoint responsável por remover um produto.",
+        "tags": [
+          "Produto"
+        ]
+      },
+      "patch": {
+        "summary": "Edita um produto",
+        "operationId": "update-product",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "examples": {
+                  "Produto atualizado": {
+                    "value": {
+                      "id": 142,
+                      "name": "Água",
+                      "price": 2.5,
+                      "description": "Água Mineral 500ml",
+                      "categoryId": 1,
+                      "createdAt": "2019-08-24 19:40:00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "description": "Endpoint responsável pela edição de um produto.",
+        "tags": [
+          "Produto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "category_id": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "examples": {
+                "Editar produto": {
+                  "value": {
+                    "name": "Água",
+                    "price": 3.5,
+                    "description": "Água Mineral 500ml",
+                    "categoryId": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order": {
+      "get": {
+        "summary": "Listagem de pedidos",
+        "tags": [
+          "Pedido"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Listagem de pedidos": {
+                    "value": {
+                      "list": [
+                        {
+                          "id": 1,
+                          "customer_id": 1,
+                          "products": [
+                            {
+                              "id": 142,
+                              "name": "Água",
+                              "price": 2.5,
+                              "description": "Água Mineral 500ml",
+                              "categoryId": 1,
+                              "createdAt": "2019-08-24"
+                            }
+                          ],
+                          "status": "waiting_payment",
+                          "createdAt": "2023-12-12 12:12:00"
+                        }
+                      ],
+                      "total": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "operationId": "list-orders",
+        "description": "Endpoint responsável por listar ordens.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "waiting_payment",
+                "received",
+                "preparation",
+                "ready",
+                "finished"
+              ]
+            },
+            "in": "query",
+            "name": "status",
+            "description": "Status do pedido"
+          },
+          {
+            "$ref": "#/components/parameters/order_by"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "updated_by"
+              ]
+            },
+            "in": "query",
+            "name": "sort_by",
+            "description": "Campo de ordenação"
+          }
+        ]
+      },
+      "post": {
+        "summary": "Criação de pedido",
+        "operationId": "create-order",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "examples": {
+                  "Pedido criado": {
+                    "value": {
+                      "id": 1,
+                      "customer_id": 1,
+                      "products": [
+                        {
+                          "id": 142,
+                          "name": "Água",
+                          "price": 2.5,
+                          "description": "Água Mineral 500ml",
+                          "categoryId": 1,
+                          "createdAt": "2019-08-24"
+                        }
+                      ],
+                      "status": "waiting_payment",
+                      "createdAt": "2023-12-12 12:12:00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "tags": [
+          "Pedido"
+        ],
+        "description": "Endpoint responsável por criar um pedido.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer_id": {
+                    "type": "integer"
+                  },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Criação do pedido": {
+                  "value": {
+                    "customer_id": 1,
+                    "list_products": [
+                      1
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/payment": {
+      "post": {
+        "summary": "Realização do pagamento",
+        "operationId": "create-payment",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "order_id": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "examples": {
+                  "Pagamento realizado": {
+                    "value": {
+                      "order_id": 1,
+                      "created_at": "2019-08-24 14:15:22"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "tags": [
+          "Pagamento"
+        ],
+        "description": "Endpoint responsável por criar um pagamento.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "order_id": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "examples": {
+                "Criação do pagamento": {
+                  "value": {
+                    "order_id": 1
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -358,12 +799,216 @@
           "cpf",
           "email"
         ]
+      },
+      "ErrorSchema": {
+        "title": "ErrorSchema",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "id": 142,
+            "name": "Água",
+            "price": 2.5,
+            "description": "Água Mineral 500ml",
+            "categoryId": 1,
+            "createdAt": "2019-08-24"
+          }
+        ],
+        "description": "Representa um produto"
+      },
+      "Order": {
+        "title": "Order",
+        "type": "object",
+        "description": "Representa um pedido",
+        "examples": [
+          {
+            "id": 1,
+            "customer_id": 1,
+            "products": [
+              {
+                "id": 142,
+                "name": "Água",
+                "price": 2.5,
+                "description": "Água Mineral 500ml",
+                "categoryId": 1,
+                "createdAt": "2019-08-24"
+              }
+            ],
+            "status": "waiting_payment",
+            "createdAt": "2023-12-12 12:12:00"
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "customer_id": {
+            "type": "integer"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting_payment",
+              "received",
+              "preparation",
+              "ready",
+              "finished"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "order_by": {
+        "name": "order_by",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "ASC",
+            "DESC"
+          ],
+          "example": "ASC"
+        },
+        "description": "Ordenação crescente [\"ASC\"] ou decrescente [\"DESC\"], o padrão é o [\"ASC\"]"
+      }
+    },
+    "responses": {
+      "400-BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorSchema"
+            },
+            "examples": {
+              "AdditionalProperties": {
+                "$ref": "#/components/examples/40000-AdditionalProperties"
+              },
+              "MissingProperty": {
+                "$ref": "#/components/examples/40000-MissingProperty"
+              }
+            }
+          }
+        }
+      },
+      "404-CustomerNotFound": {
+        "description": "Customer Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorSchema"
+            },
+            "examples": {
+              "CustomerNotFound": {
+                "$ref": "#/components/examples/40401-CustomerNotFound"
+              }
+            }
+          }
+        }
+      },
+      "500-ServerError": {
+        "description": "Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorSchema"
+            },
+            "examples": {
+              "ServerError": {
+                "$ref": "#/components/examples/50000-ServerError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "40000-MissingProperty": {
+        "value": {
+          "code": 40000,
+          "name": "MissingProperty",
+          "message": "Deve ter a propriedade obrigatória 'prop'"
+        }
+      },
+      "40000-AdditionalProperties": {
+        "value": {
+          "code": 40000,
+          "name": "AdditionalProperties",
+          "message": "must NOT have additional properties"
+        }
+      },
+      "40401-CustomerNotFound": {
+        "value": {
+          "code": 40401,
+          "name": "CustomerNotFound",
+          "message": "Não foi possível encontrar o cliente."
+        }
+      },
+      "50000-ServerError": {
+        "value": {
+          "code": 50000,
+          "name": "ServerError",
+          "message": "Erro interno no servidor."
+        }
       }
     }
   },
   "tags": [
     {
       "name": "Cliente"
+    },
+    {
+      "name": "Pagamento"
+    },
+    {
+      "name": "Pedido"
+    },
+    {
+      "name": "Produto"
     }
   ]
 }
