@@ -163,7 +163,7 @@
             }
           },
           "400": {
-            "description": "Informação requirida faltando"
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "409": {
             "description": "Email ou CPF já utilizado"
@@ -222,32 +222,22 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "list": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Customer"
-                      }
-                    },
-                    "total": {
-                      "type": "integer"
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
                   }
                 },
                 "examples": {
-                  "Listagem de clientes": {
-                    "value": {
-                      "list": [
-                        {
-                          "id": 1,
-                          "name": "Bob Fellow",
-                          "cpf": "12345678910",
-                          "email": "bob.fellow@gmail.com"
-                        }
-                      ],
-                      "total": 1
-                    }
+                  "Example 1": {
+                    "value": [
+                      {
+                        "id": 142,
+                        "name": "Alice Smith",
+                        "cpf": "12345678910",
+                        "email": "alice.smith@gmail.com",
+                        "createdAt": "2019-08-24 18:00:00"
+                      }
+                    ]
                   }
                 }
               }
@@ -255,6 +245,9 @@
           },
           "400": {
             "$ref": "#/components/responses/400-BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-CustomerNotFound"
           },
           "500": {
             "$ref": "#/components/responses/500-ServerError"
@@ -357,33 +350,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "list": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Product"
-                      }
-                    },
-                    "total": {
-                      "type": "integer"
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
                   }
                 },
                 "examples": {
                   "Listagem de produtos": {
-                    "value": {
-                      "list": [
-                        {
-                          "id": 142,
-                          "name": "Alice Smith",
-                          "cpf": "12345678910",
-                          "email": "alice.smith@gmail.com",
-                          "createdAt": "2019-08-24"
-                        }
-                      ],
-                      "total": 1
-                    }
+                    "value": [
+                      {
+                        "id": 142,
+                        "name": "Água",
+                        "price": 2.5,
+                        "description": "Água Mineral 500ml",
+                        "categoryId": 1,
+                        "createdAt": "2019-08-24"
+                      }
+                    ]
                   }
                 }
               }
@@ -459,7 +442,7 @@
                     "value": {
                       "id": 142,
                       "name": "Água",
-                      "price": 2.5,
+                      "price": 3.5,
                       "description": "Água Mineral 500ml",
                       "categoryId": 1,
                       "createdAt": "2019-08-24 19:40:00"
@@ -515,7 +498,7 @@
         }
       }
     },
-    "/order": {
+    "/orders": {
       "get": {
         "summary": "Listagem de pedidos",
         "tags": [
@@ -527,42 +510,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "list": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Order"
-                      }
-                    },
-                    "total": {
-                      "type": "integer"
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
                   }
                 },
                 "examples": {
                   "Listagem de pedidos": {
-                    "value": {
-                      "list": [
-                        {
-                          "id": 1,
-                          "customer_id": 1,
-                          "products": [
-                            {
-                              "id": 142,
-                              "name": "Água",
-                              "price": 2.5,
-                              "description": "Água Mineral 500ml",
-                              "categoryId": 1,
-                              "createdAt": "2019-08-24"
-                            }
-                          ],
-                          "status": "waiting_payment",
-                          "createdAt": "2023-12-12 12:12:00"
-                        }
-                      ],
-                      "total": 1
-                    }
+                    "value": [
+                      {
+                        "id": 1,
+                        "customer_id": 1,
+                        "products": [
+                          {
+                            "id": 142,
+                            "name": "Água",
+                            "price": 2.5,
+                            "description": "Água Mineral 500ml",
+                            "categoryId": 1,
+                            "createdAt": "2019-08-24"
+                          }
+                        ],
+                        "status": "waiting_payment",
+                        "createdAt": "2023-12-12 12:12:00"
+                      }
+                    ]
                   }
                 }
               }
@@ -685,9 +657,10 @@
           },
           "description": ""
         }
-      }
+      },
+      "parameters": []
     },
-    "/payment": {
+    "/payments": {
       "post": {
         "summary": "Realização do pagamento",
         "operationId": "create-payment",
@@ -751,7 +724,8 @@
             }
           }
         }
-      }
+      },
+      "parameters": []
     }
   },
   "components": {
@@ -789,7 +763,7 @@
           },
           "createdAt": {
             "type": "string",
-            "format": "date",
+            "format": "date-time",
             "description": "A data que o cliente foi criado."
           }
         },
@@ -817,6 +791,17 @@
       },
       "Product": {
         "type": "object",
+        "examples": [
+          {
+            "id": 142,
+            "name": "Água",
+            "price": 2.5,
+            "description": "Água Mineral 500ml",
+            "categoryId": 1,
+            "createdAt": "2019-08-24"
+          }
+        ],
+        "description": "Representa um produto",
         "properties": {
           "id": {
             "type": "integer"
@@ -837,17 +822,12 @@
             "type": "string"
           }
         },
-        "examples": [
-          {
-            "id": 142,
-            "name": "Água",
-            "price": 2.5,
-            "description": "Água Mineral 500ml",
-            "categoryId": 1,
-            "createdAt": "2019-08-24"
-          }
-        ],
-        "description": "Representa um produto"
+        "required": [
+          "name",
+          "price",
+          "description",
+          "categoryId"
+        ]
       },
       "Order": {
         "title": "Order",
@@ -897,7 +877,11 @@
           "createdAt": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "customer_id",
+          "products"
+        ]
       }
     },
     "parameters": {
@@ -978,7 +962,7 @@
         "value": {
           "code": 40000,
           "name": "AdditionalProperties",
-          "message": "must NOT have additional properties"
+          "message": "Não deve ter propriedades adicionais."
         }
       },
       "40401-CustomerNotFound": {
