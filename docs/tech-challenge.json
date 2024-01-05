@@ -635,7 +635,7 @@
                   "customer_id": {
                     "type": "integer"
                   },
-                  "products": {
+                  "product_ids": {
                     "type": "array",
                     "items": {
                       "type": "integer"
@@ -647,7 +647,7 @@
                 "Criação do pedido": {
                   "value": {
                     "customer_id": 1,
-                    "list_products": [
+                    "product_ids": [
                       1
                     ]
                   }
