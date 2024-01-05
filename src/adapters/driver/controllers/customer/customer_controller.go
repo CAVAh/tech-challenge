@@ -67,7 +67,6 @@ func CreateCustomer(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 }
 
-// FindById TODO: Remover
 func FindById(c *gin.Context) {
 	var customer models.Customer
 	id := c.Params.ByName("id")
@@ -99,6 +98,14 @@ func UpdateCustomer(c *gin.Context) {
 	var customer models.Customer
 	id := c.Params.ByName("id")
 	gorm.DB.First(&customer, id)
+
+	if customer.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Cliente não encontrado",
+		})
+
+		return
+	}
 
 	if err := c.ShouldBindJSON(&customer); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
