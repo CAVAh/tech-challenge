@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/CAVAh/api-tech-challenge/database"
-	"github.com/CAVAh/api-tech-challenge/routes"
+	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
+	"github.com/CAVAh/api-tech-challenge/src/adapters/driver/http/routes"
 )
 
 func main() {
-	database.ConnectDB()
+	gorm.ConnectDB()
 	routes.HandleRequests()
 }
