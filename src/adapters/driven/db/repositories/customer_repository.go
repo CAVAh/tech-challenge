@@ -37,13 +37,14 @@ func (r CustomerRepository) List(entity *entities.Customer) ([]entities.Customer
 	}
 
 	var customers []models.Customer
-	var response []entities.Customer
 
 	if cpf := customer.CPF; cpf != "" {
 		gorm.DB.Where("cpf = ?", cpf).Find(&customers)
 	} else {
 		gorm.DB.Find(&customers)
 	}
+
+	var response []entities.Customer
 
 	for _, customer := range customers {
 		response = append(response, customer.ToDomain())
