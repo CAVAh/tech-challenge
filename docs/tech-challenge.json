@@ -222,13 +222,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
                   "items": {
                     "$ref": "#/components/schemas/Customer"
                   }
                 },
                 "examples": {
-                  "Example 1": {
+                  "Listagem com um cliente": {
                     "value": [
                       {
                         "id": 142,
@@ -238,6 +241,9 @@
                         "createdAt": "2019-08-24 18:00:00"
                       }
                     ]
+                  },
+                  "Listagem com nenhum cliente": {
+                    "value": null
                   }
                 }
               }
@@ -350,7 +356,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
                   "items": {
                     "$ref": "#/components/schemas/Product"
                   }
@@ -367,6 +376,9 @@
                         "createdAt": "2019-08-24"
                       }
                     ]
+                  },
+                  "Listagem vazia de produtos": {
+                    "value": null
                   }
                 }
               }
@@ -510,7 +522,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
                   "items": {
                     "$ref": "#/components/schemas/Order"
                   }
@@ -535,6 +550,9 @@
                         "createdAt": "2023-12-12 12:12:00"
                       }
                     ]
+                  },
+                  "Listagem de pedidos vazia": {
+                    "value": null
                   }
                 }
               }
