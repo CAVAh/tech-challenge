@@ -6,9 +6,9 @@ import (
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/usecases"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"gopkg.in/validator.v2"
+	"net/http"
 )
 
 func ListCustomers(c *gin.Context) {
@@ -17,6 +17,13 @@ func ListCustomers(c *gin.Context) {
 	if err := c.BindQuery(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := validator.Validate(inputDto); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
 		})
 		return
 	}
@@ -45,6 +52,13 @@ func CreateCustomer(c *gin.Context) {
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := validator.Validate(inputDto); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
 		})
 		return
 	}
