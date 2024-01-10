@@ -11,7 +11,13 @@ import (
 type CustomerRepository struct {
 }
 
-func (r CustomerRepository) Create(customer *models.Customer) (*entities.Customer, error) {
+func (r CustomerRepository) Create(entity *entities.Customer) (*entities.Customer, error) {
+	customer := models.Customer{
+		Name:  entity.Name,
+		CPF:   entity.CPF,
+		Email: entity.Email,
+	}
+
 	if err := gorm.DB.Create(&customer).Error; err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			return nil, errors.New("cliente já existe no sistema")
@@ -25,7 +31,11 @@ func (r CustomerRepository) Create(customer *models.Customer) (*entities.Custome
 	return &result, nil
 }
 
-func (r CustomerRepository) List(customer *models.Customer) ([]entities.Customer, error) {
+func (r CustomerRepository) List(entity *entities.Customer) ([]entities.Customer, error) {
+	customer := models.Customer{
+		CPF: entity.CPF,
+	}
+
 	var customers []models.Customer
 	var response []entities.Customer
 
