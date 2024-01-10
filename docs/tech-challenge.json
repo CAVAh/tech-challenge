@@ -256,7 +256,7 @@
         "tags": [
           "Cliente"
         ],
-        "description": "Endpoint resposável que realiza a listagem de clientes.",
+        "description": "Endpoint responsável que realiza a listagem de clientes.",
         "parameters": [
           {
             "schema": {
