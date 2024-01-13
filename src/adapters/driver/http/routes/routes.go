@@ -9,6 +9,7 @@ func HandleRequests() {
 	router := gin.Default()
 
 	SetupCustomerRoutes(router)
+	SetupOrderRoutes(router)
 
 	err := router.Run()
 
