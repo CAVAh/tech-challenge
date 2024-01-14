@@ -34,7 +34,7 @@ func (r OrderRepository) List() ([]entities.Order, error) {
 	var orders []models.Order
 	var response []entities.Order
 
-	gorm.DB.Preload("Customer").Preload("Product").Find(&orders)
+	gorm.DB.Preload("Customer").Preload("Products").Find(&orders)
 
 	for _, order := range orders {
 		response = append(response, order.ToDomain())

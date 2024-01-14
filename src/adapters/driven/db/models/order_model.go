@@ -12,12 +12,16 @@ type Order struct {
 	Products   []Product `gorm:"many2many:order_products;"`
 }
 
-func (c Order) ToDomain() entities.Order {
+func (o Order) ToDomain() entities.Order {
+	var products []entities.Product
+	for _, p := range o.Products {
+		products = append(products, p.ToDomain())
+	}
 
 	return entities.Order{
-		ID:        c.ID,
-		CreatedAt: c.CreatedAt.Format("2006-01-02 15:04:05"),
-		Customer:  c.Customer.ToDomain(),
-		Products:  nil,
+		ID:        o.ID,
+		CreatedAt: o.CreatedAt.Format("2006-01-02 15:04:05"),
+		Customer:  o.Customer.ToDomain(),
+		Products:  products,
 	}
 }
