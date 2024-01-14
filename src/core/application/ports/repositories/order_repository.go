@@ -6,6 +6,6 @@ import (
 )
 
 type OrderRepository interface {
-	Create(order *models.Order) (*entities.Order, error)
+	Create(order *models.Order, productIds []int) (*entities.Order, error)
 	List() ([]entities.Order, error)
 }

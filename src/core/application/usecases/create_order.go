@@ -16,5 +16,5 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 		CustomerId: inputDto.CustomerId,
 	}
 
-	return r.OrderRepository.Create(&order)
+	return r.OrderRepository.Create(&order, inputDto.ProductIds)
 }

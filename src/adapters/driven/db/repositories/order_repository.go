@@ -12,7 +12,9 @@ import (
 type OrderRepository struct {
 }
 
-func (r OrderRepository) Create(order *models.Order) (*entities.Order, error) {
+func (r OrderRepository) Create(order *models.Order, productIds []int) (*entities.Order, error) {
+	gorm.DB.Where("id IN (?)", productIds).Find(&order.Products)
+
 	if err := gorm.DB.Create(&order).Error; err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			return nil, errors.New("pedido já existe no sistema")
@@ -32,7 +34,7 @@ func (r OrderRepository) List() ([]entities.Order, error) {
 	var orders []models.Order
 	var response []entities.Order
 
-	gorm.DB.Preload("Customer").Find(&orders)
+	gorm.DB.Preload("Customer").Preload("Product").Find(&orders)
 
 	for _, order := range orders {
 		response = append(response, order.ToDomain())

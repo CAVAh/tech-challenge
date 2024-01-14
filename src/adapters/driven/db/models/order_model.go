@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 	"gorm.io/gorm"
 )
@@ -10,13 +8,11 @@ import (
 type Order struct {
 	gorm.Model
 	CustomerId int
-	Customer   Customer `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Customer   Customer  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Products   []Product `gorm:"many2many:order_products;"`
 }
 
 func (c Order) ToDomain() entities.Order {
-	fmt.Println(c.ID)
-	fmt.Println(c.CustomerId)
-	fmt.Println(c.Customer)
 
 	return entities.Order{
 		ID:        c.ID,
