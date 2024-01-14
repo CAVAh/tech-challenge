@@ -19,6 +19,7 @@ func (c Product) ToDomain() entities.Product {
 		Name:        c.Name,
 		Price:       c.Price,
 		Description: c.Description,
+		CategoryId:  c.CategoryId,
 		CreatedAt:   c.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }
