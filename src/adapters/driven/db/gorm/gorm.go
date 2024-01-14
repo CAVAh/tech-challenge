@@ -24,4 +24,5 @@ func ConnectDB() {
 
 	DB.AutoMigrate(&models.Customer{})
 	DB.AutoMigrate(&models.Product{})
+	DB.AutoMigrate(&models.Order{})
 }

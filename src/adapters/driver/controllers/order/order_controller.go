@@ -30,22 +30,37 @@ func CreateOrder(c *gin.Context) {
 
 	//TODO: fazer as validacoes necessarias
 
-	//customerRepository := &repositories.CustomerRepository{}
+	orderRepository := &repositories.OrderRepository{}
 
-	//usecase := usecases.CreateCustomerUsecase{
-	//	CustomerRepository: customerRepository,
-	//}
+	usecase := usecases.CreateOrderUsecase{
+		OrderRepository: orderRepository,
+	}
 
-	//result, err := usecase.Execute(inputDto)
+	result, err := usecase.Execute(inputDto)
 
-	//if err != nil {
-	//	c.JSON(http.StatusBadRequest, gin.H{
-	//		"error": err.Error(),
-	//	})
-	//	return
-	//}
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 
-	c.JSON(http.StatusOK, inputDto)
+	c.JSON(http.StatusOK, result)
+}
+
+func ListOrder(c *gin.Context) {
+	orderRepository := &repositories.OrderRepository{}
+
+	orders, err := orderRepository.List()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
 }
 
 func CreateProduct(c *gin.Context) {
