@@ -12,7 +12,9 @@ type CreateOrderUsecase struct {
 }
 
 func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Order, error) {
-	order := models.Order{}
+	order := models.Order{
+		CustomerId: inputDto.CustomerId,
+	}
 
 	return r.OrderRepository.Create(&order)
 }

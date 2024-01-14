@@ -21,6 +21,8 @@ func (r OrderRepository) Create(order *models.Order) (*entities.Order, error) {
 		}
 	}
 
+	gorm.DB.Where("id = ?", order.CustomerId).Find(&order.Customer)
+
 	result := order.ToDomain()
 
 	return &result, nil
@@ -30,7 +32,7 @@ func (r OrderRepository) List() ([]entities.Order, error) {
 	var orders []models.Order
 	var response []entities.Order
 
-	gorm.DB.Find(&orders)
+	gorm.DB.Preload("Customer").Find(&orders)
 
 	for _, order := range orders {
 		response = append(response, order.ToDomain())
