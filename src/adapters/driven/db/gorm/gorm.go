@@ -1,8 +1,9 @@
 package gorm
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"log"
+
+	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -22,4 +23,5 @@ func ConnectDB() {
 	}
 
 	DB.AutoMigrate(&models.Customer{})
+	DB.AutoMigrate(&models.Product{})
 }
