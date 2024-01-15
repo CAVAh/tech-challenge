@@ -1,14 +1,16 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func HandleRequests() {
 	router := gin.Default()
 
 	SetupCustomerRoutes(router)
+	SetupOrderRoutes(router)
 
 	err := router.Run()
 
