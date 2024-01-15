@@ -1,7 +1,6 @@
 package usecases
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -12,7 +11,7 @@ type CreateCustomerUsecase struct {
 }
 
 func (r *CreateCustomerUsecase) Execute(inputDto dtos.CreateCustomerDto) (*entities.Customer, error) {
-	customer := models.Customer{
+	customer := entities.Customer{
 		Name:  inputDto.Name,
 		CPF:   inputDto.CPF,
 		Email: inputDto.Email,
