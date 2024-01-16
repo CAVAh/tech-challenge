@@ -7,4 +7,5 @@ import (
 type CustomerRepository interface {
 	Create(customer *entities.Customer) (*entities.Customer, error)
 	List(customer *entities.Customer) ([]entities.Customer, error)
+	FindById(id int) (*entities.Customer, error)
 }

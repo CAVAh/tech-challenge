@@ -33,13 +33,9 @@ func (r CustomerRepository) Create(entity *entities.Customer) (*entities.Custome
 }
 
 func (r CustomerRepository) List(entity *entities.Customer) ([]entities.Customer, error) {
-	customer := models.Customer{
-		CPF: entity.CPF,
-	}
-
 	var customers []models.Customer
 
-	if cpf := customer.CPF; cpf != "" {
+	if cpf := entity.CPF; cpf != "" {
 		gorm.DB.Where("cpf = ?", cpf).Find(&customers)
 	} else {
 		gorm.DB.Find(&customers)
@@ -52,4 +48,16 @@ func (r CustomerRepository) List(entity *entities.Customer) ([]entities.Customer
 	}
 
 	return response, nil
+}
+
+func (r CustomerRepository) FindById(id int) (*entities.Customer, error) {
+	var customers []models.Customer
+	gorm.DB.Where("id = ?", id).Find(&customers)
+
+	if len(customers) == 0 {
+		return nil, nil
+	} else {
+		var entity = customers[0].ToDomain()
+		return &(entity), nil
+	}
 }

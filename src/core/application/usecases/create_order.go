@@ -8,7 +8,9 @@ import (
 )
 
 type CreateOrderUsecase struct {
-	OrderRepository repositories.OrderRepository
+	OrderRepository    repositories.OrderRepository
+	CustomerRepository repositories.CustomerRepository
+	ProductRepository  repositories.ProductRepository
 }
 
 func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Order, error) {
@@ -17,4 +19,14 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 	}
 
 	return r.OrderRepository.Create(&order, inputDto.ProductIds)
+}
+
+func (r *CreateOrderUsecase) CustomerExists(id int) bool {
+	customer, err := r.CustomerRepository.FindById(id)
+
+	if err != nil || customer == nil {
+		return false
+	} else {
+		return true
+	}
 }

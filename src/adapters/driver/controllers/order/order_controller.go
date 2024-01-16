@@ -29,9 +29,18 @@ func CreateOrder(c *gin.Context) {
 	}
 
 	orderRepository := &repositories.OrderRepository{}
+	customerRepository := &repositories.CustomerRepository{}
+	productRepository := &repositories.ProductRepository{}
 
 	usecase := usecases.CreateOrderUsecase{
-		OrderRepository: orderRepository,
+		OrderRepository:    orderRepository,
+		CustomerRepository: customerRepository,
+		ProductRepository:  productRepository,
+	}
+
+	if !usecase.CustomerExists(inputDto.CustomerId) {
+		c.JSON(http.StatusBadRequest, "Usuário não existe, não foi possível criar pedido")
+		return
 	}
 
 	result, err := usecase.Execute(inputDto)
