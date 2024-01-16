@@ -38,3 +38,16 @@ func (r ProductRepository) List() ([]entities.Product, error) {
 
 	return response, nil
 }
+
+func (r ProductRepository) FindById(ids []int) ([]entities.Product, error) {
+	var products []models.Product
+	var response []entities.Product
+
+	gorm.DB.Where("id in (?)", ids).Find(&products)
+
+	for _, product := range products {
+		response = append(response, product.ToDomain())
+	}
+
+	return response, nil
+}

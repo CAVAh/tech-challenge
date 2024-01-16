@@ -8,4 +8,5 @@ import (
 type ProductRepository interface {
 	Create(product *models.Product) (*entities.Product, error)
 	List() ([]entities.Product, error)
+	FindById(ids []int) ([]entities.Product, error)
 }

@@ -22,9 +22,19 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 }
 
 func (r *CreateOrderUsecase) CustomerExists(id int) bool {
-	customer, err := r.CustomerRepository.FindById(id)
+	customer, err := r.CustomerRepository.FindFirstById(id)
 
 	if err != nil || customer == nil {
+		return false
+	} else {
+		return true
+	}
+}
+
+func (r *CreateOrderUsecase) AllProductsExists(ids []int) bool {
+	products, err := r.ProductRepository.FindById(ids)
+
+	if err != nil || len(products) != len(ids) {
 		return false
 	} else {
 		return true
