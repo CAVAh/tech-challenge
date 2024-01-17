@@ -1,7 +1,6 @@
 package product
 
 import (
-	"fmt"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"
 	dtosProduct "github.com/CAVAh/api-tech-challenge/src/core/application/dtos/product"
 	usecasesProduct "github.com/CAVAh/api-tech-challenge/src/core/application/usecases/product"
@@ -15,8 +14,6 @@ import (
 func List(ctx *gin.Context) {
 	value, _ := ctx.GetQuery("categoryId")
 	categoryId, _ := strconv.ParseUint(value, 0, 64)
-
-	fmt.Println("\n\n\n\n\n\n param ", categoryId)
 
 	productRepository := repositories.ProductRepository{}
 
