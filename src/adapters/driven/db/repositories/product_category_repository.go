@@ -29,3 +29,17 @@ func (r ProductCategoryRepository) FindAll() ([]entities.ProductCategory, error)
 
 	return productEntities, nil
 }
+
+func (r ProductCategoryRepository) FindById(id uint) (*entities.ProductCategory, error) {
+	var productCategory models.ProductCategory
+
+	err := checkError(gorm.DB.Find(&productCategory, id))
+
+	if err != nil {
+		return &entities.ProductCategory{}, err
+	}
+
+	result := productCategory.ToDomain()
+
+	return &result, nil
+}
