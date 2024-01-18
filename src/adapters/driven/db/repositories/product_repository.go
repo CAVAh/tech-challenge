@@ -12,7 +12,14 @@ import (
 type ProductRepository struct {
 }
 
-func (r ProductRepository) Create(product *models.Product) (*entities.Product, error) {
+func (r ProductRepository) Create(entity *entities.Product) (*entities.Product, error) {
+	product := models.Product{
+		Name:        entity.Name,
+		Price:       entity.Price,
+		Description: entity.Description,
+		CategoryId:  entity.CategoryId,
+	}
+
 	if err := gorm.DB.Create(&product).Error; err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			return nil, errors.New("produto já existe no sistema")
