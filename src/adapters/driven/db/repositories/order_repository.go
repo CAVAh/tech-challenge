@@ -2,17 +2,19 @@ package repositories
 
 import (
 	"errors"
-	"strings"
-
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+	"strings"
 )
 
 type OrderRepository struct {
 }
 
-func (r OrderRepository) Create(order *models.Order, productIds []int) (*entities.Order, error) {
+func (r OrderRepository) Create(costumerId int, productIds []int) (*entities.Order, error) {
+	var order = models.Order{}
+
+	gorm.DB.Where("id = ?", costumerId).Find(&order.Customer)
 	gorm.DB.Where("id IN (?)", productIds).Find(&order.Products)
 
 	if err := gorm.DB.Create(&order).Error; err != nil {
@@ -22,8 +24,6 @@ func (r OrderRepository) Create(order *models.Order, productIds []int) (*entitie
 			return nil, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 		}
 	}
-
-	gorm.DB.Where("id = ?", order.CustomerId).Find(&order.Customer)
 
 	result := order.ToDomain()
 
