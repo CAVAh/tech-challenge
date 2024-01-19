@@ -5,24 +5,27 @@ import (
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"strings"
 )
 
 type OrderRepository struct {
 }
 
 func (r OrderRepository) Create(costumerId int, productIds []int) (*entities.Order, error) {
-	var order = models.Order{}
+	var order models.Order
 
 	gorm.DB.Where("id = ?", costumerId).Find(&order.Customer)
 	gorm.DB.Where("id IN (?)", productIds).Find(&order.Products)
 
 	if err := gorm.DB.Create(&order).Error; err != nil {
-		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-			return nil, errors.New("pedido já existe no sistema")
-		} else {
-			return nil, errors.New("ocorreu um erro desconhecido ao criar o pedido")
-		}
+		return nil, errors.New("ocorreu um erro desconhecido ao criar o pedido")
+	}
+
+	for _, p := range order.Products {
+		var op models.OrderProduct
+		gorm.DB.Where("order_id = ? and product_id = ?", order.ID, p.ID).Find(&op)
+		gorm.DB.Model(&op).
+			Update("Quantity", 9).
+			Update("Observation", "aaaaaaaaaaaaaa")
 	}
 
 	result := order.ToDomain()
