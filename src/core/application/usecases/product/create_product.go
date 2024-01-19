@@ -6,17 +6,17 @@ import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
 
-type Create struct {
+type CreateProductUsecase struct {
 	repository                repositories.ProductRepository
 	productCategoryRepository repositories.ProductCategoryRepository
 }
 
-func BuildCreate(repository repositories.ProductRepository,
-	productCategoryRepository repositories.ProductCategoryRepository) *Create {
-	return &Create{repository: repository, productCategoryRepository: productCategoryRepository}
+func BuildCreateProductUsecase(repository repositories.ProductRepository,
+	productCategoryRepository repositories.ProductCategoryRepository) *CreateProductUsecase {
+	return &CreateProductUsecase{repository: repository, productCategoryRepository: productCategoryRepository}
 }
 
-func (p *Create) Execute(inputDto productDtos.PersistProductDto) (*entities.Product, error) {
+func (p *CreateProductUsecase) Execute(inputDto productDtos.PersistProductDto) (*entities.Product, error) {
 	product := entities.Product{
 		Name:        inputDto.Name,
 		Price:       inputDto.Price,

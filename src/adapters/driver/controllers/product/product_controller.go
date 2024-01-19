@@ -17,7 +17,7 @@ func List(ctx *gin.Context) {
 
 	productRepository := repositories.ProductRepository{}
 
-	result, err := usecasesProduct.BuildList(productRepository).Execute(uint(categoryId))
+	result, err := usecasesProduct.BuildListProductUsecase(productRepository).Execute(uint(categoryId))
 
 	if err != nil {
 		log.Println("there was an error to retrieve products", err)
@@ -50,7 +50,7 @@ func Create(c *gin.Context) {
 	productRepository := repositories.ProductRepository{}
 	productCategoryRepository := repositories.ProductCategoryRepository{}
 
-	usecase := usecasesProduct.BuildCreate(productRepository, productCategoryRepository)
+	usecase := usecasesProduct.BuildCreateProductUsecase(productRepository, productCategoryRepository)
 
 	result, err := usecase.Execute(inputDto)
 
@@ -76,7 +76,7 @@ func Create(c *gin.Context) {
 func Read(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Params.ByName("id"), 0, 64)
 
-	useCase := usecasesProduct.BuildRead(repositories.ProductRepository{})
+	useCase := usecasesProduct.BuildReadProductUsecase(repositories.ProductRepository{})
 
 	product, err := useCase.Execute(uint(id))
 
@@ -105,7 +105,7 @@ func Update(ctx *gin.Context) {
 		return
 	}
 
-	useCase := usecasesProduct.BuildEdit(repositories.ProductRepository{})
+	useCase := usecasesProduct.BuildEditProductUsecase(repositories.ProductRepository{})
 
 	product, err := useCase.Execute(inputDto, uint(id))
 
@@ -126,7 +126,7 @@ func Update(ctx *gin.Context) {
 func Delete(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Params.ByName("id"), 0, 64)
 
-	useCase := usecasesProduct.BuildDelete(repositories.ProductRepository{})
+	useCase := usecasesProduct.BuildDeleteProductUsecase(repositories.ProductRepository{})
 
 	err := useCase.Execute(uint(id))
 

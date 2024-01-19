@@ -5,14 +5,14 @@ import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
 
-type Read struct {
+type ReadProductUsecase struct {
 	repository repositories.ProductRepository
 }
 
-func BuildRead(repository repositories.ProductRepository) *Read {
-	return &Read{repository: repository}
+func BuildReadProductUsecase(repository repositories.ProductRepository) *ReadProductUsecase {
+	return &ReadProductUsecase{repository: repository}
 }
 
-func (p Read) Execute(id uint) (*entities.Product, error) {
+func (p ReadProductUsecase) Execute(id uint) (*entities.Product, error) {
 	return p.repository.FindById(id)
 }

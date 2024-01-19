@@ -11,7 +11,7 @@ import (
 func ListCategory(ctx *gin.Context) {
 	productRepository := repositories.ProductCategoryRepository{}
 
-	result, err := usecasesProduct.BuildListCategory(productRepository).Execute()
+	result, err := usecasesProduct.BuildListProductCategoryUsecase(productRepository).Execute()
 
 	if err != nil {
 		log.Println("there was an error to retrieve products", err)

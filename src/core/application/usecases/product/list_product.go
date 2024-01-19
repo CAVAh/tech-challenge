@@ -5,15 +5,15 @@ import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
 
-type List struct {
+type ListProductUsecase struct {
 	repository repositories.ProductRepository
 }
 
-func BuildList(repository repositories.ProductRepository) *List {
-	return &List{repository: repository}
+func BuildListProductUsecase(repository repositories.ProductRepository) *ListProductUsecase {
+	return &ListProductUsecase{repository: repository}
 }
 
-func (p List) Execute(categoryId uint) ([]entities.Product, error) {
+func (p ListProductUsecase) Execute(categoryId uint) ([]entities.Product, error) {
 
 	if categoryId == 0 {
 		return p.repository.FindAll()
