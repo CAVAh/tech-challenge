@@ -43,7 +43,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	if !usecase.AllProductsExists(inputDto.ProductIds) {
+	if !usecase.AllProductsExists(inputDto.GetProductIds()) {
 		c.JSON(http.StatusBadRequest, "Algum dos produtos não existe, não foi possível criar pedido")
 		return
 	}
