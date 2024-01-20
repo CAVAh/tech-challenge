@@ -11,15 +11,19 @@ import (
 )
 
 func ListOrder(c *gin.Context) {
-	pageSizeString := c.Query("pageSize")
-	pageNumberString := c.Query("pageNumber")
 	status := c.Query("status")
 
-	pageSize, err := strconv.ParseInt(pageSizeString, 10, 64)
-	pageNumber, err := strconv.ParseInt(pageNumberString, 10, 64)
+	pageSize, err := strconv.ParseInt(c.Query("pageSize"), 10, 64)
 
 	if err != nil {
-		c.JSON(400, gin.H{"erro": "Parâmetro 'numero' inválido"})
+		c.JSON(400, gin.H{"error": "Parâmetro 'pageSize' inválido"})
+		return
+	}
+
+	pageNumber, err := strconv.ParseInt(c.Query("pageNumber"), 10, 64)
+
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Parâmetro 'pageNumber' inválido"})
 		return
 	}
 

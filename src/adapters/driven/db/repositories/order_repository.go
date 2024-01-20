@@ -34,7 +34,11 @@ func (r OrderRepository) List(pageSize int64, pageNumber int64, status string) (
 
 	var orderModel []models.Order
 
-	gorm.DB.Find(&orderModel).Where("status = ?", status)
+	if len(status) == 0 {
+		gorm.DB.Preload("Products").Preload("Customer").Find(&orderModel)
+	} else {
+		gorm.DB.Preload("Products").Preload("Customer").Where("status = ?", status).Find(&orderModel)
+	}
 
 	var order []entities.Order
 
