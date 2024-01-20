@@ -56,3 +56,21 @@ func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]e
 
 	return order, nil
 }
+
+func (r OrderRepository) FindyId(orderId int64) entities.Order {
+	var orderModel models.Order
+
+	gorm.DB.Where("id = ?", 1).First(&orderModel)
+
+	return orderModel.ToDomain()
+}
+
+func (r OrderRepository) Update(order entities.Order) {
+
+	var orderModel models.Order
+
+	gorm.DB.Find(&orderModel, order.ID)
+
+	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status})
+
+}

@@ -11,6 +11,7 @@ func HandleRequests() {
 
 	SetupCustomerRoutes(router)
 	SetupOrderRoutes(router)
+	SetupPaymentRoutes(router)
 
 	err := router.Run()
 
