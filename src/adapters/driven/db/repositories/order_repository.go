@@ -30,14 +30,22 @@ func (r OrderRepository) Create(order *models.Order, productIds []int) (*entitie
 	return &result, nil
 }
 
-func (r OrderRepository) List(pageSize int64, pageNumber int64, status string) ([]entities.Order, error) {
+func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]entities.Order, error) {
 
 	var orderModel []models.Order
 
+	if len(sortBy) == 0 {
+		sortBy = "created_at"
+	}
+
+	if len(sortBy) == 0 {
+		sortBy = "ASC"
+	}
+
 	if len(status) == 0 {
-		gorm.DB.Preload("Products").Preload("Customer").Find(&orderModel)
+		gorm.DB.Preload("Products").Preload("Customer").Order(sortBy + " " + orderBy).Find(&orderModel)
 	} else {
-		gorm.DB.Preload("Products").Preload("Customer").Where("status = ?", status).Find(&orderModel)
+		gorm.DB.Preload("Products").Preload("Customer").Order(sortBy+" "+orderBy).Where("status = ?", status).Find(&orderModel)
 	}
 
 	var order []entities.Order

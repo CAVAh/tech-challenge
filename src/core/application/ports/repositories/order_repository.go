@@ -5,5 +5,5 @@ import (
 )
 
 type OrderRepository interface {
-	List(pageSize int64, pageNumber int64, status string) ([]entities.Order, error)
+	List(sortBy string, orderBy string, status string) ([]entities.Order, error)
 }
