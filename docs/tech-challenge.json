@@ -884,6 +884,24 @@
           "categoryId"
         ]
       },
+      "ProductCategory": {
+        "type": "object",
+        "examples": [
+          {
+            "id": 1,
+            "description": "Sobremesa"
+          }
+        ],
+        "description": "Representa uma categoria de produto",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
       "Order": {
         "title": "Order",
         "type": "object",
