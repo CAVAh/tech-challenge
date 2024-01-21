@@ -1046,11 +1046,7 @@
         }
       },
       "50000-ServerError": {
-        "value": {
-          "code": 50000,
-          "name": "ServerError",
-          "message": "Erro interno no servidor."
-        }
+        "value": {}
       }
     }
   },
