@@ -796,12 +796,6 @@
         "title": "ErrorSchema",
         "type": "object",
         "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string"
-          },
           "message": {
             "type": "string"
           }
