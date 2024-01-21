@@ -553,6 +553,53 @@
         }
       }
     },
+    "/products/categories":{
+      "get": {
+        "summary": "Listagem de categorias de produto",
+        "operationId": "list-products-categories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "$ref": "#/components/schemas/ProductCategory"
+                  }
+                },
+                "examples": {
+                  "Listagem de categorias de produto": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "description": "Sobremesa"
+                      }
+                    ]
+                  },
+                  "Listagem vazia de categorias de produto": {
+                    "value": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "description": "Endpoint responsável por listar produtos",
+        "tags": [
+          "Produto"
+        ]
+      }
+    },
     "/orders": {
       "get": {
         "summary": "Listagem de pedidos",
