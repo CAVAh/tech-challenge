@@ -419,6 +419,44 @@
           "description": "ID do Produto"
         }
       ],
+      "get": {
+        "summary": "Recupera Produto",
+        "operationId": "read-product",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "examples": {
+                  "Produto recuperado": {
+                    "value": {
+                      "id": 142,
+                      "name": "Água",
+                      "price": 3.5,
+                      "description": "Água Mineral 500ml",
+                      "categoryId": 1,
+                      "createdAt": "2019-08-24 19:40:00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "description": "Endpoint recuperar um produto.",
+        "tags": [
+          "Produto"
+        ]
+      },
       "delete": {
         "summary": "Remove produto",
         "operationId": "delete-product",
