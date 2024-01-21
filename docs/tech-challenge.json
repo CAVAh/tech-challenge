@@ -496,12 +496,17 @@
                 }
               },
               "examples": {
-                "Editar produto": {
+                "Editar produto inteiro": {
                   "value": {
                     "name": "Água",
                     "price": 3.5,
                     "description": "Água Mineral 500ml",
                     "categoryId": 1
+                  }
+                },
+                "Editar apenas o valor de um produto": {
+                  "value": {
+                    "price": 4.5
                   }
                 }
               }
