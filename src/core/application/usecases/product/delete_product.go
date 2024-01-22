@@ -1,4 +1,4 @@
-package product
+package usecases
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"

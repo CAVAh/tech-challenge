@@ -1,4 +1,4 @@
-package product
+package usecases
 
 import (
 	productDtos "github.com/CAVAh/api-tech-challenge/src/core/application/dtos/product"

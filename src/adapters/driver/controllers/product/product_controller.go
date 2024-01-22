@@ -1,4 +1,4 @@
-package product
+package controllers
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"

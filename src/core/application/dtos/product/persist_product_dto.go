@@ -1,4 +1,4 @@
-package product
+package dtos
 
 type PersistProductDto struct {
 	ID          int
