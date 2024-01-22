@@ -15,10 +15,10 @@ type ProductRepository struct {
 
 func (r ProductRepository) Create(entity *entities.Product) (*entities.Product, error) {
 	product := models.Product{
-		Name:              entity.Name,
-		Price:             entity.Price,
-		Description:       entity.Description,
-		ProductCategoryID: entity.CategoryID,
+		Name:              entity.Name(),
+		Price:             entity.Price(),
+		Description:       entity.Description(),
+		ProductCategoryID: entity.CategoryID(),
 	}
 
 	dbResult := gorm.DB.Create(&product)
@@ -102,7 +102,7 @@ func (p ProductRepository) Edit(entity *entities.Product) (*entities.Product, er
 
 	gorm.DB.Find(&product, entity.ID)
 
-	product.PatchFields(entity.Name, entity.Price, entity.Description, entity.CategoryID)
+	product.PatchFields(entity.Name(), entity.Price(), entity.Description(), entity.CategoryID())
 
 	err := checkError(gorm.DB.Model(&product).Clauses(clause.Returning{}).UpdateColumns(&product))
 

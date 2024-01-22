@@ -63,7 +63,7 @@ func Create(c *gin.Context) {
 	}
 
 	if !result.IsExistingProduct() {
-		log.Println("there was an error to save the product", err)
+		log.Println("there was an error to save the product", *result)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"mensagem": "Os dados informados são inválidos. Validar contrato da API.",
 		})

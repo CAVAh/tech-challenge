@@ -4,6 +4,7 @@ import (
 	productDtos "github.com/CAVAh/api-tech-challenge/src/core/application/dtos/product"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+	"log"
 )
 
 type CreateProductUsecase struct {
@@ -17,22 +18,19 @@ func BuildCreateProductUsecase(repository repositories.ProductRepository,
 }
 
 func (p *CreateProductUsecase) Execute(inputDto productDtos.PersistProductDto) (*entities.Product, error) {
-	product := entities.Product{
-		Name:        inputDto.Name,
-		Price:       inputDto.Price,
-		Description: inputDto.Description,
-		CategoryID:  inputDto.CategoryID,
-	}
+	product := entities.NewProduct(0, inputDto.Name, inputDto.Price,
+		inputDto.Description, inputDto.CategoryID, "")
 
-	category, err := p.productCategoryRepository.FindById(product.CategoryID)
+	category, err := p.productCategoryRepository.FindById(product.CategoryID())
 
 	if err != nil {
 		return nil, nil
 	}
 
 	if !category.IsExistingProductCategory() {
-		return &product, nil
+		log.Println("Product category doesn't exist! - productCategoryId=", product.CategoryID())
+		return product, nil
 	}
 
-	return p.repository.Create(&product)
+	return p.repository.Create(product)
 }
