@@ -16,12 +16,14 @@ type Product struct {
 
 func (p Product) ToDomain() entities.Product {
 
-	return *entities.NewProduct(int(p.ID),
-		p.Name,
-		p.Price,
-		p.Description,
-		p.ProductCategoryID,
-		p.CreatedAt.Format("2006-01-02 15:04:05"))
+	return entities.Product{
+		Id:          int(p.ID),
+		Name:        p.Name,
+		Price:       p.Price,
+		Description: p.Description,
+		CategoryID:  p.ProductCategoryID,
+		CreatedAt:   p.CreatedAt.Format("2006-01-02 15:04:05"),
+	}
 }
 
 func (p *Product) PatchFields(name string, price float64, description string, categoryId int) {

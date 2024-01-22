@@ -18,8 +18,12 @@ func BuildCreateProductUsecase(repository repositories.ProductRepository,
 }
 
 func (p *CreateProductUsecase) Execute(inputDto productDtos.PersistProductDto) (*entities.Product, error) {
-	product := entities.NewProduct(0, inputDto.Name, inputDto.Price,
-		inputDto.Description, inputDto.CategoryID, "")
+	product := &entities.Product{
+		Name:        inputDto.Name,
+		Price:       inputDto.Price,
+		Description: inputDto.Description,
+		CategoryID:  inputDto.CategoryID,
+	}
 
 	category, err := p.productCategoryRepository.FindById(product.CategoryID)
 
