@@ -14,12 +14,11 @@ type OrderRepository struct {
 func (r OrderRepository) Create(dto dtos.CreateOrderDto) (*entities.Order, error) {
 	var order models.Order
 
-	gorm.DB.Where("id = ?", dto.CustomerId).Find(&order.Customer)
-	gorm.DB.Where("id IN (?)", dto.GetProductIds()).Find(&order.Products)
+	gorm.DB.Find(&order.Customer, dto.CustomerId)
+	gorm.DB.Find(&order.Products, dto.GetProductIds())
 
 	if err := gorm.DB.Create(&order).Error; err != nil {
-		result := entities.Order{}
-		return &result, errors.New("ocorreu um erro desconhecido ao criar o pedido")
+		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 	}
 
 	for _, p := range order.Products {
@@ -32,8 +31,7 @@ func (r OrderRepository) Create(dto dtos.CreateOrderDto) (*entities.Order, error
 	}
 
 	result := order.ToDomain()
-
-	return &result, nil
+	return &(result), nil
 }
 
 func (r OrderRepository) List() ([]entities.Order, error) {
