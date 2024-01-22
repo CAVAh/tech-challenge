@@ -57,7 +57,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusCreated, result)
 }
 
 func ListOrder(c *gin.Context) {
