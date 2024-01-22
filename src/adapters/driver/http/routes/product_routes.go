@@ -1,14 +1,18 @@
 package routes
 
 import (
-	productController "github.com/CAVAh/api-tech-challenge/src/adapters/driver/controllers/product"
+	controllersProduct "github.com/CAVAh/api-tech-challenge/src/adapters/driver/controllers/product"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupProductRoutes(router *gin.Engine) {
-	orderRoutes := router.Group("/product")
+	productRoutes := router.Group("/products")
 	{
-		orderRoutes.POST("", productController.CreateProduct)
-		orderRoutes.GET("", productController.ListProducts)
+		productRoutes.GET("", controllersProduct.List)
+		productRoutes.POST("", controllersProduct.Create)
+		productRoutes.PATCH("/:id", controllersProduct.Update)
+		productRoutes.DELETE("/:id", controllersProduct.Delete)
+		productRoutes.GET("/:id", controllersProduct.Read)
+		productRoutes.GET("/categories", controllersProduct.ListCategory)
 	}
 }
