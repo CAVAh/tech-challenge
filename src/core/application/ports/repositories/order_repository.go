@@ -6,6 +6,6 @@ import (
 
 type OrderRepository interface {
 	List(sortBy string, orderBy string, status string) ([]entities.Order, error)
-	FindyId(orderId int64) *entities.Order
+	FindyId(orderId uint) *entities.Order
 	Update(*entities.Order)
 }

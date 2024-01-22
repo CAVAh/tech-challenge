@@ -12,7 +12,7 @@ import (
 type OrderRepository struct {
 }
 
-func (r OrderRepository) Create(order *models.Order, productIds []int) (*entities.Order, error) {
+func (r OrderRepository) Create(order *models.Order, productIds []uint) (*entities.Order, error) {
 	gorm.DB.Where("id IN (?)", productIds).Find(&order.Products)
 
 	if err := gorm.DB.Create(&order).Error; err != nil {
@@ -23,7 +23,7 @@ func (r OrderRepository) Create(order *models.Order, productIds []int) (*entitie
 		}
 	}
 
-	gorm.DB.Where("id = ?", order.CustomerId).Find(&order.Customer)
+	gorm.DB.Where("id = ?", order.CustomerID).Find(&order.Customer)
 
 	result := order.ToDomain()
 
@@ -57,7 +57,7 @@ func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]e
 	return order, nil
 }
 
-func (r OrderRepository) FindyId(orderId int64) *entities.Order {
+func (r OrderRepository) FindyId(orderId uint) *entities.Order {
 	var orderModel models.Order
 	gorm.DB.First(&orderModel, orderId)
 

@@ -10,7 +10,7 @@ type Product struct {
 	Name        string `gorm:"unique;index"`
 	Price       float64
 	Description string
-	CategoryId  int
+	CategoryID  uint
 }
 
 func (c Product) ToDomain() entities.Product {
@@ -19,7 +19,7 @@ func (c Product) ToDomain() entities.Product {
 		Name:        c.Name,
 		Price:       c.Price,
 		Description: c.Description,
-		CategoryId:  c.CategoryId,
+		CategoryId:  c.CategoryID,
 		CreatedAt:   c.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }

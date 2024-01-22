@@ -7,7 +7,7 @@ import (
 
 type Order struct {
 	gorm.Model
-	CustomerId int
+	CustomerID uint
 	Status     string
 	Customer   Customer  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Products   []Product `gorm:"many2many:order_products;"`
