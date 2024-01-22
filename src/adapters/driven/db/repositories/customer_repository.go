@@ -2,11 +2,10 @@ package repositories
 
 import (
 	"errors"
-	"strings"
-
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+	"strings"
 )
 
 type CustomerRepository struct {

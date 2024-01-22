@@ -1,14 +1,12 @@
 package controllers
 
 import (
-	"net/http"
-
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/usecases"
-
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
+	"net/http"
 )
 
 func CreateOrder(c *gin.Context) {
