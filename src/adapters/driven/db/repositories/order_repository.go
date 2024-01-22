@@ -18,7 +18,8 @@ func (r OrderRepository) Create(dto dtos.CreateOrderDto) (*entities.Order, error
 	gorm.DB.Where("id IN (?)", dto.GetProductIds()).Find(&order.Products)
 
 	if err := gorm.DB.Create(&order).Error; err != nil {
-		return nil, errors.New("ocorreu um erro desconhecido ao criar o pedido")
+		result := entities.Order{}
+		return &result, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 	}
 
 	for _, p := range order.Products {
