@@ -14,8 +14,8 @@ func BuildEditProductUsecase(repository repositories.ProductRepository) *EditPro
 	return &EditProductUsecase{repository: repository}
 }
 
-func (p *EditProductUsecase) Execute(inputDto dtosProd.PersistProductDto, id uint) (*entities.Product, error) {
-	retrievedProduct, err := p.repository.FindById(id)
+func (p *EditProductUsecase) Execute(inputDto dtosProd.PersistProductDto) (*entities.Product, error) {
+	retrievedProduct, err := p.repository.FindById(inputDto.ID)
 
 	retrievedProduct.PatchFields(inputDto.Name, inputDto.Price, inputDto.Description, inputDto.CategoryID)
 

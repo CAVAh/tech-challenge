@@ -15,10 +15,10 @@ type ProductRepository struct {
 
 func (r ProductRepository) Create(entity *entities.Product) (*entities.Product, error) {
 	product := models.Product{
-		Name:              entity.Name(),
-		Price:             entity.Price(),
-		Description:       entity.Description(),
-		ProductCategoryID: entity.CategoryID(),
+		Name:              entity.Name,
+		Price:             entity.Price,
+		Description:       entity.Description,
+		ProductCategoryID: entity.CategoryID,
 	}
 
 	dbResult := gorm.DB.Create(&product)
@@ -32,7 +32,7 @@ func (r ProductRepository) Create(entity *entities.Product) (*entities.Product, 
 	return &result, nil
 }
 
-func (r ProductRepository) FindById(id uint) (*entities.Product, error) {
+func (r ProductRepository) FindById(id int) (*entities.Product, error) {
 	var product models.Product
 
 	err := checkError(gorm.DB.Find(&product, id))
@@ -66,7 +66,7 @@ func (r ProductRepository) FindAll() ([]entities.Product, error) {
 	return productEntities, nil
 }
 
-func (r ProductRepository) FindByCategoryId(categoryId uint) ([]entities.Product, error) {
+func (r ProductRepository) FindByCategoryId(categoryId int) ([]entities.Product, error) {
 	var products []models.Product
 
 	err := checkError(gorm.DB.Where(&models.Product{ProductCategoryID: categoryId}).Find(&products))
@@ -84,7 +84,7 @@ func (r ProductRepository) FindByCategoryId(categoryId uint) ([]entities.Product
 	return productEntities, nil
 }
 
-func (p ProductRepository) DeleteById(id uint) error {
+func (p ProductRepository) DeleteById(id int) error {
 	var product models.Product
 
 	err := checkError(gorm.DB.Delete(&product, id))
@@ -100,9 +100,9 @@ func (p ProductRepository) DeleteById(id uint) error {
 func (p ProductRepository) Edit(entity *entities.Product) (*entities.Product, error) {
 	var product models.Product
 
-	gorm.DB.Find(&product, entity.ID)
+	gorm.DB.Find(&product, entity.Id)
 
-	product.PatchFields(entity.Name(), entity.Price(), entity.Description(), entity.CategoryID())
+	product.PatchFields(entity.Name, entity.Price, entity.Description, entity.CategoryID)
 
 	err := checkError(gorm.DB.Model(&product).Clauses(clause.Returning{}).UpdateColumns(&product))
 

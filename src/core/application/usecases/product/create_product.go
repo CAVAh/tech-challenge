@@ -21,14 +21,14 @@ func (p *CreateProductUsecase) Execute(inputDto productDtos.PersistProductDto) (
 	product := entities.NewProduct(0, inputDto.Name, inputDto.Price,
 		inputDto.Description, inputDto.CategoryID, "")
 
-	category, err := p.productCategoryRepository.FindById(product.CategoryID())
+	category, err := p.productCategoryRepository.FindById(product.CategoryID)
 
 	if err != nil {
 		return nil, nil
 	}
 
 	if !category.IsExistingProductCategory() {
-		log.Println("Product category doesn't exist! - productCategoryId=", product.CategoryID())
+		log.Println("Product category doesn't exist! - productCategoryId=", product.CategoryID)
 		return product, nil
 	}
 

@@ -13,11 +13,11 @@ import (
 
 func List(ctx *gin.Context) {
 	value, _ := ctx.GetQuery("categoryId")
-	categoryId, _ := strconv.ParseUint(value, 0, 64)
+	categoryId, _ := strconv.Atoi(value)
 
 	productRepository := repositories.ProductRepository{}
 
-	result, err := usecasesProduct.BuildListProductUsecase(productRepository).Execute(uint(categoryId))
+	result, err := usecasesProduct.BuildListProductUsecase(productRepository).Execute(categoryId)
 
 	if err != nil {
 		log.Println("there was an error to retrieve products", err)
@@ -74,11 +74,11 @@ func Create(c *gin.Context) {
 }
 
 func Read(ctx *gin.Context) {
-	id, _ := strconv.ParseUint(ctx.Params.ByName("id"), 0, 64)
+	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
 	useCase := usecasesProduct.BuildReadProductUsecase(repositories.ProductRepository{})
 
-	product, err := useCase.Execute(uint(id))
+	product, err := useCase.Execute(id)
 
 	if !product.IsExistingProduct() {
 		ctx.JSON(http.StatusNotFound, gin.H{})
@@ -96,7 +96,7 @@ func Read(ctx *gin.Context) {
 
 func Update(ctx *gin.Context) {
 	var inputDto dtosProduct.PersistProductDto
-	id, _ := strconv.ParseUint(ctx.Params.ByName("id"), 0, 64)
+	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
 	if err := ctx.ShouldBindJSON(&inputDto); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -107,7 +107,9 @@ func Update(ctx *gin.Context) {
 
 	useCase := usecasesProduct.BuildEditProductUsecase(repositories.ProductRepository{})
 
-	product, err := useCase.Execute(inputDto, uint(id))
+	inputDto.ID = id
+
+	product, err := useCase.Execute(inputDto)
 
 	if err != nil {
 		log.Println("there was an error to retrieve a product", err)
@@ -124,11 +126,11 @@ func Update(ctx *gin.Context) {
 }
 
 func Delete(ctx *gin.Context) {
-	id, _ := strconv.ParseUint(ctx.Params.ByName("id"), 0, 64)
+	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
 	useCase := usecasesProduct.BuildDeleteProductUsecase(repositories.ProductRepository{})
 
-	err := useCase.Execute(uint(id))
+	err := useCase.Execute(id)
 
 	if err != nil {
 		log.Println("there was an error to retrieve a product", err)

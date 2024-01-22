@@ -13,6 +13,6 @@ func BuildReadProductUsecase(repository repositories.ProductRepository) *ReadPro
 	return &ReadProductUsecase{repository: repository}
 }
 
-func (p ReadProductUsecase) Execute(id uint) (*entities.Product, error) {
+func (p ReadProductUsecase) Execute(id int) (*entities.Product, error) {
 	return p.repository.FindById(id)
 }
