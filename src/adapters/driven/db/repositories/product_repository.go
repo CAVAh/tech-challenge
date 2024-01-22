@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"errors"
-	"fmt"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -54,8 +53,6 @@ func (r ProductRepository) FindAll() ([]entities.Product, error) {
 	if err != nil {
 		return []entities.Product{}, err
 	}
-
-	fmt.Print(err)
 
 	productEntities := []entities.Product{}
 
