@@ -2,8 +2,7 @@ package usecases
 
 import (
 	"errors"
-	"time"
-
+	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
@@ -12,16 +11,18 @@ type PayOrderUsecase struct {
 	OrderRepository repositories.OrderRepository
 }
 
-func (r *PayOrderUsecase) Execute(orderId int64) (entities.Order, error) {
+func (r *PayOrderUsecase) Execute(inputDto dtos.PayOrderDto) (*entities.Order, error) {
+	orderToPay := r.OrderRepository.FindyId(inputDto.OrderId)
 
-	orderToPay := r.OrderRepository.FindyId(orderId)
+	if orderToPay.ID == 0 {
+		return nil, errors.New("Pedido não existe.")
+	}
 
 	if orderToPay.Status != "waiting_payment" {
 		return orderToPay, errors.New("Pedido já pago")
 	}
 
 	orderToPay.Status = "received"
-	orderToPay.UpdatedAt = time.Now().Format("2006-01-02 15:04:05")
 
 	r.OrderRepository.Update(orderToPay)
 

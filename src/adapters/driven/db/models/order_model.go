@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 	"gorm.io/gorm"
 )
@@ -10,9 +8,7 @@ import (
 type Order struct {
 	gorm.Model
 	CustomerId int
-	Status     string    `gorm:"column:status"`
-	CreatedAt  time.Time `gorm:"column:createdAt"`
-	UpdatedAt  time.Time `gorm:"column:updatedAt"`
+	Status     string
 	Customer   Customer  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Products   []Product `gorm:"many2many:order_products;"`
 }

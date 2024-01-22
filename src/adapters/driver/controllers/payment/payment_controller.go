@@ -1,10 +1,10 @@
 package controllers
 
 import (
+	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"net/http"
 
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driver/controllers/payment/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/usecases"
 	"gopkg.in/validator.v2"
 
@@ -12,9 +12,9 @@ import (
 )
 
 func PayOrder(c *gin.Context) {
-	var inputDto dtos.PayOrderDTO
+	var inputDto dtos.PayOrderDto
 
-	if err := c.BindQuery(&inputDto); err != nil {
+	if err := c.BindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -32,7 +32,7 @@ func PayOrder(c *gin.Context) {
 		OrderRepository: orderRepository,
 	}
 
-	order, err := usecase.Execute(inputDto.OrderId)
+	order, err := usecase.Execute(inputDto)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -43,6 +43,6 @@ func PayOrder(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":    order.Status,
-		"createdAt": order.UpdatedAt,
+		"updatedAt": order.UpdatedAt,
 	})
 }

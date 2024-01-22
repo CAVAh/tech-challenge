@@ -1,5 +1,5 @@
 package dtos
 
-type PayOrderDTO struct {
+type PayOrderDto struct {
 	OrderId int64 `json:"orderId"`
 }
