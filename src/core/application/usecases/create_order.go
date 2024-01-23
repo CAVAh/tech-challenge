@@ -29,7 +29,7 @@ func (r *CreateOrderUsecase) CustomerExists(id int) bool {
 func (r *CreateOrderUsecase) AllProductsExists(ids []int) bool {
 	filteredIds := RemoveDuplicates(ids)
 
-	products, err := r.ProductRepository.FindById(filteredIds)
+	products, err := r.ProductRepository.FindByIds(filteredIds)
 
 	if err != nil || len(products) != len(filteredIds) {
 		return false

@@ -15,7 +15,7 @@ func (r *CreateProductUsecase) Execute(inputDto dtos.CreateProductDto) (*entitie
 		Name:        inputDto.Name,
 		Price:       inputDto.Price,
 		Description: inputDto.Description,
-		CategoryId:  inputDto.CategoryId,
+		CategoryID:  inputDto.CategoryId,
 	}
 
 	return r.ProductRepository.Create(&product)
