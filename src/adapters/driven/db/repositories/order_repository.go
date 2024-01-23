@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
-	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
 
@@ -12,7 +11,6 @@ type OrderRepository struct {
 }
 
 func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]entities.Order, error) {
-
 	var orderModel []models.Order
 
 	if len(sortBy) == 0 {
@@ -55,25 +53,43 @@ func (r OrderRepository) Update(order *entities.Order) {
 	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status})
 }
 
-func (r OrderRepository) Create(dto dtos.CreateOrderDto) (*entities.Order, error) {
-	var order models.Order
+func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) {
+	var model models.Order
 
-	gorm.DB.Find(&order.Customer, dto.CustomerId)
-	gorm.DB.Find(&order.Products, dto.GetProductIds())
+	customerExists := gorm.DB.First(&model.Customer, order.Customer.ID)
 
-	if err := gorm.DB.Create(&order).Error; err != nil {
+	if customerExists.Error != nil {
+		return nil, errors.New("o cliente informado não existe!")
+	}
+
+	productIDs := order.GetProductIds()
+	productsExists := gorm.DB.Find(&model.Products, productIDs)
+
+	if productsExists.Error != nil {
+		return nil, errors.New("ocorreu um erro ao encontrar os produtos!")
+	}
+
+	if productsExists.RowsAffected != int64(len(productIDs)) {
+		return nil, errors.New("alguns dos produtos não foram encontrados!")
+	}
+
+	model.Status = order.Status
+
+	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 	}
 
-	for _, p := range order.Products {
+	for _, product := range order.Products {
+		updateData := models.OrderProduct{
+			Quantity:    product.Quantity,
+			Observation: product.Observation,
+		}
+
 		var op models.OrderProduct
-		var product = dto.GetProduct(p.ID)
-		gorm.DB.Where("order_id = ? and product_id = ?", order.ID, p.ID).Find(&op)
-		gorm.DB.Model(&op).
-			Update("Quantity", product.Quantity).
-			Update("Observation", product.Observation)
+		gorm.DB.Where("order_id = ? and product_id = ?", model.ID, product.ProductID).Find(&op)
+		gorm.DB.Model(&op).UpdateColumns(updateData)
 	}
 
-	result := order.ToDomain()
-	return &(result), nil
+	result := model.ToDomain()
+	return &result, nil
 }

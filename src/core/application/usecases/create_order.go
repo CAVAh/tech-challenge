@@ -13,7 +13,24 @@ type CreateOrderUsecase struct {
 }
 
 func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Order, error) {
-	return r.OrderRepository.Create(inputDto)
+	var products []entities.OrderProduct
+	for _, p := range inputDto.Products {
+		products = append(products, entities.OrderProduct{
+			ProductID:   p.Id,
+			Quantity:    p.Quantity,
+			Observation: p.Observation,
+		})
+	}
+
+	order := entities.Order{
+		Status: "waiting_pagament",
+		Customer: entities.Customer{
+			ID: inputDto.CustomerId,
+		},
+		Products: products,
+	}
+
+	return r.OrderRepository.Create(&order)
 }
 
 func (r *CreateOrderUsecase) CustomerExists(id uint) bool {

@@ -15,11 +15,11 @@ func (r *PayOrderUsecase) Execute(inputDto dtos.PayOrderDto) (*entities.Order, e
 	orderToPay := r.OrderRepository.FindyId(inputDto.OrderId)
 
 	if orderToPay.ID == 0 {
-		return nil, errors.New("Pedido não existe.")
+		return nil, errors.New("pedido não existe")
 	}
 
 	if orderToPay.Status != "waiting_payment" {
-		return orderToPay, errors.New("Pedido já pago")
+		return orderToPay, errors.New("pedido já está pago")
 	}
 
 	orderToPay.Status = "received"

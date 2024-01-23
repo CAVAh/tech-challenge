@@ -53,6 +53,7 @@ func (r ProductRepository) FindByIds(ids []uint) ([]entities.Product, error) {
 	for _, product := range products {
 		response = append(response, product.ToDomain())
 	}
+
 	return response, nil
 }
 
@@ -102,7 +103,6 @@ func (p ProductRepository) DeleteById(id uint) error {
 	}
 
 	return nil
-
 }
 
 func (p ProductRepository) Edit(entity *entities.Product) (*entities.Product, error) {
@@ -115,7 +115,7 @@ func (p ProductRepository) Edit(entity *entities.Product) (*entities.Product, er
 	err := checkError(gorm.DB.Model(&product).Clauses(clause.Returning{}).UpdateColumns(&product))
 
 	if err != nil {
-		return &entities.Product{}, err
+		return nil, err
 	}
 
 	result := product.ToDomain()
@@ -128,5 +128,6 @@ func checkError(db *gorm2.DB) error {
 		message := "Houve um erro para realizar a persistência dos dados " + err.Error()
 		return errors.New(message)
 	}
+
 	return nil
 }

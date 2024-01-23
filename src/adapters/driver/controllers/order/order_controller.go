@@ -64,16 +64,6 @@ func CreateOrder(c *gin.Context) {
 		ProductRepository:  productRepository,
 	}
 
-	if !usecase.CustomerExists(inputDto.CustomerId) {
-		c.JSON(http.StatusBadRequest, "Usuário não existe, não foi possível criar pedido")
-		return
-	}
-
-	if !usecase.AllProductsExists(inputDto.GetProductIds()) {
-		c.JSON(http.StatusBadRequest, "Algum dos produtos não existe, não foi possível criar pedido")
-		return
-	}
-
 	result, err := usecase.Execute(inputDto)
 
 	if err != nil {
@@ -82,5 +72,6 @@ func CreateOrder(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusCreated, result)
 }

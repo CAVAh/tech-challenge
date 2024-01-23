@@ -96,37 +96,3 @@ func FindById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, customer)
 }
-
-// DeleteCustomer TODO: Remover
-func DeleteCustomer(c *gin.Context) {
-	var customer models.Customer
-	id := c.Params.ByName("id")
-	gorm.DB.Delete(&customer, id)
-	c.JSON(http.StatusOK, gin.H{
-		"data": "Cliente deletado com sucesso",
-	})
-}
-
-// UpdateCustomer TODO: Remover
-func UpdateCustomer(c *gin.Context) {
-	var customer models.Customer
-	id := c.Params.ByName("id")
-	gorm.DB.First(&customer, id)
-
-	if customer.ID == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"Not found": "Cliente não encontrado",
-		})
-
-		return
-	}
-
-	if err := c.ShouldBindJSON(&customer); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error()})
-		return
-	}
-
-	gorm.DB.Model(&customer).UpdateColumns(customer)
-	c.JSON(http.StatusOK, customer)
-}
