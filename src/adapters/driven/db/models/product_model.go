@@ -11,6 +11,7 @@ type Product struct {
 	Price       float64
 	Description string
 	CategoryID  uint
+	Category          ProductCategory `gorm:"foreignKey:ProductCategoryID;references:ID"`
 }
 
 func (c Product) ToDomain() entities.Product {
@@ -22,4 +23,11 @@ func (c Product) ToDomain() entities.Product {
 		CategoryId:  c.CategoryID,
 		CreatedAt:   c.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
+}
+
+func (p *Product) PatchFields(name string, price float64, description string, categoryId int) {
+	p.Name = name
+	p.Price = price
+	p.Description = description
+	p.ProductCategoryID = categoryId
 }

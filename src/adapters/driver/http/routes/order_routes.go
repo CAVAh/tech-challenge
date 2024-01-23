@@ -8,6 +8,7 @@ import (
 func SetupOrderRoutes(router *gin.Engine) {
 	orderRoutes := router.Group("/orders")
 	{
+		orderRoutes.POST("", orderController.CreateOrder)
 		orderRoutes.GET("", orderController.ListOrder)
 	}
 }
