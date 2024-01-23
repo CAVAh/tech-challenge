@@ -8,15 +8,16 @@ import (
 type Order struct {
 	gorm.Model
 	CustomerID uint
-	Status     string
 	Customer   Customer  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Products   []Product `gorm:"many2many:order_products;"`
+	Status     string
 }
 
 func (o Order) ToDomain() entities.Order {
-	var products []entities.Product
+	var products []entities.ProductInsideOrder
+	//TODO: tem que pegar quantity e observation
 	for _, p := range o.Products {
-		products = append(products, p.ToDomain())
+		products = append(products, entities.ProductInsideOrder{Product: p.ToDomain()})
 	}
 
 	return entities.Order{

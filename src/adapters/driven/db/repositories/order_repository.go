@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
-	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
 
@@ -55,25 +54,26 @@ func (r OrderRepository) Update(order *entities.Order) {
 	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status})
 }
 
-func (r OrderRepository) Create(dto dtos.CreateOrderDto) (*entities.Order, error) {
-	var order models.Order
+func (r OrderRepository) Create(order entities.Order) (*entities.Order, error) {
+	var model models.Order
 
-	gorm.DB.Find(&order.Customer, dto.CustomerId)
-	gorm.DB.Find(&order.Products, dto.GetProductIds())
+	gorm.DB.Find(&model.Customer, order.Customer.ID)
+	gorm.DB.Find(&model.Products, order.GetProductIds())
 
-	if err := gorm.DB.Create(&order).Error; err != nil {
+	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 	}
 
-	for _, p := range order.Products {
+	for _, p := range model.Products {
 		var op models.OrderProduct
-		var product = dto.GetProduct(p.ID)
-		gorm.DB.Where("order_id = ? and product_id = ?", order.ID, p.ID).Find(&op)
+		var product = order.GetProductInsideOrderById(p.ID)
+
+		gorm.DB.Where("order_id = ? and product_id = ?", model.ID, p.ID).Find(&op)
 		gorm.DB.Model(&op).
 			Update("Quantity", product.Quantity).
 			Update("Observation", product.Observation)
 	}
 
-	result := order.ToDomain()
+	result := model.ToDomain()
 	return &(result), nil
 }

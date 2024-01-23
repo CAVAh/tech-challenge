@@ -18,12 +18,3 @@ func (dto *CreateOrderDto) GetProductIds() []uint {
 	}
 	return productIds
 }
-
-func (dto *CreateOrderDto) GetProduct(id uint) ProductInsideOrder {
-	for _, p := range dto.Products {
-		if id == p.Id {
-			return p
-		}
-	}
-	return ProductInsideOrder{Quantity: 1}
-}
