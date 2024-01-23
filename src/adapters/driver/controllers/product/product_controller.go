@@ -51,7 +51,6 @@ func Create(c *gin.Context) {
 	productCategoryRepository := repositories.ProductCategoryRepository{}
 
 	usecase := usecasesProduct.BuildCreateProductUsecase(productRepository, productCategoryRepository)
-
 	result, err := usecase.Execute(inputDto)
 
 	if err != nil {

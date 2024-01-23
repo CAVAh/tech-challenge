@@ -10,6 +10,7 @@ func HandleRequests() {
 
 	SetupCustomerRoutes(router)
 	SetupProductRoutes(router)
+	SetupOrderRoutes(router)
 
 	err := router.Run()
 
