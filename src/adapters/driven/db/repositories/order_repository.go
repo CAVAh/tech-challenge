@@ -2,8 +2,6 @@ package repositories
 
 import (
 	"errors"
-	"strings"
-
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
@@ -69,7 +67,7 @@ func (r OrderRepository) Create(dto dtos.CreateOrderDto) (*entities.Order, error
 
 	for _, p := range order.Products {
 		var op models.OrderProduct
-		var product = dto.GetProduct(int(p.ID))
+		var product = dto.GetProduct(p.ID)
 		gorm.DB.Where("order_id = ? and product_id = ?", order.ID, p.ID).Find(&op)
 		gorm.DB.Model(&op).
 			Update("Quantity", product.Quantity).

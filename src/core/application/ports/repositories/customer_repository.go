@@ -7,5 +7,5 @@ import (
 type CustomerRepository interface {
 	Create(customer *entities.Customer) (*entities.Customer, error)
 	List(customer *entities.Customer) ([]entities.Customer, error)
-	FindFirstById(id int) (*entities.Customer, error)
+	FindFirstById(id uint) (*entities.Customer, error)
 }

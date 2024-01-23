@@ -12,6 +12,6 @@ func BuildDeleteProductUsecase(repository repositories.ProductRepository) *Delet
 	return &DeleteProductUsecase{repository: repository}
 }
 
-func (p *DeleteProductUsecase) Execute(id int) error {
+func (p *DeleteProductUsecase) Execute(id uint) error {
 	return p.repository.DeleteById(id)
 }

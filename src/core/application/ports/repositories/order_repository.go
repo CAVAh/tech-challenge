@@ -10,5 +10,4 @@ type OrderRepository interface {
 	FindyId(orderId uint) *entities.Order
 	Update(*entities.Order)
 	Create(order dtos.CreateOrderDto) (*entities.Order, error)
-	List() ([]entities.Order, error)
 }

@@ -6,5 +6,5 @@ type CreateProductDto struct {
 	Name        string  `json:"name" validate:"nonzero"`
 	Price       float64 `json:"price" validate:"nonzero"`
 	Description string  `json:"description" validate:"nonzero"`
-	CategoryId  int     `json:"category_id" validate:"nonzero"`
+	CategoryId  uint    `json:"category_id" validate:"nonzero"`
 }

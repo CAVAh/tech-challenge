@@ -17,7 +17,7 @@ func List(ctx *gin.Context) {
 
 	productRepository := repositories.ProductRepository{}
 
-	result, err := usecasesProduct.BuildListProductUsecase(productRepository).Execute(categoryId)
+	result, err := usecasesProduct.BuildListProductUsecase(productRepository).Execute(uint(categoryId))
 
 	if err != nil {
 		log.Println("there was an error to retrieve products", err)
@@ -77,7 +77,7 @@ func Read(ctx *gin.Context) {
 
 	useCase := usecasesProduct.BuildReadProductUsecase(repositories.ProductRepository{})
 
-	product, err := useCase.Execute(id)
+	product, err := useCase.Execute(uint(id))
 
 	if !product.IsExistingProduct() {
 		ctx.JSON(http.StatusNotFound, gin.H{})
@@ -106,7 +106,7 @@ func Update(ctx *gin.Context) {
 
 	useCase := usecasesProduct.BuildEditProductUsecase(repositories.ProductRepository{})
 
-	inputDto.ID = id
+	inputDto.ID = uint(id)
 
 	product, err := useCase.Execute(inputDto)
 
@@ -129,7 +129,7 @@ func Delete(ctx *gin.Context) {
 
 	useCase := usecasesProduct.BuildDeleteProductUsecase(repositories.ProductRepository{})
 
-	err := useCase.Execute(id)
+	err := useCase.Execute(uint(id))
 
 	if err != nil {
 		log.Println("there was an error to retrieve a product", err)

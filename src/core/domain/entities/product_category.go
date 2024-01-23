@@ -1,7 +1,7 @@
 package entities
 
 type ProductCategory struct {
-	ID          int    `json:"id"`
+	ID          uint   `json:"id"`
 	Description string `json:"description"`
 }
 

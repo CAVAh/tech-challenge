@@ -13,7 +13,7 @@ func BuildListProductUsecase(repository repositories.ProductRepository) *ListPro
 	return &ListProductUsecase{repository: repository}
 }
 
-func (p ListProductUsecase) Execute(categoryId int) ([]entities.Product, error) {
+func (p ListProductUsecase) Execute(categoryId uint) ([]entities.Product, error) {
 
 	if categoryId == 0 {
 		return p.repository.FindAll()

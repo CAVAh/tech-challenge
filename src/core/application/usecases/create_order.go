@@ -16,7 +16,7 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 	return r.OrderRepository.Create(inputDto)
 }
 
-func (r *CreateOrderUsecase) CustomerExists(id int) bool {
+func (r *CreateOrderUsecase) CustomerExists(id uint) bool {
 	customer, err := r.CustomerRepository.FindFirstById(id)
 
 	if err != nil || customer == nil {
@@ -26,7 +26,7 @@ func (r *CreateOrderUsecase) CustomerExists(id int) bool {
 	}
 }
 
-func (r *CreateOrderUsecase) AllProductsExists(ids []int) bool {
+func (r *CreateOrderUsecase) AllProductsExists(ids []uint) bool {
 	filteredIds := RemoveDuplicates(ids)
 
 	products, err := r.ProductRepository.FindByIds(filteredIds)
@@ -38,9 +38,9 @@ func (r *CreateOrderUsecase) AllProductsExists(ids []int) bool {
 	}
 }
 
-func RemoveDuplicates(ids []int) []int { // TODO: move to utils
-	bucket := make(map[int]bool)
-	var result []int
+func RemoveDuplicates(ids []uint) []uint { // TODO: move to utils
+	bucket := make(map[uint]bool)
+	var result []uint
 	for _, id := range ids {
 		if _, ok := bucket[id]; !ok {
 			bucket[id] = true
