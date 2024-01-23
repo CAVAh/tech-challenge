@@ -27,7 +27,7 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 		Products: products,
 	}
 
-	return r.OrderRepository.Create(aa)
+	return r.OrderRepository.Create(&aa)
 }
 
 func (r *CreateOrderUsecase) CustomerExists(id uint) bool {
