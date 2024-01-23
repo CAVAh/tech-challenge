@@ -11,7 +11,7 @@ type Product struct {
 	Price       float64
 	Description string
 	CategoryID  uint
-	Category    ProductCategory `gorm:"foreignKey:ProductCategoryID;references:ID"`
+	Category    ProductCategory `gorm:"foreignKey:CategoryID;references:ID"`
 }
 
 func (c Product) ToDomain() entities.Product {
