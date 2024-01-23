@@ -10,12 +10,3 @@ type ProductInsideOrder struct {
 	Quantity    int    `json:"quantity" validate:"nonzero"`
 	Observation string `json:"observation"`
 }
-
-func (dto *CreateOrderDto) GetProductIds() []uint {
-	var productIds []uint
-	for _, p := range dto.Products {
-		productIds = append(productIds, p.Id)
-	}
-	return productIds
-}
-
