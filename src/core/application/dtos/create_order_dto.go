@@ -1,7 +1,7 @@
 package dtos
 
 type CreateOrderDto struct {
-	CustomerId uint                 `json:"customer_id" validate:"nonzero"`
+	CustomerId uint                 `json:"customerId" validate:"nonzero"`
 	Products   []ProductInsideOrder `json:"products" validate:"nonzero"`
 }
 
@@ -18,3 +18,4 @@ func (dto *CreateOrderDto) GetProductIds() []uint {
 	}
 	return productIds
 }
+

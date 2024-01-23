@@ -11,7 +11,6 @@ type OrderRepository struct {
 }
 
 func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]entities.Order, error) {
-
 	var orderModel []models.Order
 
 	if len(sortBy) == 0 {
@@ -54,11 +53,27 @@ func (r OrderRepository) Update(order *entities.Order) {
 	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status})
 }
 
-func (r OrderRepository) Create(order entities.Order) (*entities.Order, error) {
+func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) {
 	var model models.Order
 
-	gorm.DB.Find(&model.Customer, order.Customer.ID)
-	gorm.DB.Find(&model.Products, order.GetProductIds())
+	customerExists := gorm.DB.First(&model.Customer, order.Customer.ID)
+
+	if customerExists.Error != nil {
+		return nil, errors.New("o cliente informado não existe!")
+	}
+
+	productIDs := order.GetProductIds()
+	productsExists := gorm.DB.Find(&model.Products, productIDs)
+
+	if productsExists.Error != nil {
+		return nil, errors.New("ocorreu um erro ao encontrar os produtos!")
+	}
+
+	if productsExists.RowsAffected != int64(len(productIDs)) {
+		return nil, errors.New("alguns dos produtos não foram encontrados!")
+	}
+
+	model.Status = order.Status
 
 	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")

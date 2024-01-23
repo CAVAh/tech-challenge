@@ -25,6 +25,6 @@ func (o Order) ToDomain() entities.Order {
 		CreatedAt: o.CreatedAt.Format("2006-01-02 15:04:05"),
 		Customer:  o.Customer.ToDomain(),
 		Status:    o.Status,
-		Products:  products,
+		//Products:  products,
 	}
 }
