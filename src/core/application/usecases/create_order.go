@@ -23,7 +23,7 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 	}
 
 	order := entities.Order{
-		Status: "waiting_pagament",
+		Status: "waiting_payment",
 		Customer: entities.Customer{
 			ID: inputDto.CustomerId,
 		},
