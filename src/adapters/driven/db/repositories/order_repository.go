@@ -79,17 +79,16 @@ func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) 
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 	}
 
-	for _, product := range order.Products {
-		updateData := models.OrderProduct{
-			Quantity:    product.Quantity,
-			Observation: product.Observation,
-		}
-
+	for _, p := range model.Products {
 		var op models.OrderProduct
-		gorm.DB.Where("order_id = ? and product_id = ?", model.ID, product.ProductID).Find(&op)
-		gorm.DB.Model(&op).UpdateColumns(updateData)
+		var product = order.GetProductInsideOrderById(p.ID)
+
+		gorm.DB.Where("order_id = ? and product_id = ?", model.ID, p.ID).Find(&op)
+		gorm.DB.Model(&op).
+			Update("Quantity", product.Quantity).
+			Update("Observation", product.Observation)
 	}
 
 	result := model.ToDomain()
-	return &result, nil
+	return &(result), nil
 }
