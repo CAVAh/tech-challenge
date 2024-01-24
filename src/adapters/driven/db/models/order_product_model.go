@@ -1,14 +1,17 @@
 package models
 
-import "github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+import (
+	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+	"gorm.io/gorm"
+)
 
 type OrderProduct struct {
-	OrderID     uint `gorm:"primaryKey"`
-	ProductID   uint `gorm:"primaryKey"`
-	Order       Order
-	Product     Product
+	gorm.Model
+	OrderID     uint
+	ProductID   uint
 	Quantity    int
 	Observation string
+	Product     Product
 }
 
 func (c OrderProduct) ToDomain() entities.OrderProduct {

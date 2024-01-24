@@ -63,30 +63,31 @@ func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) 
 	}
 
 	productIDs := order.GetProductIds()
-	productsExists := gorm.DB.Find(&model.Products, productIDs)
+
+	var productModel models.Product
+	productsExists := gorm.DB.Find(&productModel, productIDs)
+
+	//TODO: criar na mão order.Products
+	var productsOrderModel []models.OrderProduct
+
+	for _, p := range order.Products {
+		productsOrderModel = append(productsOrderModel, models.OrderProduct{ProductID: p.Product.ID, Quantity: p.Quantity, Observation: p.Observation})
+	}
+
+	model.Products = productsOrderModel
 
 	if productsExists.Error != nil {
 		return nil, errors.New("ocorreu um erro ao encontrar os produtos!")
 	}
 
-	if productsExists.RowsAffected != int64(len(productIDs)) {
-		return nil, errors.New("alguns dos produtos não foram encontrados!")
-	}
+	//if productsExists.RowsAffected != int64(len(productIDs)) {
+	//	return nil, errors.New("alguns dos produtos não foram encontrados!")
+	//}
 
 	model.Status = order.Status
 
 	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
-	}
-
-	for _, p := range model.Products {
-		var op models.OrderProduct
-		var product = order.GetProductInsideOrderById(p.ID)
-
-		gorm.DB.Where("order_id = ? and product_id = ?", model.ID, p.ID).Find(&op)
-		gorm.DB.Model(&op).
-			Update("Quantity", product.Quantity).
-			Update("Observation", product.Observation)
 	}
 
 	result := model.ToDomain()
