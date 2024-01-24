@@ -14,8 +14,8 @@ type Order struct {
 }
 
 func (o Order) ToDomain() entities.Order {
+	//TODO: REMOVER, USAR OrderModelToOrderEntity PQ PRECISA DE FETCH (E AQUI DA IMPORT CIRCULAR)
 	var products []entities.ProductInsideOrder
-	//TODO: tem que pegar quantity e observation
 	for _, p := range o.Products {
 		products = append(products, entities.ProductInsideOrder{Product: p.ToDomain()})
 	}

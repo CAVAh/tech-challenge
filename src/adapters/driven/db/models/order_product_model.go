@@ -3,8 +3,9 @@ package models
 import "github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 
 type OrderProduct struct {
-	OrderID     uint `gorm:"primaryKey"`
-	ProductID   uint `gorm:"primaryKey"`
+	ID          uint `gorm:"primaryKey"`
+	OrderID     uint
+	ProductID   uint
 	Order       Order
 	Product     Product
 	Quantity    int
