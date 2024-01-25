@@ -1,7 +1,6 @@
 package usecases
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -14,11 +13,7 @@ type CreateOrderUsecase struct {
 }
 
 func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Order, error) {
-	order := models.Order{
-		CustomerId: inputDto.CustomerId,
-	}
-
-	return r.OrderRepository.Create(&order, inputDto.ProductIds)
+	return r.OrderRepository.Create(inputDto)
 }
 
 func (r *CreateOrderUsecase) CustomerExists(id int) bool {
@@ -32,11 +27,26 @@ func (r *CreateOrderUsecase) CustomerExists(id int) bool {
 }
 
 func (r *CreateOrderUsecase) AllProductsExists(ids []int) bool {
-	products, err := r.ProductRepository.FindById(ids)
+	filteredIds := RemoveDuplicates(ids)
 
-	if err != nil || len(products) != len(ids) {
+	products, err := r.ProductRepository.FindByIds(filteredIds)
+
+	if err != nil || len(products) != len(filteredIds) {
 		return false
 	} else {
 		return true
 	}
+}
+
+func RemoveDuplicates(ids []int) []int { // TODO: move to utils
+	bucket := make(map[int]bool)
+	var result []int
+	for _, id := range ids {
+		if _, ok := bucket[id]; !ok {
+			bucket[id] = true
+			result = append(result, id)
+		}
+	}
+
+	return result
 }
