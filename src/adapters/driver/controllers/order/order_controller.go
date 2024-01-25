@@ -9,6 +9,34 @@ import (
 	"net/http"
 )
 
+func ListOrder(c *gin.Context) {
+	status := c.Query("status")
+	orderBy := c.Query("orderBy")
+	sortBy := c.Query("sortBy")
+
+	orderRepository := &repositories.OrderRepository{}
+
+	usecase := usecases.ListOrderUsecase{
+		OrderRepository: orderRepository,
+	}
+
+	orders, err := usecase.Execute(sortBy, orderBy, status)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if orders == nil {
+		c.JSON(http.StatusOK, []string{})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}
+
 func CreateOrder(c *gin.Context) {
 	var inputDto dtos.CreateOrderDto
 
@@ -36,16 +64,6 @@ func CreateOrder(c *gin.Context) {
 		ProductRepository:  productRepository,
 	}
 
-	if !usecase.CustomerExists(inputDto.CustomerId) {
-		c.JSON(http.StatusBadRequest, "Usuário não existe, não foi possível criar pedido")
-		return
-	}
-
-	if !usecase.AllProductsExists(inputDto.GetProductIds()) {
-		c.JSON(http.StatusBadRequest, "Algum dos produtos não existe, não foi possível criar pedido")
-		return
-	}
-
 	result, err := usecase.Execute(inputDto)
 
 	if err != nil {
@@ -56,19 +74,4 @@ func CreateOrder(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, result)
-}
-
-func ListOrder(c *gin.Context) {
-	orderRepository := &repositories.OrderRepository{}
-
-	orders, err := orderRepository.List()
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, orders)
 }

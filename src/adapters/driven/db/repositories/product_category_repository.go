@@ -18,7 +18,7 @@ func (r ProductCategoryRepository) FindAll() ([]entities.ProductCategory, error)
 		return []entities.ProductCategory{}, err
 	}
 
-	productEntities := []entities.ProductCategory{}
+	var productEntities []entities.ProductCategory
 
 	for _, category := range categories {
 		productEntities = append(productEntities, category.ToDomain())
@@ -27,7 +27,7 @@ func (r ProductCategoryRepository) FindAll() ([]entities.ProductCategory, error)
 	return productEntities, nil
 }
 
-func (r ProductCategoryRepository) FindById(id int) (*entities.ProductCategory, error) {
+func (r ProductCategoryRepository) FindById(id uint) (*entities.ProductCategory, error) {
 	var productCategory models.ProductCategory
 
 	err := checkError(gorm.DB.Find(&productCategory, id))

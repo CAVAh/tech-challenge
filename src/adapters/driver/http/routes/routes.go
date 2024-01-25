@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func HandleRequests() {
@@ -11,6 +12,7 @@ func HandleRequests() {
 	SetupCustomerRoutes(router)
 	SetupProductRoutes(router)
 	SetupOrderRoutes(router)
+	SetupPaymentRoutes(router)
 
 	err := router.Run()
 

@@ -12,7 +12,7 @@ type ProductCategory struct {
 
 func (pc ProductCategory) ToDomain() entities.ProductCategory {
 	return entities.ProductCategory{
-		ID:          int(pc.ID),
+		ID:          pc.ID,
 		Description: pc.Description,
 	}
 }

@@ -17,9 +17,9 @@ func BuildEditProductUsecase(repository repositories.ProductRepository) *EditPro
 func (p *EditProductUsecase) Execute(inputDto dtosProd.PersistProductDto) (*entities.Product, error) {
 	retrievedProduct, err := p.repository.FindById(inputDto.ID)
 
-	retrievedProduct.PatchFields(inputDto.Name, inputDto.Price, inputDto.Description, inputDto.CategoryID)
-
 	if err == nil && retrievedProduct.IsExistingProduct() {
+		retrievedProduct.PatchFields(inputDto.Name, inputDto.Price, inputDto.Description, inputDto.CategoryID)
+
 		return p.repository.Edit(retrievedProduct)
 	}
 

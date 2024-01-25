@@ -49,7 +49,7 @@ func (r CustomerRepository) List(entity *entities.Customer) ([]entities.Customer
 	return response, nil
 }
 
-func (r CustomerRepository) FindFirstById(id int) (*entities.Customer, error) {
+func (r CustomerRepository) FindFirstById(id uint) (*entities.Customer, error) {
 	var customers []models.Customer
 	gorm.DB.Where("id = ?", id).Find(&customers)
 
