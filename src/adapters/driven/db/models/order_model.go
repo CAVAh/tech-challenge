@@ -7,7 +7,7 @@ import (
 type Order struct {
 	gorm.Model
 	CustomerID uint
-	Customer   Customer `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Customer   Customer `gorm:"foreignKey:CustomerID;references:ID"`
 	Products   []OrderProduct
 	Status     string
 }
