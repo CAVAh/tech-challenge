@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -15,40 +16,48 @@ type CreateOrderUsecase struct {
 func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Order, error) {
 	var products []entities.ProductInsideOrder
 
+	var err = r.Verifications(inputDto)
+	if err != nil {
+		return nil, err
+	}
+
 	for _, p := range inputDto.Products {
 		var productEntity = entities.Product{ID: p.Id}
 		var productInsideOrder = entities.ProductInsideOrder{Quantity: p.Quantity, Observation: p.Observation, Product: productEntity}
 		products = append(products, productInsideOrder)
 	}
 
-	var aa = entities.Order{
+	var entity = entities.Order{
 		Status:   "waiting_payment",
 		Customer: entities.Customer{ID: inputDto.CustomerId},
 		Products: products,
 	}
 
-	return r.OrderRepository.Create(&aa)
+	return r.OrderRepository.Create(&entity)
 }
 
-func (r *CreateOrderUsecase) CustomerExists(id uint) bool {
+func (r *CreateOrderUsecase) CustomerExists(id uint) error {
 	customer, err := r.CustomerRepository.FindFirstById(id)
 
-	if err != nil || customer == nil {
-		return false
+	if customer == nil {
+		return errors.New("usuário não encontrado")
+	} else if err != nil {
+		return errors.New("algum erro desconhecido aconteceu ao procurar o usuário")
 	} else {
-		return true
+		return nil
 	}
 }
 
-func (r *CreateOrderUsecase) AllProductsExists(ids []uint) bool {
+func (r *CreateOrderUsecase) AllProductsExists(ids []uint) error {
 	filteredIds := RemoveDuplicates(ids)
-
 	products, err := r.ProductRepository.FindByIds(filteredIds)
 
-	if err != nil || len(products) != len(filteredIds) {
-		return false
+	if len(products) != len(filteredIds) {
+		return errors.New("algum dos produtos não foi encontrado")
+	} else if err != nil {
+		return errors.New("algum erro desconhecido aconteceu ao procurar os produtos")
 	} else {
-		return true
+		return nil
 	}
 }
 
@@ -63,4 +72,18 @@ func RemoveDuplicates(ids []uint) []uint { // TODO: move to utils
 	}
 
 	return result
+}
+
+func (r *CreateOrderUsecase) Verifications(inputDto dtos.CreateOrderDto) error {
+	var errCustomer = r.CustomerExists(inputDto.CustomerId)
+	if errCustomer != nil {
+		return errCustomer
+	}
+
+	var errProducts = r.AllProductsExists(inputDto.GetProductIds())
+	if errProducts != nil {
+		return errProducts
+	}
+
+	return nil
 }

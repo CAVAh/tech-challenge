@@ -16,12 +16,3 @@ func (o *Order) GetProductIds() []uint {
 	}
 	return productIds
 }
-
-func (o *Order) GetProductInsideOrderById(id uint) ProductInsideOrder {
-	for _, p := range o.Products {
-		if id == p.Product.ID {
-			return p
-		}
-	}
-	return ProductInsideOrder{Quantity: 1}
-}

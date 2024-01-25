@@ -23,3 +23,5 @@ go.work
 
 # project setup
 postgres-data
+
+.idea/swagger-settings.xml

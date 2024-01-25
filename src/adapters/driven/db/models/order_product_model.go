@@ -1,20 +1,14 @@
 package models
 
-import "github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+import (
+	"gorm.io/gorm"
+)
 
 type OrderProduct struct {
-	OrderID     uint `gorm:"primaryKey"`
-	ProductID   uint `gorm:"primaryKey"`
-	Order       Order
-	Product     Product
+	gorm.Model
+	OrderID     uint // gorm know it is mapped to entity even without annotation
+	ProductID   uint
 	Quantity    int
 	Observation string
-}
-
-func (c OrderProduct) ToDomain() entities.OrderProduct {
-	return entities.OrderProduct{
-		ProductID:   c.ProductID,
-		Quantity:    c.Quantity,
-		Observation: c.Observation,
-	}
+	Product     Product `gorm:"foreignKey:ProductID;references:ID"`
 }

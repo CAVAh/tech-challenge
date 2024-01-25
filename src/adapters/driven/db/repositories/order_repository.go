@@ -30,7 +30,7 @@ func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]e
 	var order []entities.Order
 
 	for _, orderModel := range orderModel {
-		order = append(order, orderModel.ToDomain())
+		order = append(order, OrderModelToOrderEntity(&orderModel))
 	}
 
 	return order, nil
@@ -40,7 +40,7 @@ func (r OrderRepository) FindyId(orderId uint) *entities.Order {
 	var orderModel models.Order
 	gorm.DB.First(&orderModel, orderId)
 
-	result := orderModel.ToDomain()
+	result := OrderModelToOrderEntity(&orderModel)
 
 	return &result
 }
@@ -56,39 +56,49 @@ func (r OrderRepository) Update(order *entities.Order) {
 func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) {
 	var model models.Order
 
-	customerExists := gorm.DB.First(&model.Customer, order.Customer.ID)
+	gorm.DB.First(&model.Customer, order.Customer.ID)
+	gorm.DB.Find(&model.Products, order.GetProductIds())
 
-	if customerExists.Error != nil {
-		return nil, errors.New("o cliente informado não existe!")
+	var productsOrderModel []models.OrderProduct
+	for _, p := range order.Products {
+		productsOrderModel = append(productsOrderModel, models.OrderProduct{
+			ProductID:   p.Product.ID,
+			Quantity:    p.Quantity,
+			Observation: p.Observation,
+		})
 	}
 
-	productIDs := order.GetProductIds()
-	productsExists := gorm.DB.Find(&model.Products, productIDs)
-
-	if productsExists.Error != nil {
-		return nil, errors.New("ocorreu um erro ao encontrar os produtos!")
-	}
-
-	if productsExists.RowsAffected != int64(len(productIDs)) {
-		return nil, errors.New("alguns dos produtos não foram encontrados!")
-	}
-
+	model.Products = productsOrderModel
 	model.Status = order.Status
 
 	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
 	}
 
-	for _, p := range model.Products {
-		var op models.OrderProduct
-		var product = order.GetProductInsideOrderById(p.ID)
+	result := OrderModelToOrderEntity(&model)
+	return &result, nil
+}
 
-		gorm.DB.Where("order_id = ? and product_id = ?", model.ID, p.ID).Find(&op)
-		gorm.DB.Model(&op).
-			Update("Quantity", product.Quantity).
-			Update("Observation", product.Observation)
+func OrderModelToOrderEntity(order *models.Order) entities.Order {
+	gorm.DB.Preload("Products").Preload("Customer").Where("id = ?", order.ID).Find(&order)
+
+	var orderProducts []models.OrderProduct
+	gorm.DB.Preload("Product").Where("order_id = ?", order.ID).Find(&orderProducts)
+
+	var products []entities.ProductInsideOrder
+	for _, p := range orderProducts {
+		products = append(products, entities.ProductInsideOrder{
+			Product:     p.Product.ToDomain(),
+			Quantity:    p.Quantity,
+			Observation: p.Observation,
+		})
 	}
 
-	result := model.ToDomain()
-	return &(result), nil
+	return entities.Order{
+		ID:        order.ID,
+		CreatedAt: order.CreatedAt.Format("2006-01-02 15:04:05"),
+		Customer:  order.Customer.ToDomain(),
+		Status:    order.Status,
+		Products:  products,
+	}
 }
