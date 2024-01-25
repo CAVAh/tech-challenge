@@ -39,10 +39,12 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 func (r *CreateOrderUsecase) CustomerExists(id uint) error {
 	customer, err := r.CustomerRepository.FindFirstById(id)
 
-	if err != nil || customer == nil {
-		return errors.New("erro ao encontrar o usuário")
+	if customer == nil {
+		return errors.New("usuário não encontrado")
+	} else if err != nil {
+		return errors.New("algum erro desconhecido aconteceu ao procurar o usuário")
 	} else {
-		return err
+		return nil
 	}
 }
 
@@ -51,9 +53,11 @@ func (r *CreateOrderUsecase) AllProductsExists(ids []uint) error {
 	products, err := r.ProductRepository.FindByIds(filteredIds)
 
 	if len(products) != len(filteredIds) {
-		return errors.New("erro ao encontrar o produto")
+		return errors.New("algum dos produtos não foi encontrado")
+	} else if err != nil {
+		return errors.New("algum erro desconhecido aconteceu ao procurar os produtos")
 	} else {
-		return err
+		return nil
 	}
 }
 
@@ -71,12 +75,14 @@ func RemoveDuplicates(ids []uint) []uint { // TODO: move to utils
 }
 
 func (r *CreateOrderUsecase) Verifications(inputDto dtos.CreateOrderDto) error {
-	if r.CustomerExists(inputDto.CustomerId) != nil {
-		return errors.New("o cliente informado não existe!")
+	var errCustomer = r.CustomerExists(inputDto.CustomerId)
+	if errCustomer != nil {
+		return errCustomer
 	}
 
-	if r.AllProductsExists(inputDto.GetProductIds()) != nil {
-		return errors.New("algum dos produtos não foram encontrados!")
+	var errProducts = r.AllProductsExists(inputDto.GetProductIds())
+	if errProducts != nil {
+		return errProducts
 	}
 
 	return nil
