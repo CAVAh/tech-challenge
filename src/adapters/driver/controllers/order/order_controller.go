@@ -1,14 +1,12 @@
 package controllers
 
 import (
-	"net/http"
-
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/usecases"
-
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
+	"net/http"
 )
 
 func CreateOrder(c *gin.Context) {
@@ -43,7 +41,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	if !usecase.AllProductsExists(inputDto.ProductIds) {
+	if !usecase.AllProductsExists(inputDto.GetProductIds()) {
 		c.JSON(http.StatusBadRequest, "Algum dos produtos não existe, não foi possível criar pedido")
 		return
 	}
@@ -57,7 +55,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusCreated, result)
 }
 
 func ListOrder(c *gin.Context) {

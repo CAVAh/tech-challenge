@@ -1,11 +1,11 @@
 package repositories
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
+	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
 
 type OrderRepository interface {
-	Create(order *models.Order, productIds []int) (*entities.Order, error)
+	Create(order dtos.CreateOrderDto) (*entities.Order, error)
 	List() ([]entities.Order, error)
 }
