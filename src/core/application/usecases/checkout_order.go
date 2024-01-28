@@ -14,7 +14,7 @@ type CheckoutOrderUsecase struct {
 }
 
 func (r *CheckoutOrderUsecase) Execute(inputDto dtos.PayOrderDto) (*entities.Order, error) {
-	orderToPay := r.OrderRepository.FindyId(inputDto.OrderId)
+	orderToPay := r.OrderRepository.FindById(inputDto.OrderId)
 
 	if orderToPay.ID == 0 {
 		return nil, errors.New("pedido não existe")

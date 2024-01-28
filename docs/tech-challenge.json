@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "tech-challenge",
     "version": "1.0",
+    "title": "tech-challenge",
     "description": "API do Tech Challenge",
     "contact": {
       "name": "Lucas Cavagnolli"
@@ -15,20 +15,22 @@
   ],
   "paths": {
     "/customers/{customerId}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "customerId",
-          "in": "path",
-          "required": true
-        }
-      ],
       "get": {
-        "summary": "Obter informações do cliente por ID",
         "tags": [
           "Cliente"
+        ],
+        "summary": "Obter informações do cliente por ID",
+        "description": "Recupera as informações do cliente com o ID do cliente correspondente.",
+        "operationId": "get-customer",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -62,12 +64,59 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "operationId": "get-customer",
-        "description": "Recupera as informações do cliente com o ID do cliente correspondente."
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
+        ]
       },
       "patch": {
+        "tags": [
+          "Cliente"
+        ],
         "summary": "Atualiza Informação do Cliente",
+        "description": "Atualize as informações de um cliente existente.",
         "operationId": "update-customer",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Atualiza as propriedades do cliente.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Atualiza Nome": {
+                  "value": {
+                    "name": "Rebecca Baker"
+                  }
+                },
+                "Atualiza Email": {
+                  "value": {
+                    "email": "rebecca@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Customer Updated",
@@ -100,8 +149,23 @@
             "description": "Email Already Taken"
           }
         },
-        "description": "Atualize as informações de um cliente existente.",
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
+        ]
+      }
+    },
+    "/customers": {
+      "post": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Cria Novo Cliente",
+        "description": "Endpoint responsável que cria um novo cliente.",
+        "operationId": "create-customer",
         "requestBody": {
+          "description": "Post the necessary fields for the API to create a new customer.",
           "content": {
             "application/json": {
               "schema": {
@@ -110,36 +174,31 @@
                   "name": {
                     "type": "string"
                   },
+                  "cpf": {
+                    "type": "string"
+                  },
                   "email": {
                     "type": "string"
                   }
-                }
+                },
+                "required": [
+                  "name",
+                  "cpf",
+                  "email"
+                ]
               },
               "examples": {
-                "Atualiza Nome": {
+                "Criar um cliente": {
                   "value": {
-                    "name": "Rebecca Baker"
-                  }
-                },
-                "Atualiza Email": {
-                  "value": {
-                    "email": "rebecca@gmail.com"
+                    "name": "Bob Fellow",
+                    "cpf": "12345678910",
+                    "email": "bob.fellow@gmail.com"
                   }
                 }
               }
             }
-          },
-          "description": "Atualiza as propriedades do cliente."
+          }
         },
-        "tags": [
-          "Cliente"
-        ]
-      }
-    },
-    "/customers": {
-      "post": {
-        "summary": "Cria Novo Cliente",
-        "operationId": "create-customer",
         "responses": {
           "201": {
             "description": "Cliente Criado",
@@ -172,50 +231,29 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "cpf": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name",
-                  "cpf",
-                  "email"
-                ]
-              },
-              "examples": {
-                "Criar um cliente": {
-                  "value": {
-                    "name": "Bob Fellow",
-                    "cpf": "12345678910",
-                    "email": "bob.fellow@gmail.com"
-                  }
-                }
-              }
-            }
-          },
-          "description": "Post the necessary fields for the API to create a new customer."
-        },
-        "description": "Endpoint responsável que cria um novo cliente.",
-        "tags": [
-          "Cliente"
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
         ]
       },
-      "parameters": [],
       "get": {
+        "tags": [
+          "Cliente"
+        ],
         "summary": "Listagem de Clientes",
+        "description": "Endpoint responsável que realiza a listagem de clientes.",
         "operationId": "list-customers",
+        "parameters": [
+          {
+            "name": "cpf",
+            "in": "query",
+            "description": "Filtro por CPF",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -259,57 +297,21 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "tags": [
-          "Cliente"
-        ],
-        "description": "Endpoint responsável que realiza a listagem de clientes.",
-        "parameters": [
+        "servers": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "cpf",
-            "description": "Filtro por CPF"
+            "url": "http://localhost:8080"
           }
         ]
       }
     },
     "/products": {
       "post": {
+        "tags": [
+          "Produto"
+        ],
         "summary": "Cria Produto",
-        "operationId": "create-product",
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Product"
-                },
-                "examples": {
-                  "Criação de Produto": {
-                    "value": {
-                      "id": 123,
-                      "name": "Água",
-                      "price": 2.5,
-                      "description": "Água Mineral 500ml",
-                      "categoryId": 1,
-                      "createdAt": "2023-12-12 19:17:00"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400-BadRequest"
-          },
-          "500": {
-            "$ref": "#/components/responses/500-ServerError"
-          }
-        },
         "description": "Endpoint responsável que cria um novo produto.",
+        "operationId": "create-product",
         "requestBody": {
           "content": {
             "application/json": {
@@ -343,13 +345,59 @@
             }
           }
         },
-        "tags": [
-          "Produto"
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "examples": {
+                  "Criação de Produto": {
+                    "value": {
+                      "id": 123,
+                      "name": "Água",
+                      "price": 2.5,
+                      "description": "Água Mineral 500ml",
+                      "categoryId": 1,
+                      "createdAt": "2023-12-12 19:17:00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
         ]
       },
       "get": {
+        "tags": [
+          "Produto"
+        ],
         "summary": "Listagem Produtos",
+        "description": "Endpoint responsável por listar produtos",
         "operationId": "list-products",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "ID da Categoria",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -391,37 +439,32 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Endpoint responsável por listar produtos",
-        "parameters": [
+        "servers": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "categoryId",
-            "description": "ID da Categoria"
+            "url": "http://localhost:8080"
           }
-        ],
-        "tags": [
-          "Produto"
         ]
       }
     },
     "/products/{productId}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "productId",
-          "in": "path",
-          "required": true,
-          "description": "ID do Produto"
-        }
-      ],
       "get": {
+        "tags": [
+          "Produto"
+        ],
         "summary": "Recupera Produto",
+        "description": "Endpoint recuperar um produto.",
         "operationId": "read-product",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID do Produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -452,14 +495,30 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Endpoint recuperar um produto.",
-        "tags": [
-          "Produto"
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
         ]
       },
       "delete": {
+        "tags": [
+          "Produto"
+        ],
         "summary": "Remove produto",
+        "description": "Endpoint responsável por remover um produto.",
         "operationId": "delete-product",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID do Produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "204": {
             "description": "No Content"
@@ -471,47 +530,29 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Endpoint responsável por remover um produto.",
-        "tags": [
-          "Produto"
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
         ]
       },
       "patch": {
-        "summary": "Edita um produto",
-        "operationId": "update-product",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Product"
-                },
-                "examples": {
-                  "Produto atualizado": {
-                    "value": {
-                      "id": 142,
-                      "name": "Água",
-                      "price": 3.5,
-                      "description": "Água Mineral 500ml",
-                      "categoryId": 1,
-                      "createdAt": "2019-08-24 19:40:00"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400-BadRequest"
-          },
-          "500": {
-            "$ref": "#/components/responses/500-ServerError"
-          }
-        },
-        "description": "Endpoint responsável pela edição de um produto.",
         "tags": [
           "Produto"
+        ],
+        "summary": "Edita um produto",
+        "description": "Endpoint responsável pela edição de um produto.",
+        "operationId": "update-product",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID do Produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -550,12 +591,51 @@
               }
             }
           }
-        }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "examples": {
+                  "Produto atualizado": {
+                    "value": {
+                      "id": 142,
+                      "name": "Água",
+                      "price": 3.5,
+                      "description": "Água Mineral 500ml",
+                      "categoryId": 1,
+                      "createdAt": "2019-08-24 19:40:00"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
+        ]
       }
     },
-    "/products/categories":{
+    "/products/categories": {
       "get": {
+        "tags": [
+          "Produto"
+        ],
         "summary": "Listagem de categorias de produto",
+        "description": "Endpoint responsável por listar produtos",
         "operationId": "list-products-categories",
         "responses": {
           "200": {
@@ -594,17 +674,48 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "description": "Endpoint responsável por listar produtos",
-        "tags": [
-          "Produto"
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
         ]
       }
     },
     "/orders": {
       "get": {
-        "summary": "Listagem de pedidos",
         "tags": [
           "Pedido"
+        ],
+        "summary": "Listagem de pedidos",
+        "description": "Endpoint responsável por listar ordens.",
+        "operationId": "list-orders",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status do pedido",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "waiting_payment",
+                "received",
+                "preparation",
+                "ready",
+                "finished"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/order_by"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo de ordenação",
+            "schema": {
+              "const": "updated_by"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -655,43 +766,84 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "operationId": "list-orders",
-        "description": "Endpoint responsável por listar ordens.",
-        "parameters": [
+        "servers": [
           {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "waiting_payment",
-                "received",
-                "preparation",
-                "ready",
-                "finished"
-              ]
-            },
-            "in": "query",
-            "name": "status",
-            "description": "Status do pedido"
-          },
-          {
-            "$ref": "#/components/parameters/order_by"
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "updated_by"
-              ]
-            },
-            "in": "query",
-            "name": "sort_by",
-            "description": "Campo de ordenação"
+            "url": "http://localhost:8080"
           }
         ]
       },
       "post": {
+        "tags": [
+          "Pedido"
+        ],
         "summary": "Criação de pedido",
+        "description": "Endpoint responsável por criar um pedido.",
         "operationId": "create-order",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer_id": {
+                    "type": "integer"
+                  },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ProductInsideOrder"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Várias vezes o mesmo produto": {
+                  "value": {
+                    "customerId": 1,
+                    "products": [
+                      {
+                        "id": 2,
+                        "quantity": 1,
+                        "observation": "Com queijo"
+                      },
+                      {
+                        "id": 2,
+                        "quantity": 3,
+                        "observation": "Sem queijo"
+                      },
+                      {
+                        "id": 2,
+                        "quantity": 5,
+                        "observation": "Queijo cheddar"
+                      }
+                    ]
+                  }
+                },
+                "Vários produtos": {
+                  "value": {
+                    "customerId": 1,
+                    "products": [
+                      {
+                        "id": 1,
+                        "quantity": 1
+                      },
+                      {
+                        "id": 2,
+                        "quantity": 1
+                      },
+                      {
+                        "id": 3,
+                        "quantity": 1,
+                        "observation": "Sem queijo"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -730,48 +882,42 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
+        "servers": [
+          {
+            "url": "http://localhost:8080"
+          }
+        ]
+      }
+    },
+    "/orders/checkout": {
+      "post": {
         "tags": [
-          "Pedido"
+          "Pagamento"
         ],
-        "description": "Endpoint responsável por criar um pedido.",
+        "summary": "Realização do pagamento",
+        "description": "Endpoint responsável por criar um pagamento.",
+        "operationId": "create-payment",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "customer_id": {
+                  "order_id": {
                     "type": "integer"
-                  },
-                  "product_ids": {
-                    "type": "array",
-                    "items": {
-                      "type": "integer"
-                    }
                   }
                 }
               },
               "examples": {
-                "Criação do pedido": {
+                "Criação do pagamento": {
                   "value": {
-                    "customer_id": 1,
-                    "product_ids": [
-                      1
-                    ]
+                    "order_id": 1
                   }
                 }
               }
             }
-          },
-          "description": ""
-        }
-      },
-      "parameters": []
-    },
-    "/payments": {
-      "post": {
-        "summary": "Realização do pagamento",
-        "operationId": "create-payment",
+          }
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -807,207 +953,34 @@
             "$ref": "#/components/responses/500-ServerError"
           }
         },
-        "tags": [
-          "Pagamento"
-        ],
-        "description": "Endpoint responsável por criar um pagamento.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "order_id": {
-                    "type": "integer"
-                  }
-                }
-              },
-              "examples": {
-                "Criação do pagamento": {
-                  "value": {
-                    "order_id": 1
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "parameters": []
-    }
-  },
-  "components": {
-    "schemas": {
-      "Customer": {
-        "title": "Customer",
-        "type": "object",
-        "description": "Representa um cliente",
-        "examples": [
+        "servers": [
           {
-            "id": 142,
-            "name": "Alice Smith",
-            "cpf": "12345678910",
-            "email": "alice.smith@gmail.com",
-            "createdAt": "2019-08-24"
+            "url": "http://localhost:8080"
           }
-        ],
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Identificador único do cliente."
-          },
-          "name": {
-            "type": "string",
-            "description": "Nome do cliente"
-          },
-          "cpf": {
-            "type": "string",
-            "description": "CPF do cliente"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "E-mail do cliente"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "A data que o cliente foi criado."
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "cpf",
-          "email"
-        ]
-      },
-      "ErrorSchema": {
-        "title": "ErrorSchema",
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "Product": {
-        "type": "object",
-        "examples": [
-          {
-            "id": 142,
-            "name": "Água",
-            "price": 2.5,
-            "description": "Água Mineral 500ml",
-            "categoryId": 1,
-            "createdAt": "2019-08-24"
-          }
-        ],
-        "description": "Representa um produto",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number"
-          },
-          "description": {
-            "type": "string"
-          },
-          "categoryId": {
-            "type": "integer"
-          },
-          "createdAt": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "price",
-          "description",
-          "categoryId"
-        ]
-      },
-      "ProductCategory": {
-        "type": "object",
-        "examples": [
-          {
-            "id": 1,
-            "description": "Sobremesa"
-          }
-        ],
-        "description": "Representa uma categoria de produto",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "description": {
-            "type": "string"
-          }
-        }
-      },
-      "Order": {
-        "title": "Order",
-        "type": "object",
-        "description": "Representa um pedido",
-        "examples": [
-          {
-            "id": 1,
-            "customer_id": 1,
-            "products": [
-              {
-                "id": 142,
-                "name": "Água",
-                "price": 2.5,
-                "description": "Água Mineral 500ml",
-                "categoryId": 1,
-                "createdAt": "2019-08-24"
-              }
-            ],
-            "status": "waiting_payment",
-            "createdAt": "2023-12-12 12:12:00"
-          }
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "customer_id": {
-            "type": "integer"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Product"
-            }
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "waiting_payment",
-              "received",
-              "preparation",
-              "ready",
-              "finished"
-            ]
-          },
-          "createdAt": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "customer_id",
-          "products"
         ]
       }
+    }
+  },
+  "tags": [
+    {
+      "name": "Cliente"
     },
+    {
+      "name": "Pagamento"
+    },
+    {
+      "name": "Pedido"
+    },
+    {
+      "name": "Produto"
+    }
+  ],
+  "components": {
     "parameters": {
       "order_by": {
         "name": "order_by",
         "in": "query",
+        "description": "Ordenação crescente [\"ASC\"] ou decrescente [\"DESC\"], o padrão é o [\"ASC\"]",
         "required": false,
         "schema": {
           "type": "string",
@@ -1015,9 +988,10 @@
             "ASC",
             "DESC"
           ],
-          "example": "ASC"
-        },
-        "description": "Ordenação crescente [\"ASC\"] ou decrescente [\"DESC\"], o padrão é o [\"ASC\"]"
+          "examples": [
+            "ASC"
+          ]
+        }
       }
     },
     "responses": {
@@ -1095,20 +1069,192 @@
       "50000-ServerError": {
         "value": {}
       }
+    },
+    "schemas": {
+      "Customer": {
+        "type": "object",
+        "title": "Customer",
+        "description": "Representa um cliente",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identificador único do cliente."
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do cliente"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "CPF do cliente"
+          },
+          "email": {
+            "type": "string",
+            "description": "E-mail do cliente",
+            "format": "email"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "A data que o cliente foi criado.",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "cpf",
+          "email"
+        ],
+        "examples": [
+          {
+            "id": 142,
+            "name": "Alice Smith",
+            "cpf": "12345678910",
+            "email": "alice.smith@gmail.com",
+            "createdAt": "2019-08-24"
+          }
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "description": "Representa um produto",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "description",
+          "categoryId"
+        ],
+        "examples": [
+          {
+            "id": 142,
+            "name": "Água",
+            "price": 2.5,
+            "description": "Água Mineral 500ml",
+            "categoryId": 1,
+            "createdAt": "2019-08-24"
+          }
+        ]
+      },
+      "ProductCategory": {
+        "type": "object",
+        "description": "Representa uma categoria de produto",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "id": 1,
+            "description": "Sobremesa"
+          }
+        ]
+      },
+      "Order": {
+        "type": "object",
+        "title": "Order",
+        "description": "Representa um pedido",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "customer_id": {
+            "type": "integer"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting_payment",
+              "received",
+              "preparation",
+              "ready",
+              "finished"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "products"
+        ],
+        "examples": [
+          {
+            "id": 1,
+            "customer_id": 1,
+            "products": [
+              {
+                "id": 142,
+                "name": "Água",
+                "price": 2.5,
+                "description": "Água Mineral 500ml",
+                "categoryId": 1,
+                "createdAt": "2019-08-24"
+              }
+            ],
+            "status": "waiting_payment",
+            "createdAt": "2023-12-12 12:12:00"
+          }
+        ]
+      },
+      "ProductInsideOrder": {
+        "type": "object",
+        "title": "ProductInsideOrder",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "observation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "quantity"
+        ]
+      },
+      "ErrorSchema": {
+        "type": "object",
+        "title": "ErrorSchema",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
     }
-  },
-  "tags": [
-    {
-      "name": "Cliente"
-    },
-    {
-      "name": "Pagamento"
-    },
-    {
-      "name": "Pedido"
-    },
-    {
-      "name": "Produto"
-    }
-  ]
+  }
 }
