@@ -10,5 +10,6 @@ func SetupOrderRoutes(router *gin.Engine) {
 	{
 		orderRoutes.POST("", orderController.CreateOrder)
 		orderRoutes.GET("", orderController.ListOrder)
+		orderRoutes.POST("/checkout", orderController.CheckoutOrder)
 	}
 }

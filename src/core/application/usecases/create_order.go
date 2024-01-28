@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"errors"
+
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/ports/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -28,7 +29,7 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 	}
 
 	var entity = entities.Order{
-		Status:   "waiting_payment",
+		Status:   "created",
 		Customer: entities.Customer{ID: inputDto.CustomerId},
 		Products: products,
 	}
