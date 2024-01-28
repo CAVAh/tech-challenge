@@ -9,7 +9,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data  
+      - ./postgres-data:/var/lib/postgresql/data
+
 
   pgadmin-compose:
     image: dpage/pgadmin4
@@ -18,5 +19,17 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "123456"
     ports:
       - "54321:80"
+    depends_on:
+      - postgres
+
+  golang-app:
+    image: docker.io/library/golang_tech-challenge
+    environment:
+        - POSTGRES_HOST=postgres
+        - POSTGRES_USER=root
+        - POSTGRES_PASSWORD=root
+        - POSTGRES_DB=root
+    ports:
+      - "8080:8080"
     depends_on:
       - postgres
