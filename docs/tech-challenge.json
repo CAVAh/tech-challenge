@@ -69,91 +69,6 @@
             "url": "http://localhost:8080"
           }
         ]
-      },
-      "patch": {
-        "tags": [
-          "Cliente"
-        ],
-        "summary": "Atualiza Informação do Cliente",
-        "description": "Atualize as informações de um cliente existente.",
-        "operationId": "update-customer",
-        "parameters": [
-          {
-            "name": "customerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Atualiza as propriedades do cliente.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {
-                "Atualiza Nome": {
-                  "value": {
-                    "name": "Rebecca Baker"
-                  }
-                },
-                "Atualiza Email": {
-                  "value": {
-                    "email": "rebecca@gmail.com"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Customer Updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Customer"
-                },
-                "examples": {
-                  "Cliente atualizado": {
-                    "value": {
-                      "id": 13,
-                      "name": "Rebecca Baker",
-                      "cpf": "1234567910",
-                      "email": "rebecca@gmail.com",
-                      "createdAt": "2019-08-24 19:32:00"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400-BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/404-CustomerNotFound"
-          },
-          "500": {
-            "description": "Email Already Taken"
-          }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
       }
     },
     "/customers": {
@@ -1177,6 +1092,24 @@
         "type": "object",
         "title": "Order",
         "description": "Representa um pedido",
+        "examples": [
+          {
+            "id": 1,
+            "customer_id": 1,
+            "products": [
+              {
+                "id": 142,
+                "name": "Água",
+                "price": 2.5,
+                "description": "Água Mineral 500ml",
+                "categoryId": 1,
+                "createdAt": "2019-08-24"
+              }
+            ],
+            "status": "waiting_payment",
+            "createdAt": "2023-12-12 12:12:00"
+          }
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -1197,7 +1130,8 @@
               "received",
               "preparation",
               "ready",
-              "finished"
+              "finished",
+              "created"
             ]
           },
           "createdAt": {
@@ -1207,24 +1141,6 @@
         "required": [
           "customer_id",
           "products"
-        ],
-        "examples": [
-          {
-            "id": 1,
-            "customer_id": 1,
-            "products": [
-              {
-                "id": 142,
-                "name": "Água",
-                "price": 2.5,
-                "description": "Água Mineral 500ml",
-                "categoryId": 1,
-                "createdAt": "2019-08-24"
-              }
-            ],
-            "status": "waiting_payment",
-            "createdAt": "2023-12-12 12:12:00"
-          }
         ]
       },
       "ProductInsideOrder": {
