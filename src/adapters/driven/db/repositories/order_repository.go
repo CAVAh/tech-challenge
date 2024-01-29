@@ -108,5 +108,6 @@ func OrderModelToOrderEntity(order *models.Order) entities.Order {
 		Customer:  order.Customer.ToDomain(),
 		Status:    order.Status,
 		Products:  products,
+		UpdatedAt: order.UpdatedAt.Format("2006-01-02 15:04:05"),
 	}
 }
