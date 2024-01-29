@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/models"
 	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/repositories"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/application/usecases"
@@ -79,20 +77,4 @@ func CreateCustomer(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, result)
-}
-
-func FindById(c *gin.Context) {
-	var customer models.Customer
-	id := c.Params.ByName("id")
-	gorm.DB.First(&customer, id)
-
-	if customer.ID == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"Not found": "Cliente não encontrado",
-		})
-
-		return
-	}
-
-	c.JSON(http.StatusOK, customer)
 }
