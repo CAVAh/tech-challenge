@@ -1,11 +1,12 @@
 # tech-challenge
 Repositório destinado ao projeto da FIAP
 
-## Rodando local
-
-```docker build -t golang_tech-challenge .```
+## Rodando aplicação
 
 ```docker-compose up```
 
-## Rodar projeto
-```go run main.go```
+## Parando aplicação
+
+```docker-compose down```
+
+
