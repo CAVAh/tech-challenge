@@ -10,6 +10,5 @@ func SetupCustomerRoutes(router *gin.Engine) {
 	{
 		customerRoutes.GET("", customerController.ListCustomers)
 		customerRoutes.POST("", customerController.CreateCustomer)
-		customerRoutes.GET("/:id", customerController.FindById)
 	}
 }
