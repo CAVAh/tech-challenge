@@ -127,13 +127,19 @@ func Update(ctx *gin.Context) {
 func Delete(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
-	useCase := usecasesProduct.BuildDeleteProductUsecase(repositories.ProductRepository{})
+	useCase := usecasesProduct.BuildDeleteProductUsecase(repositories.ProductRepository{}, repositories.OrderRepository{})
 
 	err := useCase.Execute(uint(id))
 
 	if err != nil {
 		log.Println("there was an error to retrieve a product", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{})
+		if err.Error() == "product is associated with an order" {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"message": "this product is associated with an order",
+			})
+		} else {
+			ctx.JSON(http.StatusInternalServerError, gin.H{})
+		}
 		return
 	}
 

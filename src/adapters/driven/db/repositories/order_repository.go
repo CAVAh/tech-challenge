@@ -111,3 +111,11 @@ func OrderModelToOrderEntity(order *models.Order) entities.Order {
 		UpdatedAt: order.UpdatedAt.Format("2006-01-02 15:04:05"),
 	}
 }
+
+func (r OrderRepository) ExistsOrderProduct(productId uint) bool {
+	var orderModel models.OrderProduct
+
+	gorm.DB.First(&orderModel, productId)
+
+	return orderModel.OrderID > 0
+}
