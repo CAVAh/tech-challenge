@@ -30,13 +30,16 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "João da Silva"
                   },
                   "cpf": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "12345678910"
                   },
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "joao.silva@gmail.com"
                   }
                 },
                 "required": [
@@ -934,36 +937,6 @@
         "type": "object",
         "title": "Customer",
         "description": "Representa um cliente",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Identificador único do cliente."
-          },
-          "name": {
-            "type": "string",
-            "description": "Nome do cliente"
-          },
-          "cpf": {
-            "type": "string",
-            "description": "CPF do cliente"
-          },
-          "email": {
-            "type": "string",
-            "description": "E-mail do cliente",
-            "format": "email"
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "A data que o cliente foi criado.",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "cpf",
-          "email"
-        ],
         "examples": [
           {
             "id": 142,
@@ -972,6 +945,41 @@
             "email": "alice.smith@gmail.com",
             "createdAt": "2019-08-24"
           }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identificador único do cliente.",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do cliente",
+            "example": "João da Silva"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "CPF do cliente",
+            "example": "12345678910"
+          },
+          "email": {
+            "type": "string",
+            "description": "E-mail do cliente",
+            "format": "email",
+            "example": "joao.silva@gmail.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "A data que o cliente foi criado.",
+            "format": "date-time",
+            "example": "2024-01-29 20:24:13"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "cpf",
+          "email"
         ]
       },
       "Product": {
