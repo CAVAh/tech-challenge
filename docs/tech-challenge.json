@@ -14,63 +14,6 @@
     }
   ],
   "paths": {
-    "/customers/{customerId}": {
-      "get": {
-        "tags": [
-          "Cliente"
-        ],
-        "summary": "Obter informações do cliente por ID",
-        "description": "Recupera as informações do cliente com o ID do cliente correspondente.",
-        "operationId": "get-customer",
-        "parameters": [
-          {
-            "name": "customerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Customer Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Customer"
-                },
-                "examples": {
-                  "Obter Cliente": {
-                    "value": {
-                      "id": 142,
-                      "name": "Alice Smith",
-                      "cpf": "12345679810",
-                      "email": "alice.smith@gmail.com",
-                      "createdAt": "2019-08-24 19:31:00"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400-BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/404-CustomerNotFound"
-          },
-          "500": {
-            "$ref": "#/components/responses/500-ServerError"
-          }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
-      }
-    },
     "/customers": {
       "post": {
         "tags": [
@@ -616,7 +559,8 @@
                 "received",
                 "preparation",
                 "ready",
-                "finished"
+                "finished",
+                "created"
               ]
             }
           },
@@ -818,7 +762,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "order_id": {
+                  "orderId": {
                     "type": "integer"
                   }
                 }
