@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driven/db/gorm"
-	"github.com/CAVAh/api-tech-challenge/src/adapters/driver/http/routes"
+	"github.com/CAVAh/api-tech-challenge/src/db/gorm"
+	"github.com/CAVAh/api-tech-challenge/src/web/routes"
 )
 
 func main() {
