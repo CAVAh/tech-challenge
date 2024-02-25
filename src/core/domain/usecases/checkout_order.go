@@ -3,7 +3,9 @@ package usecases
 import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
+	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
 	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/utils"
 	"time"
 
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -19,13 +21,15 @@ func (r *CheckoutOrderUsecase) Execute(inputDto dtos.PayOrderDto) (*entities.Ord
 	if orderToPay.ID == 0 {
 		return nil, errors.New("pedido não existe")
 	}
+	//TODO: fazer FindByiD retornar erro, essa comparação não deveria ser feita
 
-	if orderToPay.Status != "created" {
+	if orderToPay.Status != enums.Created {
 		return orderToPay, errors.New("pedido já está confirmado")
 	}
 
-	orderToPay.Status = "received"
-	orderToPay.UpdatedAt = time.Now().Format("2006-01-02 15:04:05")
+	orderToPay.Status = enums.Received
+	orderToPay.PaymentStatus = enums.Paid
+	orderToPay.UpdatedAt = time.Now().Format(utils.CompleteEnglishDateFormat)
 
 	r.OrderRepository.Update(orderToPay)
 

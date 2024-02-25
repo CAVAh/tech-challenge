@@ -5,6 +5,7 @@ import (
 	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases"
 	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
@@ -111,4 +112,26 @@ func CheckoutOrder(c *gin.Context) {
 		"status":    order.Status,
 		"updatedAt": order.UpdatedAt,
 	})
+}
+
+func CheckOrderPaymentStatus(c *gin.Context) {
+	value, _ := c.GetQuery("orderId")
+	orderId, _ := strconv.Atoi(value)
+
+	orderRepository := &repositories.OrderRepository{}
+
+	usecase := usecases2.CheckPaymentStatusUsecase{
+		OrderRepository: orderRepository,
+	}
+
+	response, err := usecase.Execute(uint(orderId))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }

@@ -78,6 +78,7 @@ func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) 
 
 	model.Products = productsOrderModel
 	model.Status = order.Status
+	model.PaymentStatus = order.PaymentStatus
 
 	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
@@ -102,14 +103,7 @@ func OrderModelToOrderEntity(order *models.Order) entities.Order {
 		})
 	}
 
-	return entities.Order{
-		ID:        order.ID,
-		CreatedAt: order.CreatedAt.Format("2006-01-02 15:04:05"),
-		Customer:  order.Customer.ToDomain(),
-		Status:    order.Status,
-		Products:  products,
-		UpdatedAt: order.UpdatedAt.Format("2006-01-02 15:04:05"),
-	}
+	return order.ToDomain(products)
 }
 
 func (r OrderRepository) ExistsOrderProduct(productId uint) bool {

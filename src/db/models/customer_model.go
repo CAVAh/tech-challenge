@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+	"github.com/CAVAh/api-tech-challenge/src/utils"
 	"gorm.io/gorm"
 )
 
@@ -18,6 +19,6 @@ func (c Customer) ToDomain() entities.Customer {
 		Name:      c.Name,
 		CPF:       c.CPF,
 		Email:     c.Email,
-		CreatedAt: c.CreatedAt.Format("2006-01-02 15:04:05"),
+		CreatedAt: c.CreatedAt.Format(utils.CompleteEnglishDateFormat),
 	}
 }

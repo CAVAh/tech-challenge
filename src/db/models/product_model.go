@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
+	"github.com/CAVAh/api-tech-challenge/src/utils"
 	"gorm.io/gorm"
 )
 
@@ -21,7 +22,7 @@ func (c Product) ToDomain() entities.Product {
 		Price:       c.Price,
 		Description: c.Description,
 		CategoryId:  c.CategoryID,
-		CreatedAt:   c.CreatedAt.Format("2006-01-02 15:04:05"),
+		CreatedAt:   c.CreatedAt.Format(utils.CompleteEnglishDateFormat),
 	}
 }
 

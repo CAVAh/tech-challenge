@@ -3,6 +3,7 @@ package usecases
 import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
+	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
 	repositories2 "github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
 
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
@@ -29,9 +30,10 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 	}
 
 	var entity = entities.Order{
-		Status:   "created",
-		Customer: entities.Customer{ID: inputDto.CustomerId},
-		Products: products,
+		Status:        enums.Created,
+		PaymentStatus: enums.WaitingPayment,
+		Customer:      entities.Customer{ID: inputDto.CustomerId},
+		Products:      products,
 	}
 
 	return r.OrderRepository.Create(&entity)
