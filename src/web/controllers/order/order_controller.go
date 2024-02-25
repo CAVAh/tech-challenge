@@ -135,3 +135,41 @@ func CheckOrderPaymentStatus(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func ChangeOrderStatus(c *gin.Context) {
+	var inputDto dtos2.ChangeOrderStatusDto
+
+	if err := c.ShouldBindJSON(&inputDto); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := validator.Validate(inputDto); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	orderRepository := &repositories.OrderRepository{}
+
+	usecase := usecases2.ChangeOrderStatusUsecase{
+		OrderRepository: orderRepository,
+	}
+
+	order, err := usecase.Execute(inputDto.OrderId, inputDto.ChangeToStatus)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":    order.Status,
+		"updatedAt": order.UpdatedAt,
+	})
+}

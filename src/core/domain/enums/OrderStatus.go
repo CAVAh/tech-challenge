@@ -6,4 +6,5 @@ const (
 	Preparation string = "preparation"
 	Ready       string = "ready"
 	Finished    string = "finished"
+	Cancelled   string = "cancelled"
 )

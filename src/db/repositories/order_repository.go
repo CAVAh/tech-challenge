@@ -55,10 +55,8 @@ func (r OrderRepository) FindById(orderId uint) *entities.Order {
 
 func (r OrderRepository) Update(order *entities.Order) {
 	var orderModel models.Order
-
 	gorm.DB.First(&orderModel, order.ID)
-
-	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status})
+	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status, PaymentStatus: order.PaymentStatus}) // TODO: não ter copy de entity pra model deixa prone a erros
 }
 
 func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) {
@@ -78,7 +76,7 @@ func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) 
 
 	model.Products = productsOrderModel
 	model.Status = order.Status
-	model.PaymentStatus = order.PaymentStatus
+	model.PaymentStatus = order.PaymentStatus // TODO: não ter copy de entity pra model deixa prone a erros
 
 	if err := gorm.DB.Create(&model).Error; err != nil {
 		return &entities.Order{}, errors.New("ocorreu um erro desconhecido ao criar o pedido")
