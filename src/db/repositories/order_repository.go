@@ -14,11 +14,11 @@ func SetDefaultValues(sortBy string, orderBy string, status string) (string, str
 	//TODO: sortBy, orderBy and status needs to be ENUMs, otherwise, it pops syntax error on log
 
 	if sortBy == "" {
-		sortBy = "created_at"
+		sortBy = GetCreatedAtFieldName()
 	}
 
 	if orderBy == "" {
-		orderBy = "ASC"
+		orderBy = GetAscOrder()
 	}
 
 	return sortBy, orderBy, status
@@ -110,4 +110,28 @@ func (r OrderRepository) ExistsOrderProduct(productId uint) bool {
 	gorm.DB.First(&orderModel, productId)
 
 	return orderModel.OrderID > 0
+}
+
+func GetDescOrder() string {
+	return "DESC"
+}
+
+func (r OrderRepository) GetDescOrder() string {
+	return GetDescOrder()
+}
+
+func GetAscOrder() string {
+	return "ASC"
+}
+
+func (r OrderRepository) GetAscOrder() string {
+	return GetAscOrder()
+}
+
+func GetCreatedAtFieldName() string {
+	return "created_at"
+}
+
+func (r OrderRepository) GetCreatedAtFieldName() string {
+	return GetCreatedAtFieldName()
 }

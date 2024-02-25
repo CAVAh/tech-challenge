@@ -11,7 +11,7 @@ import (
 	"gopkg.in/validator.v2"
 )
 
-func ListOrder(c *gin.Context) {
+func ListOrders(c *gin.Context) {
 	status := c.Query("status")
 	orderBy := c.Query("orderBy")
 	sortBy := c.Query("sortBy")
@@ -78,7 +78,7 @@ func CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusCreated, result)
 }
 
-func CheckoutOrder(c *gin.Context) {
+func CheckoutOrder(c *gin.Context) { //TODO: can be deleted, is the same as ChangeOrderStatus with received param
 	var inputDto dtos2.PayOrderDto
 
 	if err := c.BindJSON(&inputDto); err != nil {
@@ -172,4 +172,28 @@ func ChangeOrderStatus(c *gin.Context) {
 		"status":    order.Status,
 		"updatedAt": order.UpdatedAt,
 	})
+}
+
+func ListOngoingOrders(c *gin.Context) {
+	orderRepository := &repositories.OrderRepository{}
+
+	usecase := usecases2.ListOngoingOrdersUsecase{
+		OrderRepository: orderRepository,
+	}
+
+	orders, err := usecase.Execute()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if orders == nil {
+		c.JSON(http.StatusOK, []string{})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
 }
