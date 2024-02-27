@@ -4,41 +4,13 @@ import (
 	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases"
 	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
-	"github.com/CAVAh/api-tech-challenge/src/external/mercadoPago"
+	"github.com/CAVAh/api-tech-challenge/src/external/mercado_pago"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
 )
-
-func ListOrders(c *gin.Context) {
-	status := c.Query("status")
-	orderBy := c.Query("orderBy")
-	sortBy := c.Query("sortBy")
-
-	orderRepository := &repositories.OrderRepository{}
-
-	usecase := usecases2.ListOrderUsecase{
-		OrderRepository: orderRepository,
-	}
-
-	orders, err := usecase.Execute(sortBy, orderBy, status)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	if orders == nil {
-		c.JSON(http.StatusOK, []string{})
-		return
-	}
-
-	c.JSON(http.StatusOK, orders)
-}
 
 func CreateOrder(c *gin.Context) {
 	var inputDto dtos2.CreateOrderDto
@@ -76,7 +48,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	mercadoPago.PostPayment()
+	mercado_pago.PostPayment()
 
 	c.JSON(http.StatusCreated, result)
 }

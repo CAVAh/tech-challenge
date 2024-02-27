@@ -1,4 +1,4 @@
-package mercadoPago
+package mercado_pago
 
 import (
 	"bytes"
