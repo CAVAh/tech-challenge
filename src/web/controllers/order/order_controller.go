@@ -4,6 +4,7 @@ import (
 	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases"
 	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/external/mercadoPago"
 	"net/http"
 	"strconv"
 
@@ -74,6 +75,8 @@ func CreateOrder(c *gin.Context) {
 		})
 		return
 	}
+
+	mercadoPago.PostPayment()
 
 	c.JSON(http.StatusCreated, result)
 }
