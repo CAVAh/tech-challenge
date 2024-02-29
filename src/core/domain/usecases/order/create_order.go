@@ -30,7 +30,7 @@ func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Or
 
 	var entity = entities.Order{
 		Status:        enums.Created,
-		PaymentStatus: enums.WaitingPayment,
+		PaymentStatus: enums.AwaitingPayment,
 		Customer:      entities.Customer{ID: inputDto.CustomerId},
 		Products:      products,
 	}

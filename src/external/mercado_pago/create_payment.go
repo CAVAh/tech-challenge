@@ -42,8 +42,7 @@ func (m MercadoPagoIntegration) CreatePayment(order entities.Order) (string, err
 		}
 	}(res.Body)
 
-	var apiResponse *QrCreatedResponse
-
+	var apiResponse = &QrCreatedResponse{}
 	derr := json.NewDecoder(res.Body).Decode(apiResponse)
 	if derr != nil {
 		return qrCode, errors.New("erro ao deserializar a resposta do mercado pago")

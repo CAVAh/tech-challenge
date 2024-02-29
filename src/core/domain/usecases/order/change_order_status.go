@@ -44,7 +44,7 @@ func (r *ChangeOrderStatusUsecase) Execute(orderId uint, changeToStatus string) 
 }
 
 func ChangeToCancelled(order *entities.Order) (*entities.Order, error) {
-	if order.Status != enums.Created || order.PaymentStatus != enums.WaitingPayment {
+	if order.Status != enums.Created || order.PaymentStatus != enums.AwaitingPayment {
 		return order, errors.New("não é possível cancelar o pedido")
 	}
 
@@ -55,7 +55,7 @@ func ChangeToCancelled(order *entities.Order) (*entities.Order, error) {
 }
 
 func ChangeToReceived(order *entities.Order) (*entities.Order, error) {
-	if order.Status != enums.Created || order.PaymentStatus != enums.WaitingPayment {
+	if order.Status != enums.Created || order.PaymentStatus != enums.AwaitingPayment {
 		return order, errors.New("não é possível mudar o pedido para Recebido")
 	}
 

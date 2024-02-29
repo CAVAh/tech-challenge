@@ -20,7 +20,7 @@ func (r *CheckPaymentStatusUsecase) Execute(orderId uint) (string, error) {
 
 	if order.PaymentStatus == enums.Paid {
 		return "Pedido pago", nil
-	} else if order.PaymentStatus == enums.WaitingPayment {
+	} else if order.PaymentStatus == enums.AwaitingPayment {
 		return "Pedido aguardando pagamento", nil
 	} else {
 		return "Status desconhecido", nil
