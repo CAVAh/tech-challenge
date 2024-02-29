@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
-	"github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/customer"
+	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
+	usecases "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/customer"
 	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
@@ -10,7 +10,7 @@ import (
 )
 
 func ListCustomers(c *gin.Context) {
-	var inputDto dtos2.ListCustomerDto
+	var inputDto dtos.ListCustomerDto
 
 	if err := c.BindQuery(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -28,7 +28,7 @@ func ListCustomers(c *gin.Context) {
 
 	customerRepository := &repositories.CustomerRepository{}
 
-	usecase := customer.ListCustomerUsecase{
+	usecase := usecases.ListCustomerUsecase{
 		CustomerRepository: customerRepository,
 	}
 
@@ -45,7 +45,7 @@ func ListCustomers(c *gin.Context) {
 }
 
 func CreateCustomer(c *gin.Context) {
-	var inputDto dtos2.CreateCustomerDto
+	var inputDto dtos.CreateCustomerDto
 
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -63,7 +63,7 @@ func CreateCustomer(c *gin.Context) {
 
 	customerRepository := &repositories.CustomerRepository{}
 
-	usecase := customer.CreateCustomerUsecase{
+	usecase := usecases.CreateCustomerUsecase{
 		CustomerRepository: customerRepository,
 	}
 

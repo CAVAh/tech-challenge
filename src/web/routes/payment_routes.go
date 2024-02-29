@@ -6,7 +6,7 @@ import (
 )
 
 func SetupPaymentRoutes(router *gin.Engine) {
-	orderRoutes := router.Group("/payment")
+	orderRoutes := router.Group("/payments")
 	{
 		orderRoutes.GET("/check-order-status", paymentController.CheckOrderPaymentStatus)
 		orderRoutes.GET("/order-qr-code", paymentController.GetOrderQrCode)
