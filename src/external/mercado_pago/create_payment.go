@@ -9,7 +9,10 @@ import (
 	"net/http"
 )
 
-func PostPayment(order entities.Order) {
+type MercadoPagoIntegration struct {
+}
+
+func (m MercadoPagoIntegration) CreatePayment(order entities.Order) {
 	orderJson, err := json.Marshal(MountMercadoPagoRequest(order))
 	if err != nil {
 		fmt.Println(err)
@@ -45,6 +48,7 @@ func PostPayment(order entities.Order) {
 		panic(derr)
 	}
 
+	//return error
 	if res.StatusCode != http.StatusCreated {
 		panic(res.Status)
 	}

@@ -3,14 +3,14 @@ package usecases
 import (
 	dtosProd "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos/product"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type EditProductUsecase struct {
-	repository repositories.ProductRepository
+	repository gateways.ProductRepository
 }
 
-func BuildEditProductUsecase(repository repositories.ProductRepository) *EditProductUsecase {
+func BuildEditProductUsecase(repository gateways.ProductRepository) *EditProductUsecase {
 	return &EditProductUsecase{repository: repository}
 }
 

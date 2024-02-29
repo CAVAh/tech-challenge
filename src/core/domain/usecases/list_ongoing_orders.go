@@ -3,12 +3,12 @@ package usecases
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 	"slices"
 )
 
 type ListOngoingOrdersUsecase struct {
-	OrderRepository repositories.OrderRepository
+	OrderRepository gateways.OrderRepository
 }
 
 func (r *ListOngoingOrdersUsecase) Execute() ([]entities.Order, error) {

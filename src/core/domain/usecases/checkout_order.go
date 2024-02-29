@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 	"github.com/CAVAh/api-tech-challenge/src/utils"
 	"time"
 
@@ -12,7 +12,7 @@ import (
 )
 
 type CheckoutOrderUsecase struct {
-	OrderRepository repositories.OrderRepository
+	OrderRepository gateways.OrderRepository
 }
 
 func (r *CheckoutOrderUsecase) Execute(inputDto dtos.PayOrderDto) (*entities.Order, error) {

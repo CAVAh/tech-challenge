@@ -2,14 +2,14 @@ package usecases
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type ListProductUsecase struct {
-	repository repositories.ProductRepository
+	repository gateways.ProductRepository
 }
 
-func BuildListProductUsecase(repository repositories.ProductRepository) *ListProductUsecase {
+func BuildListProductUsecase(repository gateways.ProductRepository) *ListProductUsecase {
 	return &ListProductUsecase{repository: repository}
 }
 

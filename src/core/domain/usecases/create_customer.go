@@ -3,11 +3,11 @@ package usecases
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type CreateCustomerUsecase struct {
-	CustomerRepository repositories.CustomerRepository
+	CustomerRepository gateways.CustomerRepository
 }
 
 func (r *CreateCustomerUsecase) Execute(inputDto dtos.CreateCustomerDto) (*entities.Customer, error) {

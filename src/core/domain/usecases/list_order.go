@@ -2,11 +2,11 @@ package usecases
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type ListOrderUsecase struct {
-	OrderRepository repositories.OrderRepository
+	OrderRepository gateways.OrderRepository
 }
 
 func (r *ListOrderUsecase) Execute(sortBy string, orderBy string, status string) ([]entities.Order, error) {

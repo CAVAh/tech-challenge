@@ -2,14 +2,14 @@ package usecases
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type ReadProductUsecase struct {
-	repository repositories.ProductRepository
+	repository gateways.ProductRepository
 }
 
-func BuildReadProductUsecase(repository repositories.ProductRepository) *ReadProductUsecase {
+func BuildReadProductUsecase(repository gateways.ProductRepository) *ReadProductUsecase {
 	return &ReadProductUsecase{repository: repository}
 }
 

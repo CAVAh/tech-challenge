@@ -3,17 +3,17 @@ package usecases
 import (
 	productDtos "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos/product"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	repositories2 "github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 	"log"
 )
 
 type CreateProductUsecase struct {
-	repository                repositories2.ProductRepository
-	productCategoryRepository repositories2.ProductCategoryRepository
+	repository                gateways.ProductRepository
+	productCategoryRepository gateways.ProductCategoryRepository
 }
 
-func BuildCreateProductUsecase(repository repositories2.ProductRepository,
-	productCategoryRepository repositories2.ProductCategoryRepository) *CreateProductUsecase {
+func BuildCreateProductUsecase(repository gateways.ProductRepository,
+	productCategoryRepository gateways.ProductCategoryRepository) *CreateProductUsecase {
 	return &CreateProductUsecase{repository: repository, productCategoryRepository: productCategoryRepository}
 }
 

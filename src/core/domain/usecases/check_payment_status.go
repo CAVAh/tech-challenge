@@ -3,11 +3,11 @@ package usecases
 import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type CheckPaymentStatusUsecase struct {
-	OrderRepository repositories.OrderRepository
+	OrderRepository gateways.OrderRepository
 }
 
 func (r *CheckPaymentStatusUsecase) Execute(orderId uint) (string, error) {

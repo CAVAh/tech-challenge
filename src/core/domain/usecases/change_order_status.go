@@ -4,13 +4,13 @@ import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
-	"github.com/CAVAh/api-tech-challenge/src/gateways/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/gateways"
 	"github.com/CAVAh/api-tech-challenge/src/utils"
 	"time"
 )
 
 type ChangeOrderStatusUsecase struct {
-	OrderRepository repositories.OrderRepository
+	OrderRepository gateways.OrderRepository
 }
 
 func (r *ChangeOrderStatusUsecase) Execute(orderId uint, changeToStatus string) (*entities.Order, error) {

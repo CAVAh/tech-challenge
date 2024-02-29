@@ -1,4 +1,4 @@
-package repositories
+package gateways
 
 import "github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 
