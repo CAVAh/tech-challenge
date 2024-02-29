@@ -48,7 +48,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	mercado_pago.PostPayment()
+	mercado_pago.PostPayment(*result)
 
 	c.JSON(http.StatusCreated, result)
 }
