@@ -11,7 +11,6 @@ func SetupOrderRoutes(router *gin.Engine) {
 		orderRoutes.POST("", orderController.CreateOrder)
 		orderRoutes.GET("", orderController.ListOngoingOrders)
 		orderRoutes.POST("/checkout", orderController.CheckoutOrder)
-		orderRoutes.GET("/check-payment-status", orderController.CheckOrderPaymentStatus)
 		orderRoutes.POST("/change-status", orderController.ChangeOrderStatus)
 	}
 }

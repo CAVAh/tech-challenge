@@ -2,13 +2,11 @@ package controllers
 
 import (
 	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
-	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases"
+	order2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
 	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
-	"net/http"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
+	"net/http"
 )
 
 func CreateOrder(c *gin.Context) {
@@ -32,7 +30,7 @@ func CreateOrder(c *gin.Context) {
 	customerRepository := &repositories.CustomerRepository{}
 	productRepository := &repositories.ProductRepository{}
 
-	usecase := usecases2.CreateOrderUsecase{
+	usecase := order2.CreateOrderUsecase{
 		OrderRepository:    orderRepository,
 		CustomerRepository: customerRepository,
 		ProductRepository:  productRepository,
@@ -67,7 +65,7 @@ func CheckoutOrder(c *gin.Context) { //TODO: can be deleted, is the same as Chan
 
 	orderRepository := &repositories.OrderRepository{}
 
-	usecase := usecases2.CheckoutOrderUsecase{
+	usecase := order2.CheckoutOrderUsecase{
 		OrderRepository: orderRepository,
 	}
 
@@ -84,28 +82,6 @@ func CheckoutOrder(c *gin.Context) { //TODO: can be deleted, is the same as Chan
 		"status":    order.Status,
 		"updatedAt": order.UpdatedAt,
 	})
-}
-
-func CheckOrderPaymentStatus(c *gin.Context) {
-	value, _ := c.GetQuery("orderId")
-	orderId, _ := strconv.Atoi(value)
-
-	orderRepository := &repositories.OrderRepository{}
-
-	usecase := usecases2.CheckPaymentStatusUsecase{
-		OrderRepository: orderRepository,
-	}
-
-	response, err := usecase.Execute(uint(orderId))
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, response)
 }
 
 func ChangeOrderStatus(c *gin.Context) {
@@ -127,7 +103,7 @@ func ChangeOrderStatus(c *gin.Context) {
 
 	orderRepository := &repositories.OrderRepository{}
 
-	usecase := usecases2.ChangeOrderStatusUsecase{
+	usecase := order2.ChangeOrderStatusUsecase{
 		OrderRepository: orderRepository,
 	}
 
@@ -149,7 +125,7 @@ func ChangeOrderStatus(c *gin.Context) {
 func ListOngoingOrders(c *gin.Context) {
 	orderRepository := &repositories.OrderRepository{}
 
-	usecase := usecases2.ListOngoingOrdersUsecase{
+	usecase := order2.ListOngoingOrdersUsecase{
 		OrderRepository: orderRepository,
 	}
 

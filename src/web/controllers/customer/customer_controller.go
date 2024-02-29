@@ -2,7 +2,7 @@ package controllers
 
 import (
 	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
-	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases"
+	"github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/customer"
 	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
@@ -28,7 +28,7 @@ func ListCustomers(c *gin.Context) {
 
 	customerRepository := &repositories.CustomerRepository{}
 
-	usecase := usecases2.ListCustomerUsecase{
+	usecase := customer.ListCustomerUsecase{
 		CustomerRepository: customerRepository,
 	}
 
@@ -63,7 +63,7 @@ func CreateCustomer(c *gin.Context) {
 
 	customerRepository := &repositories.CustomerRepository{}
 
-	usecase := usecases2.CreateCustomerUsecase{
+	usecase := customer.CreateCustomerUsecase{
 		CustomerRepository: customerRepository,
 	}
 
