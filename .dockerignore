@@ -1,1 +1,12 @@
 **/postgres-data
+.idea
+.gitignore
+.git
+.DS_STORE
+README.md
+LICENSED
+Dockerfile
+docker-compose.yml
+docs
+infra
+.env
