@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group-18-fastfood-backend
+  labels:
+    app: group-18-fastfood-backend
+spec:
+  selector:
+    matchLabels:
+      app: group-18-fastfood-backend
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: group-18-fastfood-backend
+    spec:
+      containers:
+      - name: group-18-fastfood-backend
+        image: <repository>
+        ports:
+          - containerPort: 8080
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: configmap-group-18-fastfood-backend
+                key: POSTGRES_DB
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: configmap-group-18-fastfood-backend
+                key: POSTGRES_HOST
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret-group-18-fastfood-backend
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-group-18-fastfood-backend
+                key: POSTGRES_PASSWORD
