@@ -10,5 +10,6 @@ func SetupPaymentRoutes(router *gin.Engine) {
 	{
 		orderRoutes.GET("/check-order-status", paymentController.CheckOrderPaymentStatus)
 		orderRoutes.GET("/order-qr-code", paymentController.GetOrderQrCode)
+		orderRoutes.POST("/mercado-pago-payment", paymentController.MercadoPagoPayment)
 	}
 }

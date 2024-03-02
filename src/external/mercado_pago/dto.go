@@ -32,6 +32,29 @@ type QrCreatedResponse struct {
 	QrData         string `json:"qr_data"`
 }
 
+type PostPayment struct {
+	AdditionalInfo struct {
+		ExternalReference string `json:"external_reference"`
+	} `json:"additional_info"`
+	Amount    int    `json:"amount"`
+	CallerId  int    `json:"caller_id"`
+	ClientId  string `json:"client_id"`
+	CreatedAt string `json:"created_at"`
+	Id        string `json:"id"`
+	Payment   struct {
+		Id    string `json:"id"`
+		State string `json:"state"`
+		Type  string `json:"type"`
+	} `json:"payment"`
+	State string `json:"state"`
+}
+
+const (
+	Finished string = "FINISHED"
+	Canceled string = "CANCELED"
+	Error    string = "ERROR"
+)
+
 func ToItem(productInsideOrder entities.ProductInsideOrder) Item {
 	product := productInsideOrder.Product
 	item := Item{
