@@ -54,9 +54,6 @@ func GetOrderQrCode(c *gin.Context) {
 }
 
 func MercadoPagoPayment(c *gin.Context) {
-	value, _ := c.GetQuery("data.id")
-	orderId, _ := strconv.Atoi(value)
-
 	var inputDto mercado_pago.PostPayment
 
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
@@ -65,6 +62,12 @@ func MercadoPagoPayment(c *gin.Context) {
 		})
 		return
 	}
+
+	//value, _ := c.GetQuery("data.id")
+	//orderId, _ := strconv.Atoi(value)
+	//Explicação: para funcionar o teste do mercado livre, precisa pegar do ID,
+	//já que o external reference não é mandado. Mas o id de dentro da aplicação estará em external reference
+	var orderId, _ = strconv.Atoi(inputDto.AdditionalInfo.ExternalReference)
 
 	usecase := order2.ChangeOrderStatusUsecase{
 		OrderRepository: &repositories.OrderRepository{},
