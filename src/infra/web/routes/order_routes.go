@@ -1,7 +1,7 @@
 package routes
 
 import (
-	orderController "github.com/CAVAh/api-tech-challenge/src/adapter/controllers/order"
+	orderController "github.com/CAVAh/api-tech-challenge/src/adapters/controllers/order"
 	"github.com/gin-gonic/gin"
 )
 

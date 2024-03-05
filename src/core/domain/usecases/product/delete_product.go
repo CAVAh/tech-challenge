@@ -2,7 +2,7 @@ package usecases
 
 import (
 	"errors"
-	gateways2 "github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
+	gateways2 "github.com/CAVAh/api-tech-challenge/src/adapters/gateways"
 )
 
 type DeleteProductUsecase struct {

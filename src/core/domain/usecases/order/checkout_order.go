@@ -2,7 +2,7 @@ package usecases
 
 import (
 	"errors"
-	"github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
+	"github.com/CAVAh/api-tech-challenge/src/adapters/gateways"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
 	"github.com/CAVAh/api-tech-challenge/src/utils"

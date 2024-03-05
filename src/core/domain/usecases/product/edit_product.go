@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
+	"github.com/CAVAh/api-tech-challenge/src/adapters/gateways"
 	dtosProd "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos/product"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 )
