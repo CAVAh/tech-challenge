@@ -1,7 +1,7 @@
 package routes
 
 import (
-	paymentController "github.com/CAVAh/api-tech-challenge/src/web/controllers/payment"
+	paymentController "github.com/CAVAh/api-tech-challenge/src/adapter/controllers/payment"
 	"github.com/gin-gonic/gin"
 )
 

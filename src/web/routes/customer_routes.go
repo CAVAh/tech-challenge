@@ -1,7 +1,7 @@
 package routes
 
 import (
-	customerController "github.com/CAVAh/api-tech-challenge/src/web/controllers/customer"
+	customerController "github.com/CAVAh/api-tech-challenge/src/adapter/controllers/customer"
 	"github.com/gin-gonic/gin"
 )
 
