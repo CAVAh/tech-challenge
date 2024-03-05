@@ -1,9 +1,9 @@
 package usecases
 
 import (
+	"github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
 	dtosProd "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos/product"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type EditProductUsecase struct {

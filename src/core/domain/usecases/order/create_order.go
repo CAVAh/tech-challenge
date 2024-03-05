@@ -2,16 +2,16 @@ package usecases
 
 import (
 	"errors"
+	gateways2 "github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
-	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type CreateOrderUsecase struct {
-	OrderRepository    gateways.OrderRepository
-	CustomerRepository gateways.CustomerRepository
-	ProductRepository  gateways.ProductRepository
+	OrderRepository    gateways2.OrderRepository
+	CustomerRepository gateways2.CustomerRepository
+	ProductRepository  gateways2.ProductRepository
 }
 
 func (r *CreateOrderUsecase) Execute(inputDto dtos.CreateOrderDto) (*entities.Order, error) {

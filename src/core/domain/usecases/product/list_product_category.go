@@ -1,8 +1,8 @@
 package usecases
 
 import (
+	"github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/gateways"
 )
 
 type ListProductCategoryUsecase struct {

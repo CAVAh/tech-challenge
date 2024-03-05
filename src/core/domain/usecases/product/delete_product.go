@@ -2,15 +2,15 @@ package usecases
 
 import (
 	"errors"
-	"github.com/CAVAh/api-tech-challenge/src/gateways"
+	gateways2 "github.com/CAVAh/api-tech-challenge/src/adapter/gateways"
 )
 
 type DeleteProductUsecase struct {
-	repository      gateways.ProductRepository
-	orderRepository gateways.OrderRepository
+	repository      gateways2.ProductRepository
+	orderRepository gateways2.OrderRepository
 }
 
-func BuildDeleteProductUsecase(repository gateways.ProductRepository, orderRepository gateways.OrderRepository) *DeleteProductUsecase {
+func BuildDeleteProductUsecase(repository gateways2.ProductRepository, orderRepository gateways2.OrderRepository) *DeleteProductUsecase {
 	return &DeleteProductUsecase{repository: repository, orderRepository: orderRepository}
 }
 
