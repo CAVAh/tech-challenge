@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
       - name: group-18-fastfood-backend
-        image: <repository>
+        image: tech-challenge-go
+        imagePullPolicy: Never
         ports:
           - containerPort: 8080
         env:
