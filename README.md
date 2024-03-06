@@ -1,6 +1,9 @@
 # tech-challenge
 Repositório destinado ao projeto da FIAP
 
+## Primeiro faça o build da sua imagem docker, utilize o comando abaixo:
+```docker build . -t tech-challenge-go -f Dockerfile```
+
 ## Rodando aplicação
 
 ```docker-compose up```
