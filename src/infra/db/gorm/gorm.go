@@ -1,7 +1,7 @@
 package gorm
 
 import (
-	"github.com/CAVAh/api-tech-challenge/src/db/models"
+	models2 "github.com/CAVAh/api-tech-challenge/src/infra/db/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -30,7 +30,7 @@ func ConnectDB() {
 		log.Panic("Erro ao conectar com banco de dados")
 	}
 
-	productCategories := []models.ProductCategory{
+	productCategories := []models2.ProductCategory{
 		{Description: "Lanche"},
 		{Description: "Acompanhamento"},
 		{Description: "Bebida"},
@@ -42,10 +42,10 @@ func ConnectDB() {
 		DB.Create(&productCategories)
 	}
 
-	DB.AutoMigrate(&models.Customer{}, &models.Product{}, &models.Order{}, &models.OrderProduct{})
+	DB.AutoMigrate(&models2.Customer{}, &models2.Product{}, &models2.Order{}, &models2.OrderProduct{})
 
-	if !DB.Migrator().HasColumn(&models.OrderProduct{}, "Quantity") {
-		DB.Migrator().AddColumn(&models.OrderProduct{}, "Quantity")
-		DB.Migrator().AddColumn(&models.OrderProduct{}, "Observation")
+	if !DB.Migrator().HasColumn(&models2.OrderProduct{}, "Quantity") {
+		DB.Migrator().AddColumn(&models2.OrderProduct{}, "Quantity")
+		DB.Migrator().AddColumn(&models2.OrderProduct{}, "Observation")
 	}
 }

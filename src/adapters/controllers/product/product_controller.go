@@ -3,7 +3,7 @@ package controllers
 import (
 	dtosProduct "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos/product"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/product"
-	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
+	repositories2 "github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
 	"log"
@@ -15,7 +15,7 @@ func List(ctx *gin.Context) {
 	value, _ := ctx.GetQuery("categoryId")
 	categoryId, _ := strconv.Atoi(value)
 
-	productRepository := repositories.ProductRepository{}
+	productRepository := repositories2.ProductRepository{}
 
 	result, err := usecases.BuildListProductUsecase(productRepository).Execute(uint(categoryId))
 
@@ -47,8 +47,8 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	productRepository := repositories.ProductRepository{}
-	productCategoryRepository := repositories.ProductCategoryRepository{}
+	productRepository := repositories2.ProductRepository{}
+	productCategoryRepository := repositories2.ProductCategoryRepository{}
 
 	usecase := usecases.BuildCreateProductUsecase(productRepository, productCategoryRepository)
 	result, err := usecase.Execute(inputDto)
@@ -75,7 +75,7 @@ func Create(c *gin.Context) {
 func Read(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
-	useCase := usecases.BuildReadProductUsecase(repositories.ProductRepository{})
+	useCase := usecases.BuildReadProductUsecase(repositories2.ProductRepository{})
 
 	product, err := useCase.Execute(uint(id))
 
@@ -104,7 +104,7 @@ func Update(ctx *gin.Context) {
 		return
 	}
 
-	useCase := usecases.BuildEditProductUsecase(repositories.ProductRepository{})
+	useCase := usecases.BuildEditProductUsecase(repositories2.ProductRepository{})
 
 	inputDto.ID = uint(id)
 
@@ -127,7 +127,7 @@ func Update(ctx *gin.Context) {
 func Delete(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
-	useCase := usecases.BuildDeleteProductUsecase(repositories.ProductRepository{}, repositories.OrderRepository{})
+	useCase := usecases.BuildDeleteProductUsecase(repositories2.ProductRepository{}, repositories2.OrderRepository{})
 
 	err := useCase.Execute(uint(id))
 

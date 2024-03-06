@@ -2,7 +2,7 @@ package controllers
 
 import (
 	usecasesProduct "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/product"
-	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"

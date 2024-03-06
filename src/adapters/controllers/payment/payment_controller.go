@@ -4,8 +4,8 @@ import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
 	order2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
 	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/payment"
-	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
-	"github.com/CAVAh/api-tech-challenge/src/external/mercado_pago"
+	"github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
+	mercado_pago2 "github.com/CAVAh/api-tech-challenge/src/infra/external/mercado_pago"
 	"net/http"
 	"strconv"
 
@@ -37,7 +37,7 @@ func GetOrderQrCode(c *gin.Context) {
 	orderId, _ := strconv.Atoi(value)
 
 	usecase := usecases2.CreateQrCodeUsecase{
-		PaymentInterface: &mercado_pago.MercadoPagoIntegration{},
+		PaymentInterface: &mercado_pago2.MercadoPagoIntegration{},
 		OrderRepository:  &repositories.OrderRepository{},
 	}
 
@@ -54,7 +54,7 @@ func GetOrderQrCode(c *gin.Context) {
 }
 
 func MercadoPagoPayment(c *gin.Context) {
-	var inputDto mercado_pago.PostPayment
+	var inputDto mercado_pago2.PostPayment
 
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -74,9 +74,9 @@ func MercadoPagoPayment(c *gin.Context) {
 	}
 
 	var statusChangeTo string
-	if inputDto.State == mercado_pago.Finished {
+	if inputDto.State == mercado_pago2.Finished {
 		statusChangeTo = enums.Received
-	} else if inputDto.State == mercado_pago.Error || inputDto.State == mercado_pago.Canceled {
+	} else if inputDto.State == mercado_pago2.Error || inputDto.State == mercado_pago2.Canceled {
 		statusChangeTo = enums.Cancelled
 	}
 

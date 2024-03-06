@@ -3,7 +3,8 @@ package controllers
 import (
 	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	order2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
-	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
+	repositories2 "github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
 	"net/http"
@@ -26,9 +27,9 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	orderRepository := &repositories.OrderRepository{}
+	orderRepository := &repositories2.OrderRepository{}
 	customerRepository := &repositories.CustomerRepository{}
-	productRepository := &repositories.ProductRepository{}
+	productRepository := &repositories2.ProductRepository{}
 
 	usecase := order2.CreateOrderUsecase{
 		OrderRepository:    orderRepository,
@@ -63,7 +64,7 @@ func CheckoutOrder(c *gin.Context) { //TODO: can be deleted, is the same as Chan
 		return
 	}
 
-	orderRepository := &repositories.OrderRepository{}
+	orderRepository := &repositories2.OrderRepository{}
 
 	usecase := order2.CheckoutOrderUsecase{
 		OrderRepository: orderRepository,
@@ -101,7 +102,7 @@ func ChangeOrderStatus(c *gin.Context) {
 		return
 	}
 
-	orderRepository := &repositories.OrderRepository{}
+	orderRepository := &repositories2.OrderRepository{}
 
 	usecase := order2.ChangeOrderStatusUsecase{
 		OrderRepository: orderRepository,
@@ -123,7 +124,7 @@ func ChangeOrderStatus(c *gin.Context) {
 }
 
 func ListOngoingOrders(c *gin.Context) {
-	orderRepository := &repositories.OrderRepository{}
+	orderRepository := &repositories2.OrderRepository{}
 
 	usecase := order2.ListOngoingOrdersUsecase{
 		OrderRepository: orderRepository,

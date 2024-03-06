@@ -3,8 +3,8 @@ package repositories
 import (
 	"errors"
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/entities"
-	"github.com/CAVAh/api-tech-challenge/src/db/gorm"
-	"github.com/CAVAh/api-tech-challenge/src/db/models"
+	"github.com/CAVAh/api-tech-challenge/src/infra/db/gorm"
+	models2 "github.com/CAVAh/api-tech-challenge/src/infra/db/models"
 )
 
 type OrderRepository struct {
@@ -25,7 +25,7 @@ func SetDefaultValues(sortBy string, orderBy string, status string) (string, str
 }
 
 func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]entities.Order, error) {
-	var orderModel []models.Order
+	var orderModel []models2.Order
 
 	sortBy, orderBy, status = SetDefaultValues(sortBy, orderBy, status)
 
@@ -45,7 +45,7 @@ func (r OrderRepository) List(sortBy string, orderBy string, status string) ([]e
 }
 
 func (r OrderRepository) FindById(orderId uint) *entities.Order {
-	var orderModel models.Order
+	var orderModel models2.Order
 	gorm.DB.First(&orderModel, orderId)
 
 	result := OrderModelToOrderEntity(&orderModel)
@@ -54,20 +54,20 @@ func (r OrderRepository) FindById(orderId uint) *entities.Order {
 }
 
 func (r OrderRepository) Update(order *entities.Order) {
-	var orderModel models.Order
+	var orderModel models2.Order
 	gorm.DB.First(&orderModel, order.ID)
-	gorm.DB.Model(&orderModel).Updates(models.Order{Status: order.Status, PaymentStatus: order.PaymentStatus}) // TODO: não ter copy de entity pra model deixa prone a erros
+	gorm.DB.Model(&orderModel).Updates(models2.Order{Status: order.Status, PaymentStatus: order.PaymentStatus})
 }
 
 func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) {
-	var model models.Order
+	var model models2.Order
 
 	gorm.DB.First(&model.Customer, order.Customer.ID)
 	gorm.DB.Find(&model.Products, order.GetProductIds())
 
-	var productsOrderModel []models.OrderProduct
+	var productsOrderModel []models2.OrderProduct
 	for _, p := range order.Products {
-		productsOrderModel = append(productsOrderModel, models.OrderProduct{
+		productsOrderModel = append(productsOrderModel, models2.OrderProduct{
 			ProductID:   p.Product.ID,
 			Quantity:    p.Quantity,
 			Observation: p.Observation,
@@ -86,10 +86,10 @@ func (r OrderRepository) Create(order *entities.Order) (*entities.Order, error) 
 	return &result, nil
 }
 
-func OrderModelToOrderEntity(order *models.Order) entities.Order {
+func OrderModelToOrderEntity(order *models2.Order) entities.Order {
 	gorm.DB.Preload("Products").Preload("Customer").Where("id = ?", order.ID).Find(&order)
 
-	var orderProducts []models.OrderProduct
+	var orderProducts []models2.OrderProduct
 	gorm.DB.Preload("Product").Where("order_id = ?", order.ID).Find(&orderProducts)
 
 	var products []entities.ProductInsideOrder
@@ -105,7 +105,7 @@ func OrderModelToOrderEntity(order *models.Order) entities.Order {
 }
 
 func (r OrderRepository) ExistsOrderProduct(productId uint) bool {
-	var orderModel models.OrderProduct
+	var orderModel models2.OrderProduct
 
 	gorm.DB.First(&orderModel, productId)
 

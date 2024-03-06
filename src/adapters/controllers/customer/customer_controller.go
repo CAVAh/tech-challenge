@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
 	usecases "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/customer"
-	"github.com/CAVAh/api-tech-challenge/src/db/repositories"
+	"github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
 	"net/http"
