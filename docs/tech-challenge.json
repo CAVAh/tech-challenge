@@ -929,7 +929,7 @@
     },
     "/payments": {
       "post": {
-        "summary": "Callback do Mercado Pago",
+        "summary": "Webhook do Mercado Pago",
         "operationId": "mercado-pago-payment",
         "responses": {
           "200": {
@@ -997,38 +997,38 @@
               "examples": {
                 "Pagamento Finalizado": {
                   "value": {
-                    "AdditionalInfo": {
-                      "ExternalReference": "1"
+                    "additional_info": {
+                      "external_reference": "2"
                     },
-                    "Amount": 100,
-                    "CallerId": 1,
-                    "ClientId": "string",
-                    "CreatedAt": "string",
-                    "Id": "string",
-                    "Payment": {
-                      "Id": "string",
-                      "State": "string",
-                      "Type": "string"
+                    "amount": 100,
+                    "caller_id": 1,
+                    "client_id": "string",
+                    "created_at": "string",
+                    "id": "string",
+                    "payment": {
+                      "id": "string",
+                      "state": "string",
+                      "type": "string"
                     },
-                    "State": "FINISHED"
+                    "state": "FINISHED"
                   }
                 },
                 "Pagamento Cancelado": {
                   "value": {
-                    "AdditionalInfo": {
-                      "ExternalReference": "1"
+                    "additional_info": {
+                      "external_reference": "2"
                     },
-                    "Amount": 100,
-                    "CallerId": 1,
-                    "ClientId": "string",
-                    "CreatedAt": "string",
-                    "Id": "string",
-                    "Payment": {
-                      "Id": "string",
-                      "State": "string",
-                      "Type": "string"
+                    "amount": 100,
+                    "caller_id": 1,
+                    "client_id": "string",
+                    "created_at": "string",
+                    "id": "string",
+                    "payment": {
+                      "id": "string",
+                      "state": "string",
+                      "type": "string"
                     },
-                    "State": "CANCELED"
+                    "state": "CANCELED"
                   }
                 }
               }
