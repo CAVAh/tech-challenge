@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"github.com/CAVAh/api-tech-challenge/src/core/domain/enums"
-	order2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
-	usecases2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/payment"
+	order "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
+	usecases "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/payment"
 	"github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
-	mercado_pago2 "github.com/CAVAh/api-tech-challenge/src/infra/external/mercado_pago"
+	"github.com/CAVAh/api-tech-challenge/src/infra/external/mercado_pago"
 	"net/http"
 	"strconv"
 
@@ -16,7 +16,7 @@ func CheckOrderPaymentStatus(c *gin.Context) {
 	value, _ := c.GetQuery("orderId")
 	orderId, _ := strconv.Atoi(value)
 
-	usecase := usecases2.CheckPaymentStatusUsecase{
+	usecase := usecases.CheckPaymentStatusUsecase{
 		OrderRepository: &repositories.OrderRepository{},
 	}
 
@@ -36,8 +36,8 @@ func GetOrderQrCode(c *gin.Context) {
 	value, _ := c.GetQuery("orderId")
 	orderId, _ := strconv.Atoi(value)
 
-	usecase := usecases2.CreateQrCodeUsecase{
-		PaymentInterface: &mercado_pago2.MercadoPagoIntegration{},
+	usecase := usecases.CreateQrCodeUsecase{
+		PaymentInterface: &mercado_pago.MercadoPagoIntegration{},
 		OrderRepository:  &repositories.OrderRepository{},
 	}
 
@@ -54,7 +54,7 @@ func GetOrderQrCode(c *gin.Context) {
 }
 
 func MercadoPagoPayment(c *gin.Context) {
-	var inputDto mercado_pago2.PostPayment
+	var inputDto mercado_pago.PostPayment
 
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -69,14 +69,14 @@ func MercadoPagoPayment(c *gin.Context) {
 	//já que o external reference não é mandado. Mas o id de dentro da aplicação estará em external reference
 	var orderId, _ = strconv.Atoi(inputDto.AdditionalInfo.ExternalReference)
 
-	usecase := order2.ChangeOrderStatusUsecase{
+	usecase := order.ChangeOrderStatusUsecase{
 		OrderRepository: &repositories.OrderRepository{},
 	}
 
 	var statusChangeTo string
-	if inputDto.State == mercado_pago2.Finished {
+	if inputDto.State == mercado_pago.Finished {
 		statusChangeTo = enums.Received
-	} else if inputDto.State == mercado_pago2.Error || inputDto.State == mercado_pago2.Canceled {
+	} else if inputDto.State == mercado_pago.Error || inputDto.State == mercado_pago.Canceled {
 		statusChangeTo = enums.Cancelled
 	}
 
