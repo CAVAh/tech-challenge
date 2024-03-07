@@ -20,7 +20,6 @@ func (r *ChangeOrderStatusUsecase) Execute(orderId uint, changeToStatus string) 
 	if order.ID == 0 {
 		return nil, errors.New("pedido não existe")
 	}
-	//TODO: fazer FindByiD retornar erro, essa comparação não deveria ser feita
 
 	switch changeToStatus {
 	case enums.Cancelled:

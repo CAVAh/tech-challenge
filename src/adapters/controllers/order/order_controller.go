@@ -1,17 +1,16 @@
 package controllers
 
 import (
-	dtos2 "github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
-	order2 "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
+	"github.com/CAVAh/api-tech-challenge/src/core/domain/dtos"
+	order "github.com/CAVAh/api-tech-challenge/src/core/domain/usecases/order"
 	"github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
-	repositories2 "github.com/CAVAh/api-tech-challenge/src/infra/db/repositories"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/validator.v2"
 	"net/http"
 )
 
 func CreateOrder(c *gin.Context) {
-	var inputDto dtos2.CreateOrderDto
+	var inputDto dtos.CreateOrderDto
 
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -27,11 +26,11 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	orderRepository := &repositories2.OrderRepository{}
+	orderRepository := &repositories.OrderRepository{}
 	customerRepository := &repositories.CustomerRepository{}
-	productRepository := &repositories2.ProductRepository{}
+	productRepository := &repositories.ProductRepository{}
 
-	usecase := order2.CreateOrderUsecase{
+	usecase := order.CreateOrderUsecase{
 		OrderRepository:    orderRepository,
 		CustomerRepository: customerRepository,
 		ProductRepository:  productRepository,
@@ -49,44 +48,8 @@ func CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusCreated, result)
 }
 
-func CheckoutOrder(c *gin.Context) { //TODO: can be deleted, is the same as ChangeOrderStatus with received param
-	var inputDto dtos2.PayOrderDto
-
-	if err := c.BindJSON(&inputDto); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	if err := validator.Validate(inputDto); err != nil {
-		c.JSON(http.StatusBadRequest, err)
-		return
-	}
-
-	orderRepository := &repositories2.OrderRepository{}
-
-	usecase := order2.CheckoutOrderUsecase{
-		OrderRepository: orderRepository,
-	}
-
-	order, err := usecase.Execute(inputDto)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"status":    order.Status,
-		"updatedAt": order.UpdatedAt,
-	})
-}
-
 func ChangeOrderStatus(c *gin.Context) {
-	var inputDto dtos2.ChangeOrderStatusDto
+	var inputDto dtos.ChangeOrderStatusDto
 
 	if err := c.ShouldBindJSON(&inputDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -102,13 +65,13 @@ func ChangeOrderStatus(c *gin.Context) {
 		return
 	}
 
-	orderRepository := &repositories2.OrderRepository{}
+	orderRepository := &repositories.OrderRepository{}
 
-	usecase := order2.ChangeOrderStatusUsecase{
+	usecase := order.ChangeOrderStatusUsecase{
 		OrderRepository: orderRepository,
 	}
 
-	order, err := usecase.Execute(inputDto.OrderId, inputDto.ChangeToStatus)
+	orderResult, err := usecase.Execute(inputDto.OrderId, inputDto.ChangeToStatus)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -118,15 +81,16 @@ func ChangeOrderStatus(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status":    order.Status,
-		"updatedAt": order.UpdatedAt,
+		"orderId":   orderResult.ID,
+		"status":    orderResult.Status,
+		"updatedAt": orderResult.UpdatedAt,
 	})
 }
 
 func ListOngoingOrders(c *gin.Context) {
-	orderRepository := &repositories2.OrderRepository{}
+	orderRepository := &repositories.OrderRepository{}
 
-	usecase := order2.ListOngoingOrdersUsecase{
+	usecase := order.ListOngoingOrdersUsecase{
 		OrderRepository: orderRepository,
 	}
 
