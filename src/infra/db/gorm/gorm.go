@@ -1,11 +1,13 @@
 package gorm
 
 import (
+	"fmt"
 	models2 "github.com/CAVAh/api-tech-challenge/src/infra/db/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
+	"os"
 )
 
 var (
@@ -19,12 +21,13 @@ func ConnectDB() {
 		log.Fatalf("Error loading .env file: %s", err)
 	}
 
-	//conectionString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=America/Fortaleza",
-	//	os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
-	//DB, err = gorm.Open(postgres.Open(conectionString))
-
-	conectionString := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable TimeZone=America/Fortaleza"
+	conectionString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=America/Fortaleza",
+		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
 	DB, err = gorm.Open(postgres.Open(conectionString))
+
+	// Comentado para utilizar localmente
+	//conectionString := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable TimeZone=America/Fortaleza"
+	//DB, err = gorm.Open(postgres.Open(conectionString))
 
 	if err != nil {
 		log.Panic("Erro ao conectar com banco de dados")
