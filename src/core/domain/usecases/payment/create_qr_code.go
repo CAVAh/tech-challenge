@@ -1,12 +1,12 @@
 package usecases
 
 import (
-	gateways2 "github.com/CAVAh/api-tech-challenge/src/adapters/gateways"
+	"github.com/CAVAh/api-tech-challenge/src/adapters/gateways"
 )
 
 type CreateQrCodeUsecase struct {
-	PaymentInterface gateways2.PaymentInterface
-	OrderRepository  gateways2.OrderRepository
+	PaymentInterface gateways.PaymentInterface
+	OrderRepository  gateways.OrderRepository
 }
 
 func (r *CreateQrCodeUsecase) Execute(orderId uint) (string, error) {

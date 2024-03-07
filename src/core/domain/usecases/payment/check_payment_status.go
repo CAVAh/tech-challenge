@@ -16,7 +16,6 @@ func (r *CheckPaymentStatusUsecase) Execute(orderId uint) (string, error) {
 	if order.ID == 0 {
 		return "Pedido não encontado", errors.New("pedido não encontrado")
 	}
-	//TODO: fazer FindByiD retornar erro, essa comparação não deveria ser feita
 
 	if order.PaymentStatus == enums.Paid {
 		return "Pedido pago", nil
