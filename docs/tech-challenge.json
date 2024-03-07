@@ -945,7 +945,7 @@
         "tags": [
           "Pagamento"
         ],
-        "description": "Endpoint responsável por realizar o callback do Mercado Pago",
+        "description": "Endpoint responsável por realizar o callback/webhook do Mercado Pago, após o pagamento ou cancelamento pelo QR-Code.",
         "requestBody": {
           "content": {
             "application/json": {
