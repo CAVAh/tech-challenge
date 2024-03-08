@@ -10,7 +10,7 @@ COPY . .
 
 RUN go build -o /go/bin/app .
 
-FROM scratch
+FROM golang:1.22.1-alpine
 
 COPY --from=builder /go/bin/app /go/bin/app
 
