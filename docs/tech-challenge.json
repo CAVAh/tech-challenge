@@ -5,12 +5,14 @@
     "title": "tech-challenge",
     "description": "API do Tech Challenge",
     "contact": {
-      "name": "Lucas Cavagnolli"
+      "name": "Lucas Cavagnolli",
+      "email": "lucas.cava@hotmail.com"
     }
   },
   "servers": [
     {
-      "url": "http://localhost:8080"
+      "url": "http://localhost:30201",
+      "description": "Desenvolvimento com Kubernetes"
     }
   ],
   "paths": {
@@ -111,7 +113,8 @@
             "in": "query",
             "description": "Filtro por CPF",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "12345678910"
             }
           }
         ],
@@ -255,7 +258,8 @@
             "in": "query",
             "description": "ID da Categoria",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "1"
             }
           }
         ],
@@ -323,7 +327,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "1"
           }
         ],
         "responses": {
@@ -377,7 +382,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "1"
           }
         ],
         "responses": {
@@ -412,7 +418,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "1"
           }
         ],
         "requestBody": {
@@ -488,7 +495,19 @@
             "url": "http://localhost:8080"
           }
         ]
-      }
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "example": "1"
+          },
+          "name": "productId",
+          "in": "path",
+          "required": true,
+          "description": "ID do Produto"
+        }
+      ]
     },
     "/products/categories": {
       "get": {
@@ -496,7 +515,7 @@
           "Produto"
         ],
         "summary": "Listagem de categorias de produto",
-        "description": "Endpoint responsável por listar produtos",
+        "description": "Endpoint responsável por listar as categorias dos produtos.",
         "operationId": "list-products-categories",
         "responses": {
           "200": {
@@ -560,7 +579,7 @@
           "Pedido"
         ],
         "summary": "Listagem de pedidos",
-        "description": "Endpoint responsável por listar ordens.",
+        "description": "Endpoint responsável por listar os pedidos.",
         "operationId": "list-orders",
         "parameters": [],
         "responses": {
@@ -661,17 +680,17 @@
                     "customerId": 1,
                     "products": [
                       {
-                        "id": 2,
+                        "id": 1,
                         "quantity": 1,
                         "observation": "Com queijo"
                       },
                       {
-                        "id": 2,
+                        "id": 1,
                         "quantity": 3,
                         "observation": "Sem queijo"
                       },
                       {
-                        "id": 2,
+                        "id": 1,
                         "quantity": 5,
                         "observation": "Queijo cheddar"
                       }
@@ -774,7 +793,8 @@
                 "type": "object",
                 "properties": {
                   "orderId": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                   },
                   "changeToStatus": {
                     "$ref": "#/components/schemas/OrderStatus"
@@ -879,7 +899,8 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "1"
             },
             "in": "query",
             "name": "orderId",
@@ -917,7 +938,8 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "1"
             },
             "in": "query",
             "name": "orderId",
@@ -945,51 +967,51 @@
         "tags": [
           "Pagamento"
         ],
-        "description": "Endpoint responsável por realizar o callback/webhook do Mercado Pago, após o pagamento ou cancelamento pelo QR-Code.",
+        "description": "Endpoint responsável por realizar o callback/webhook do Mercado Pago, após o pagamento ou cancelamento pelo QR-Code. Apenas para fins de teste.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "AdditionalInfo": {
+                  "additional_info": {
                     "type": "object",
                     "properties": {
-                      "ExternalReference": {
+                      "external_reference": {
                         "type": "string"
                       }
                     }
                   },
-                  "Amount": {
+                  "amount": {
                     "type": "integer"
                   },
-                  "CallerId": {
+                  "caller_id": {
                     "type": "integer"
                   },
-                  "ClientId": {
+                  "client_id": {
                     "type": "string"
                   },
-                  "CreatedAt": {
+                  "created_at": {
                     "type": "string"
                   },
-                  "Id": {
+                  "id": {
                     "type": "string"
                   },
-                  "Payment": {
+                  "payment": {
                     "type": "object",
                     "properties": {
-                      "Id": {
+                      "id": {
                         "type": "string"
                       },
-                      "State": {
+                      "state": {
                         "type": "string"
                       },
-                      "Type": {
+                      "type": {
                         "type": "string"
                       }
                     }
                   },
-                  "State": {
+                  "state": {
                     "type": "string"
                   }
                 }
@@ -1254,21 +1276,27 @@
             },
             "products": [
               {
-                "id": 142,
-                "name": "Água",
-                "price": 2.5,
-                "description": "Água Mineral 500ml",
-                "categoryId": 1,
-                "createdAt": "2019-08-24"
+                "product": {
+                  "id": 1,
+                  "name": "Água",
+                  "price": 2.5,
+                  "description": "Água Mineral 500ml",
+                  "categoryId": 1,
+                  "createdAt": "2019-08-24 20:24:13"
+                },
+                "quantity": 1,
+                "observation": "bem gelada"
               }
             ],
-            "status": "waiting_payment",
+            "paymentStatus": "awaiting_payment",
+            "status": "created",
             "createdAt": "2023-12-12 12:12:00"
           }
         ],
         "properties": {
           "id": {
-            "type": "integer"
+            "type": "integer",
+            "example": 1
           },
           "customer": {
             "$ref": "#/components/schemas/Customer"
