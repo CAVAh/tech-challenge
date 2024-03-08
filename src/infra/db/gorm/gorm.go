@@ -2,8 +2,7 @@ package gorm
 
 import (
 	"fmt"
-	models2 "github.com/CAVAh/api-tech-challenge/src/infra/db/models"
-	"github.com/joho/godotenv"
+	"github.com/CAVAh/api-tech-challenge/src/infra/db/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
@@ -11,25 +10,22 @@ import (
 )
 
 var (
-	DB *gorm.DB
+	DB  *gorm.DB
+	err error
 )
 
 func ConnectDB() {
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %s", err)
-	}
-
 	conectionString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=America/Fortaleza",
 		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
+
 	DB, err = gorm.Open(postgres.Open(conectionString))
 
 	if err != nil {
 		log.Panic("Erro ao conectar com banco de dados")
 	}
 
-	productCategories := []models2.ProductCategory{
+	productCategories := []models.ProductCategory{
 		{Description: "Lanche"},
 		{Description: "Acompanhamento"},
 		{Description: "Bebida"},
@@ -41,10 +37,10 @@ func ConnectDB() {
 		DB.Create(&productCategories)
 	}
 
-	DB.AutoMigrate(&models2.Customer{}, &models2.Product{}, &models2.Order{}, &models2.OrderProduct{})
+	DB.AutoMigrate(&models.Customer{}, &models.Product{}, &models.Order{}, &models.OrderProduct{})
 
-	if !DB.Migrator().HasColumn(&models2.OrderProduct{}, "Quantity") {
-		DB.Migrator().AddColumn(&models2.OrderProduct{}, "Quantity")
-		DB.Migrator().AddColumn(&models2.OrderProduct{}, "Observation")
+	if !DB.Migrator().HasColumn(&models.OrderProduct{}, "Quantity") {
+		DB.Migrator().AddColumn(&models.OrderProduct{}, "Quantity")
+		DB.Migrator().AddColumn(&models.OrderProduct{}, "Observation")
 	}
 }

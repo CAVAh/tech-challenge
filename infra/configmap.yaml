@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-group-18-fastfood-backend
+data:
+  POSTGRES_DB: "root"
+  POSTGRES_HOST: "postgres"

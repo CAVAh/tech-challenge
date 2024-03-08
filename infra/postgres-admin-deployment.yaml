@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: pgadmin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: pgadmin4
+        image: dpage/pgadmin4
+        env:
+          - name: PGADMIN_DEFAULT_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: secret-group-18-fastfood-backend
+                key: PGADMIN_DEFAULT_EMAIL
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-group-18-fastfood-backend
+                key: PGADMIN_DEFAULT_PASSWORD
+          - name: PGADMIN_PORT
+            value: "80"
+        ports:
+          - containerPort: 80

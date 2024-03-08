@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-group-18-fastfood-backend
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30201
+  selector:
+    app: group-18-fastfood-backend
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+  type: ClusterIP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    app: pgadmin
+  ports:
+    - port: 80
+      nodePort: 30200
+  type: NodePort
