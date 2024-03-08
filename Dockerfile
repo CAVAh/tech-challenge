@@ -13,7 +13,6 @@ RUN go build -o /go/bin/app .
 FROM scratch
 
 COPY --from=builder /go/bin/app /go/bin/app
-COPY --from=builder /app/.env .
 
 EXPOSE 8080
 
