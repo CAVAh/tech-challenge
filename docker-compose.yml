@@ -21,6 +21,7 @@ services:
     depends_on:
       - postgres
 
+# Comentar quando for rodar local
   golang-app:
     build:
       context: .

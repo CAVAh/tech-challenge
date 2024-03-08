@@ -517,6 +517,18 @@
                     "value": [
                       {
                         "id": 1,
+                        "description": "Lanche"
+                      },
+                      {
+                        "id": 2,
+                        "description": "Acompanhamento"
+                      },
+                      {
+                        "id": 3,
+                        "description": "Bebida"
+                      },
+                      {
+                        "id": 4,
                         "description": "Sobremesa"
                       }
                     ]
@@ -550,35 +562,7 @@
         "summary": "Listagem de pedidos",
         "description": "Endpoint responsável por listar ordens.",
         "operationId": "list-orders",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status do pedido",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "waiting_payment",
-                "received",
-                "preparation",
-                "ready",
-                "finished",
-                "created"
-              ]
-            }
-          },
-          {
-            "$ref": "#/components/parameters/order_by"
-          },
-          {
-            "name": "sort_by",
-            "in": "query",
-            "description": "Campo de ordenação",
-            "schema": {
-              "const": "updated_by"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -598,24 +582,36 @@
                     "value": [
                       {
                         "id": 1,
-                        "customer_id": 1,
+                        "customer": {
+                          "id": 1,
+                          "name": "Bob Fellow",
+                          "cpf": "12345678910",
+                          "email": "bob.fellow@gmail.com",
+                          "createdAt": "2024-01-29 20:24:13"
+                        },
                         "products": [
                           {
-                            "id": 142,
-                            "name": "Água",
-                            "price": 2.5,
-                            "description": "Água Mineral 500ml",
-                            "categoryId": 1,
-                            "createdAt": "2019-08-24"
+                            "product": {
+                              "id": 142,
+                              "name": "Água",
+                              "price": 2.5,
+                              "description": "Água Mineral 500ml",
+                              "categoryId": 1,
+                              "createdAt": "2019-08-24 21:05:45"
+                            },
+                            "quantity": 1,
+                            "observation": "Com queijo"
                           }
                         ],
-                        "status": "waiting_payment",
-                        "createdAt": "2023-12-12 12:12:00"
+                        "status": "received",
+                        "paymentStatus": "paid",
+                        "createdAt": "2023-12-12 12:12:00",
+                        "updatedAt": "2024-03-06 20:30:48"
                       }
                     ]
                   },
                   "Listagem de pedidos vazia": {
-                    "value": null
+                    "value": []
                   }
                 }
               }
@@ -718,19 +714,31 @@
                   "Pedido criado": {
                     "value": {
                       "id": 1,
-                      "customer_id": 1,
+                      "customer": {
+                        "id": 1,
+                        "name": "Bob Fellow",
+                        "cpf": "12345678910",
+                        "email": "bob.fellow@gmail.com",
+                        "createdAt": "2024-01-29 20:24:13"
+                      },
                       "products": [
                         {
-                          "id": 142,
-                          "name": "Água",
-                          "price": 2.5,
-                          "description": "Água Mineral 500ml",
-                          "categoryId": 1,
-                          "createdAt": "2019-08-24"
+                          "product": {
+                            "id": 3,
+                            "name": "Água 3",
+                            "price": 2.5,
+                            "description": "Água Mineral 500ml",
+                            "categoryId": 1,
+                            "createdAt": "2024-01-29 21:05:45"
+                          },
+                          "quantity": 1,
+                          "observation": "Com queijo"
                         }
                       ],
-                      "status": "waiting_payment",
-                      "createdAt": "2023-12-12 12:12:00"
+                      "status": "created",
+                      "paymentStatus": "awaiting_payment",
+                      "createdAt": "2023-12-12 12:12:00",
+                      "updatedAt": "2024-03-06 21:00:21"
                     }
                   }
                 }
@@ -751,14 +759,14 @@
         ]
       }
     },
-    "/orders/checkout": {
+    "/orders/change-status": {
       "post": {
         "tags": [
-          "Pagamento"
+          "Pedido"
         ],
-        "summary": "Realização do pagamento",
-        "description": "Endpoint responsável por criar um pagamento.",
-        "operationId": "create-payment",
+        "summary": "Alteração de Status",
+        "description": "Endpoint responsável por alterar um status do pedido.",
+        "operationId": "change-order-status",
         "requestBody": {
           "content": {
             "application/json": {
@@ -767,13 +775,17 @@
                 "properties": {
                   "orderId": {
                     "type": "integer"
+                  },
+                  "changeToStatus": {
+                    "$ref": "#/components/schemas/OrderStatus"
                   }
                 }
               },
               "examples": {
-                "Criação do pagamento": {
+                "Alteração do status para 'preparation'": {
                   "value": {
-                    "order_id": 1
+                    "orderId": 1,
+                    "changeToStatus": "preparation"
                   }
                 }
               }
@@ -788,10 +800,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "order_id": {
+                    "orderId": {
                       "type": "integer"
                     },
-                    "created_at": {
+                    "status": {
+                      "$ref": "#/components/schemas/OrderStatus"
+                    },
+                    "updatedAt": {
                       "type": "string",
                       "format": "date-time"
                     }
@@ -800,8 +815,9 @@
                 "examples": {
                   "Pagamento realizado": {
                     "value": {
-                      "order_id": 1,
-                      "created_at": "2019-08-24 14:15:22"
+                      "orderId": 1,
+                      "status": "preparation",
+                      "updatedAt": "2024-03-06 21:15:47"
                     }
                   }
                 }
@@ -820,6 +836,206 @@
             "url": "http://localhost:8080"
           }
         ]
+      },
+      "parameters": []
+    },
+    "/payments/status": {
+      "get": {
+        "summary": "Obtém o status de pagamento do pedido",
+        "tags": [
+          "Pagamento"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Pedido aguardando pagamento"
+                },
+                "examples": {
+                  "Aguardando pagamento": {
+                    "value": "Pedido aguardando pagamento"
+                  },
+                  "Desconhecido": {
+                    "value": "Status desconhecido"
+                  },
+                  "Pago": {
+                    "value": "Pedido pago"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "operationId": "check-payment-status",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "orderId",
+            "description": "ID do pedido"
+          }
+        ],
+        "description": "Endpoint responsável por obter o status de pagamento do pedido."
+      },
+      "parameters": []
+    },
+    "/payments/qr-code": {
+      "get": {
+        "summary": "Obtém código QR Code",
+        "tags": [
+          "Pagamento"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "Código QR Code": {
+                    "value": "00020126360014BR.GOV.BCB.PIX0114+5554999092022520400005303986540510.005802BR5916Lucas Cavagnolli6012Porto Alegre62180514PAGMERCADOPAGO6304297A"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "create-qr-code",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "orderId",
+            "description": "ID do Pedido"
+          }
+        ],
+        "description": "Endpoint responsável por obter código QR Code, para realizar pagamento via PIX."
+      }
+    },
+    "/payments": {
+      "post": {
+        "summary": "Webhook do Mercado Pago",
+        "operationId": "mercado-pago-payment",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-ServerError"
+          }
+        },
+        "tags": [
+          "Pagamento"
+        ],
+        "description": "Endpoint responsável por realizar o callback/webhook do Mercado Pago, após o pagamento ou cancelamento pelo QR-Code.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "AdditionalInfo": {
+                    "type": "object",
+                    "properties": {
+                      "ExternalReference": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Amount": {
+                    "type": "integer"
+                  },
+                  "CallerId": {
+                    "type": "integer"
+                  },
+                  "ClientId": {
+                    "type": "string"
+                  },
+                  "CreatedAt": {
+                    "type": "string"
+                  },
+                  "Id": {
+                    "type": "string"
+                  },
+                  "Payment": {
+                    "type": "object",
+                    "properties": {
+                      "Id": {
+                        "type": "string"
+                      },
+                      "State": {
+                        "type": "string"
+                      },
+                      "Type": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "State": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Pagamento Finalizado": {
+                  "value": {
+                    "additional_info": {
+                      "external_reference": "2"
+                    },
+                    "amount": 100,
+                    "caller_id": 1,
+                    "client_id": "string",
+                    "created_at": "string",
+                    "id": "string",
+                    "payment": {
+                      "id": "string",
+                      "state": "string",
+                      "type": "string"
+                    },
+                    "state": "FINISHED"
+                  }
+                },
+                "Pagamento Cancelado": {
+                  "value": {
+                    "additional_info": {
+                      "external_reference": "2"
+                    },
+                    "amount": 100,
+                    "caller_id": 1,
+                    "client_id": "string",
+                    "created_at": "string",
+                    "id": "string",
+                    "payment": {
+                      "id": "string",
+                      "state": "string",
+                      "type": "string"
+                    },
+                    "state": "CANCELED"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
       }
     }
   },
@@ -838,24 +1054,6 @@
     }
   ],
   "components": {
-    "parameters": {
-      "order_by": {
-        "name": "order_by",
-        "in": "query",
-        "description": "Ordenação crescente [\"ASC\"] ou decrescente [\"DESC\"], o padrão é o [\"ASC\"]",
-        "required": false,
-        "schema": {
-          "type": "string",
-          "enum": [
-            "ASC",
-            "DESC"
-          ],
-          "examples": [
-            "ASC"
-          ]
-        }
-      }
-    },
     "responses": {
       "400-BadRequest": {
         "description": "Bad Request",
@@ -1047,7 +1245,13 @@
         "examples": [
           {
             "id": 1,
-            "customer_id": 1,
+            "customer": {
+              "id": 1,
+              "name": "Bob Fellow",
+              "cpf": "12345678910",
+              "email": "bob.fellow@gmail.com",
+              "createdAt": "2024-01-29 20:24:13"
+            },
             "products": [
               {
                 "id": 142,
@@ -1066,34 +1270,37 @@
           "id": {
             "type": "integer"
           },
-          "customer_id": {
-            "type": "integer"
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
           },
           "products": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Product"
+              "type": "object",
+              "properties": {
+                "product": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "observation": {
+                  "type": "string"
+                }
+              }
             }
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "waiting_payment",
-              "received",
-              "preparation",
-              "ready",
-              "finished",
-              "created"
-            ]
+            "$ref": "#/components/schemas/OrderStatus"
           },
           "createdAt": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
+          },
+          "paymentStatus": {
+            "$ref": "#/components/schemas/PaymentStatus"
           }
-        },
-        "required": [
-          "customer_id",
-          "products"
-        ]
+        }
       },
       "ProductInsideOrder": {
         "type": "object",
@@ -1122,6 +1329,28 @@
             "type": "string"
           }
         }
+      },
+      "OrderStatus": {
+        "type": "string",
+        "title": "OrderStatus",
+        "enum": [
+          "received",
+          "preparation",
+          "ready",
+          "finished",
+          "created"
+        ],
+        "examples": [],
+        "description": "OrderStatus"
+      },
+      "PaymentStatus": {
+        "type": "string",
+        "title": "PaymentStatus",
+        "enum": [
+          "awaiting_payment",
+          "paid"
+        ],
+        "description": "PaymentStatus"
       }
     }
   }
