@@ -27,19 +27,21 @@ spec:
             httpGet:
               path: /customers
               port: 8080
-            periodSeconds: 10
+            periodSeconds: 60
             failureThreshold: 3
-            initialDelaySeconds: 20
+            initialDelaySeconds: 10
         readinessProbe:
             httpGet:
-              path: /
+              path: /customers
               port: 8080
-            periodSeconds: 10
+            periodSeconds: 20
             failureThreshold: 5
             initialDelaySeconds: 3
         resources:
           requests:
-            cpu: 1m
+            cpu: 8m
+          limits:
+            cpu: 8m  
         env:
           - name: POSTGRES_DB
             valueFrom:
