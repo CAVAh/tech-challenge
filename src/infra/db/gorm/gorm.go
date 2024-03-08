@@ -3,7 +3,6 @@ package gorm
 import (
 	"fmt"
 	models2 "github.com/CAVAh/api-tech-challenge/src/infra/db/models"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
