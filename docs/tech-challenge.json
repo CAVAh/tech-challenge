@@ -93,12 +93,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "get": {
         "tags": [
@@ -160,12 +155,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       }
     },
     "/products": {
@@ -238,12 +228,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "get": {
         "tags": [
@@ -303,12 +288,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       }
     },
     "/products/{productId}": {
@@ -360,12 +340,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -396,12 +371,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "patch": {
         "tags": [
@@ -489,12 +459,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "parameters": [
         {
@@ -565,12 +530,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       }
     },
     "/orders": {
@@ -642,12 +602,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -770,12 +725,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       }
     },
     "/orders/change-status": {
@@ -850,12 +800,7 @@
           "500": {
             "$ref": "#/components/responses/500-ServerError"
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:8080"
-          }
-        ]
+        }
       },
       "parameters": []
     },
