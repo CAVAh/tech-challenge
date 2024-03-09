@@ -91,5 +91,5 @@ func MercadoPagoPayment(c *gin.Context) {
 		}
 	}
 
-	c.Status(http.StatusOK)
+	c.Status(http.StatusNoContent)
 }
