@@ -728,8 +728,8 @@
         }
       }
     },
-    "/orders/change-status": {
-      "post": {
+    "/orders/{orderId}": {
+      "patch": {
         "tags": [
           "Pedido"
         ],
@@ -742,10 +742,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "orderId": {
-                    "type": "integer",
-                    "example": 1
-                  },
                   "changeToStatus": {
                     "$ref": "#/components/schemas/OrderStatus"
                   }
@@ -754,7 +750,6 @@
               "examples": {
                 "Alteração do status para 'preparation'": {
                   "value": {
-                    "orderId": 1,
                     "changeToStatus": "preparation"
                   }
                 }
@@ -763,8 +758,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Created",
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -802,7 +797,19 @@
           }
         }
       },
-      "parameters": []
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "example": "1"
+          },
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "example": "1",
+          "description": "ID do pedido"
+        }
+      ]
     },
     "/payments/status": {
       "get": {

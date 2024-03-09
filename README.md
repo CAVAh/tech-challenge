@@ -39,7 +39,7 @@ Para rodar a aplicação, é necessário ter as seguintes ferramentas instaladas
       Aguarde até que todos os pods estejam rodando com o comando:
 
       ```bash
-      kubectl get pods
+      kubectl get pods --watch
       ```
 
 5. **Pronto.**
@@ -78,7 +78,7 @@ Ao importar a documentação presente em `docs/tech-challenge.json` no Postman, 
 - Após criar o pedido, realize o pagamento por QR Code utilizando o endpoint `GET /payments/qr-code`.
 - Para simular o pagamento em ambiente de teste, chame o endpoint de Webhook do Mercado Pago através de `POST /payments`. Assim, o pedido estará pago e recebido na cozinha.
 - Utilize o endpoint `GET /orders` para listar os pedidos, que podem estar prontos, em preparação ou recebidos (e pagos).
-- Quando um pedido precisar mudar de status, utilize o endpoint `GET /orders/change-status` para alterar o status, de 'recebido' para 'em preparação', de 'em preparação' para 'pronto', e de 'pronto' para 'finalizado' (quando o cliente retirar o seu pedido).
+- Quando um pedido precisar mudar de status, utilize o endpoint `PATCH /orders/:orderId` para alterar o status, de 'recebido' para 'em preparação', de 'em preparação' para 'pronto', e de 'pronto' para 'finalizado' (quando o cliente retirar o seu pedido).
 
 ## Pontos Importantes
 
