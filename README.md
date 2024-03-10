@@ -2,7 +2,7 @@
 
 Este repositório é destinado ao projeto de Fast Food da FIAP, criado como parte de um desafio técnico.
 
-## Objetivo do Projeto
+   ## Objetivo do Projeto
 O projeto de Fast Food da FIAP tem como objetivo criar um sistema de autoatendimento para uma lanchonete, visando melhorar a eficiência no atendimento aos clientes e garantir a precisão na preparação dos pedidos.
 
 ## Requisitos do Sistema
@@ -61,8 +61,12 @@ k6 run --duration 1m tests/stress.js
 ```
 
 ## Documentação da API
-
 Ao importar a documentação presente em `docs/tech-challenge.json` no Postman, terão valores de exemplos editáveis.
+
+## Documentação do problema
+Para visualizar e editar o storytelling da app entrar no [Egon](https://egon.io/app-v1/) e importar os arquivos presentes em `docs/domain_storytelling`
+/docs/domain_storytelling/entrega.html
+/docs/domain_storytelling/pedido.html
 
 ### Ordem de execução da API:
 
