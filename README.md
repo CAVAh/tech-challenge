@@ -66,13 +66,18 @@ Ao importar a documentação presente em `docs/tech-challenge.json` no Postman, 
 ## Documentação do problema
 Para visualizar e editar o storytelling da aplicação, acesse [Egon.io](https://egon.io/app-v1/) e importe os arquivos `.dst` localizados em `docs/domain_storytelling`.
 
+#### Arquitetura em Kubernetes
+![Arquitetura em Kubernetes](docs/architecture/architecture.png)
+
+Essa imagem representa a arquitetura em Kubernetes.
+
 #### Pedido do Cliente
-![Pedido do Cliente](docs/domain_storytelling/pedido_light_dark.png)
+![Pedido do Cliente](docs/domain_storytelling/pedido.png)
 
 Esta imagem representa o processo de pedido do cliente usando o sistema de autoatendimento de fast food. Os clientes podem selecionar seus itens preferidos e personalizar seus pedidos de acordo com suas preferências.
 
 #### Preparo e Entrega
-![Preparo e Entrega](docs/domain_storytelling/entrega_light_dark.png)
+![Preparo e Entrega](docs/domain_storytelling/entrega.png)
 
 Esta imagem representa o processo de preparo e entrega dos pedidos na cozinha da lanchonete. O sistema de autoatendimento de fast food transmite os pedidos automaticamente para a cozinha, após pagamento, onde são preparados e entregues aos clientes de forma eficiente e organizada.
 
