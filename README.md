@@ -69,7 +69,7 @@ Para visualizar e editar o storytelling da aplicação, acesse [Egon.io](https:/
 #### Arquitetura em Kubernetes
 ![Arquitetura em Kubernetes](docs/architecture/architecture.png)
 
-Essa imagem representa a arquitetura em Kubernetes.
+Esta imagem representa a arquitetura em Kubernetes. Oferece uma visão abrangente de como os diferentes componentes e serviços estão organizados e interagem dentro do ambiente Kubernetes no projeto. Para uma compreensão mais completa e dinâmica, disponibilizamos um vídeo demonstrativo que mostra a arquitetura em ação. Este é um cluster local que roda em Docker Desktop (em ambiente Windows) ou Minikube (em ambiente Linux). [Assista ao vídeo](https://youtu.be/QDqb9ZvWR2U) para uma exploração mais detalhada. 
 
 #### Pedido do Cliente
 ![Pedido do Cliente](docs/domain_storytelling/pedido.png)
