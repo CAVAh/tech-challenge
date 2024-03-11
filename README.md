@@ -67,7 +67,7 @@ Ao importar a documentação presente em `docs/tech-challenge.json` no Postman, 
 Para visualizar e editar o storytelling da aplicação, acesse [Egon](https://egon.io/app-v1/) e importe os arquivos `.dst` localizados em `docs/domain_storytelling`.
 
 #### Pedido do Cliente
-![Pedido do Cliente](docs/domain_storytelling/pedido.png)
+![Pedido do Cliente](docs/domain_storytelling/pedido_light_dark.png)
 
 Esta imagem representa o processo de pedido do cliente usando o sistema de autoatendimento de fast food. Os clientes podem selecionar seus itens preferidos e personalizar seus pedidos de acordo com suas preferências.
 
