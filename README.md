@@ -72,7 +72,8 @@ Para visualizar e editar o storytelling da aplicação, acesse [Egon](https://eg
 Esta imagem representa o processo de pedido do cliente usando o sistema de autoatendimento de fast food. Os clientes podem selecionar seus itens preferidos e personalizar seus pedidos de acordo com suas preferências.
 
 #### Preparo e Entrega
-![Preparo e Entrega](docs/domain_storytelling/entrega.png)
+![Preparo e Entrega](docs/domain_storytelling/entrega_dark.png)
+![Preparo e Entrega](docs/domain_storytelling/entrega_light_dark.png)
 
 Esta imagem representa o processo de preparo e entrega dos pedidos na cozinha da lanchonete. O sistema de autoatendimento de fast food transmite os pedidos automaticamente para a cozinha, após pagamento, onde são preparados e entregues aos clientes de forma eficiente e organizada.
 
