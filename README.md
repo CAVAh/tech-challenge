@@ -64,7 +64,7 @@ k6 run --duration 1m tests/stress.js
 Ao importar a documentação presente em `docs/tech-challenge.json` no Postman, terão valores de exemplos editáveis.
 
 ## Documentação do problema
-Para visualizar e editar o storytelling da aplicação, acesse [Egon](https://egon.io/app-v1/) e importe os arquivos `.dst` localizados em `docs/domain_storytelling`.
+Para visualizar e editar o storytelling da aplicação, acesse [Egon.io](https://egon.io/app-v1/) e importe os arquivos `.dst` localizados em `docs/domain_storytelling`.
 
 #### Pedido do Cliente
 ![Pedido do Cliente](docs/domain_storytelling/pedido_light_dark.png)
