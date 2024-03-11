@@ -64,9 +64,17 @@ k6 run --duration 1m tests/stress.js
 Ao importar a documentação presente em `docs/tech-challenge.json` no Postman, terão valores de exemplos editáveis.
 
 ## Documentação do problema
-Para visualizar e editar o storytelling da app entrar no [Egon](https://egon.io/app-v1/) e importar os arquivos `.dst` presentes em `docs/domain_storytelling`
+Para visualizar e editar o storytelling da aplicação, acesse [Egon](https://egon.io/app-v1/) e importe os arquivos `.dst` localizados em `docs/domain_storytelling`.
 
-Para apenas visualizar os diagramas, abrir os arquivos `/docs/domain_storytelling/pedido.html` e `/docs/domain_storytelling/entrega.html`
+#### Pedido do Cliente
+![Pedido do Cliente](docs/domain_storytelling/pedido.png)
+
+Esta imagem representa o processo de pedido do cliente usando o sistema de autoatendimento de fast food. Os clientes podem selecionar seus itens preferidos e personalizar seus pedidos de acordo com suas preferências.
+
+#### Preparo e Entrega
+![Preparo e Entrega](docs/domain_storytelling/entrega.png)
+
+Esta imagem representa o processo de preparo e entrega dos pedidos na cozinha da lanchonete. O sistema de autoatendimento de fast food transmite os pedidos automaticamente para a cozinha, após pagamento, onde são preparados e entregues aos clientes de forma eficiente e organizada.
 
 ### Ordem de execução da API:
 
